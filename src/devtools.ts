@@ -6,7 +6,7 @@ port.postMessage({
     name: "init",
     tabId: chrome.devtools.inspectedWindow.tabId
 });
-port.onMessage.addListener(message => {
+port.onMessage.addListener((message: Message) => {
     const div = document.createElement("div");
     div.innerHTML += message.payload.id + ", ";
     div.innerHTML += message.payload.action + ", ";
