@@ -1,0 +1,31 @@
+{
+    "name": "Data Access Gateway Developer Tool",
+    "version": "1.0",
+    "description": "Data Access Gateway Developer Tool that allows getting insight about how the data is retrieved",
+    "manifest_version": 2,
+    "permissions": [
+        "declarativeContent",
+        "storage"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "page_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/dagdl16.png",
+            "32": "images/dagdl32.png",
+            "48": "images/dagdl48.png",
+            "128": "images/dagdl128.png"
+        }
+    },
+    "icons": {
+        "16": "images/dagdl16.png",
+        "32": "images/dagdl32.png",
+        "48": "images/dagdl48.png",
+        "128": "images/dagdl128.png"
+    }
+}

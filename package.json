@@ -1,0 +1,24 @@
+{
+  "name": "dataaccessgatewaychromeextension",
+  "version": "0.0.1",
+  "description": "This is the source code for the Data Access Gateway library",
+  "main": "dist/index.js",
+  "scripts": {
+    "copy": "cp src/manifest.json dist/manifest.json && cp src/popup.html dist/popup.html ",
+    "build": "node_modules/typescript/bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrDesjardins/dataaccessgatewaychromeextension.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrDesjardins/dataaccessgatewaychromeextension/issues"
+  },
+  "homepage": "https://github.com/MrDesjardins/dataaccessgatewaychromeextension#readme",
+  "devDependencies": {
+    "@types/chrome": "0.0.69",
+    "typescript": "^2.9.2"
+  }
+}
