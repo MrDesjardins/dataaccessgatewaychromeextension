@@ -4,7 +4,6 @@
     "description": "Data Access Gateway Developer Tool that allows getting insight about how the data is retrieved",
     "manifest_version": 2,
     "permissions": [
-        "declarativeContent",
         "storage"
     ],
     "background": {
