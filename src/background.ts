@@ -5,8 +5,10 @@ let tabPorts: { [tabId: string]: chrome.runtime.Port } = {};
  * agent -> content-script.js -> **background.js** -> dev tools
  */
 chrome.runtime.onMessage.addListener((message, sender) => {
+    console.warn("background->message", message);
     const port = sender.tab && sender.tab.id !== undefined && tabPorts[sender.tab.id];
     if (port) {
+        console.warn("background->port", port);
         port.postMessage(message);
     } else {
     }
