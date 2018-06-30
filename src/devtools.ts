@@ -8,9 +8,20 @@ port.postMessage({
 });
 port.onMessage.addListener((message: Message) => {
     const div = document.createElement("div");
-    div.innerHTML += message.payload.id + ", ";
-    div.innerHTML += message.payload.action + ", ";
-    div.innerHTML += message.payload.source;
+    console.warn("DEVTOOLS", message);
+    div.innerHTML += ".";
+    div.innerHTML += message;
+    if (message.payload) {
+        if (message.payload.id) {
+            div.innerHTML += message.payload.id + ", ";
+        }
+        if (message.payload.action) {
+            div.innerHTML += message.payload.action + ", ";
+        }
+        if (message.payload.source) {
+            div.innerHTML += message.payload.source;
+        }
+    }
     if (panelWindow !== undefined) {
         panelWindow.document.body.appendChild(div);
     }

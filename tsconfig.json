@@ -15,12 +15,13 @@
         "module": "es6",
         "target": "es5",
         "pretty": true,
-        "sourceMap": true,
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "strict": true
+        "strict": true,
+        "inlineSourceMap": true,
+        "inlineSources": true
     },
     "include": [
         "src/**/*.ts"
