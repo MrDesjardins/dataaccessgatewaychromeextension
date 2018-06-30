@@ -17,7 +17,7 @@ port.onMessage.addListener((message: Message) => {
 });
 chrome.devtools.panels.create("Data Access Gateway",
     "images/dagdl32.png",
-    "panel.html",
+    "index.html",
     (extensionPanel: chrome.devtools.panels.ExtensionPanel) => {
         const show = new Promise<Window>((resolve) => {
             extensionPanel.onShown.addListener((panelWindow: Window) => {

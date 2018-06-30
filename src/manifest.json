@@ -15,15 +15,6 @@
         ],
         "persistent": false
     },
-    "page_action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "images/dagdl16.png",
-            "32": "images/dagdl32.png",
-            "48": "images/dagdl48.png",
-            "128": "images/dagdl128.png"
-        }
-    },
     "icons": {
         "16": "images/dagdl16.png",
         "32": "images/dagdl32.png",
@@ -31,7 +22,7 @@
         "128": "images/dagdl128.png"
     },
     "minimum_chrome_version": "50.0",
-    "devtools_page": "devtools.html",
+    "devtools_page": "index.html",
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "content_scripts": [
         {
