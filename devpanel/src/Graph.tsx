@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Bar } from "react-chartjs-2";
+import { Bar, ChartData } from "react-chartjs-2";
 import { Statistics } from "./Model";
+import * as chartjs from "chart.js";
 export interface GraphProps {
     statistics: Statistics;
 }
@@ -10,7 +11,7 @@ export class Graph extends React.Component<GraphProps> {
         super(props);
     }
     public render(): JSX.Element {
-        const data = {
+        const data: ChartData<chartjs.ChartData> = {
             labels: ["Mem Read", "Mem Write", "Mem Use", "Db Read", "Db Write", "Db Use", "Http Read", "Http Write", "Http Use"],
             datasets: [
                 {
@@ -37,10 +38,11 @@ export class Graph extends React.Component<GraphProps> {
         return <div className="Graph">
             <Bar
                 data={data}
-                width={500}
-                height={200}
+                height={250}
+                width={600}
                 options={{
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    responsive: false
                 }}
             />
         </div>;
