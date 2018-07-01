@@ -1,6 +1,9 @@
 import * as React from "react";
 import "./App.css";
+import { ConsoleMessages } from "./ConsoleMessages";
+import { Graph } from "./Graph";
 import { DataAction, DataSource, Message, Statistics } from "./Model";
+import { Summary } from "./Summary";
 
 interface AppState {
   listMessages: Message[];
@@ -113,15 +116,9 @@ class App extends React.Component<{}, AppState> {
   public render() {
     return (
       <div className="App">
-        <div className="Header">
-          On-going Request: {this.state.statistics.onGoingRequestCount}
-        </div>
-        <div className="Graph">
-          Graph here
-        </div>
-        <ul className="Console">
-          {this.state.listMessages.map((m: Message, i: number) => <li key={i}>{m.payload.id + "," + m.payload.action + "," + m.payload.source}</li>)}
-        </ul>
+        <Summary statistics={this.state.statistics} />
+        <Graph statistics={this.state.statistics} />
+        <ConsoleMessages listMessages={this.state.listMessages} />
       </div>
     );
   }

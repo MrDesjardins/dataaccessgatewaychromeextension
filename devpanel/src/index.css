@@ -11,9 +11,13 @@ body {
 	grid-template-columns: 1fr;
 	height: 100vh;
 }
+
+.Summary{
+  
+}
 .Graph{
 
 }
-.Console{
+.ConsoleMessages{
 
 }
