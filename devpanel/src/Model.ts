@@ -24,3 +24,20 @@ export interface Message {
     id: string;
     payload: LogInfo;
 }
+
+export interface Statistics {
+    onGoingRequestCount: number;
+
+    readHttpCount: number;
+    saveHttpCount: number;
+    useHttpCount: number;
+
+    readMemoryCount: number;
+    saveMemoryCount: number;
+    useMemoryCount: number;
+
+    readPersisentCount: number;
+    savePersistentCount: number;
+    usePersistentCount: number;
+
+}
