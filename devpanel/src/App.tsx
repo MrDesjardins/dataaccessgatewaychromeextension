@@ -1,9 +1,44 @@
-import * as React from 'react';
-import './App.css';
+import * as React from "react";
+import "./App.css";
+import logo from "./logo.svg";
+export interface LogInfo {
+  id: string;
+  action: string;
+  source: string;
+}
+export interface Message {
+  id: string;
+  payload: LogInfo;
+}
+interface AppState {
+  listMessages: Message[];
+}
+class App extends React.Component<{}, AppState> {
+  private port: chrome.runtime.Port;
+  public constructor() {
+    super({});
+    this.state = {
+      listMessages: []
+    };
+    this.port = chrome.runtime.connect({
+      name: "panel"
+    });
 
-import logo from './logo.svg';
-
-class App extends React.Component {
+    this.port.postMessage({
+      name: "init",
+      tabId: chrome.devtools.inspectedWindow.tabId
+    });
+    this.port.onMessage.addListener((message: Message) => {
+      const currentMessages = this.state.listMessages.slice();
+      currentMessages.push(message);
+      this.setState({ listMessages: currentMessages });
+    });
+    chrome.devtools.panels.create(
+      "Data Access Gateway",
+      "images/dagdl32.png",
+      "index.html"
+    );
+  }
   public render() {
     return (
       <div className="App">
@@ -11,9 +46,9 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <ul className="App-intro">
+          {this.state.listMessages.map((m: Message, i: number) => <li key={i}>{m.payload.id + "," + m.payload.action + "," + m.payload.source}</li>)}
+        </ul>
       </div>
     );
   }

@@ -1,3 +1,5 @@
+import { Message } from "Model";
+
 var port = chrome.runtime.connect({
     name: "panel"
 });
@@ -8,9 +10,6 @@ port.postMessage({
 });
 port.onMessage.addListener((message: Message) => {
     const div = document.createElement("div");
-    console.warn("DEVTOOLS", message);
-    div.innerHTML += ".";
-    div.innerHTML += message;
     if (message.payload) {
         if (message.payload.id) {
             div.innerHTML += message.payload.id + ", ";

@@ -1,9 +1,9 @@
-interface LogInfo {
+export interface LogInfo {
     id: string;
     action: string;
     source: string;
 }
-interface Message {
+export interface Message {
     id: string;
     payload: LogInfo;
 }
