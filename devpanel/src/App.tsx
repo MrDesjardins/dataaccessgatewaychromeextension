@@ -54,6 +54,19 @@ class App extends React.Component<{}, AppState> {
           usePersistentCount: 0,
         }
       };
+      setInterval(
+        () => {
+          const message = {
+            id: "",
+            payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.AddFromOnGoingRequest },
+            incomingDateTime: moment()
+          };
+          const currentMessages = this.state.listMessages.slice();
+          currentMessages.unshift({ ...message, incomingDateTime: moment() });
+          const adjustedStatistics = this.adjustStatistics(message, this.state.statistics);
+          this.setState({ listMessages: currentMessages, statistics: adjustedStatistics });
+        },
+        500);
     } else {
       this.port = chrome.runtime.connect({
         name: "panel"
