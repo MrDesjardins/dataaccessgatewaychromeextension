@@ -17,14 +17,37 @@ body {
 
 }
 .Graph{
-
+  margin:auto;
 }
 
-.ConsoleMessages{
-  text-align: left;
-}
 ul.ConsoleMessages{
   list-style: none;
   padding:0;
   margin:0;
+  text-align: left;
+  background-color:#3e3e3e;
+  padding:10px;
+  overflow: auto;
+}
+
+ul.ConsoleMessages li{
+  display:flex;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+ul.ConsoleMessages li div.time{
+  flex: 0 0 120px;
+}
+
+ul.ConsoleMessages li div.action{
+  flex: 0 0 160px;
+}
+
+ul.ConsoleMessages li div.source{
+  flex: 0 0 160px;
+}
+
+ul.ConsoleMessages li div.idurl{
+  flex:1;
 }

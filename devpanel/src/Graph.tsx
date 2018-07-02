@@ -7,6 +7,11 @@ export interface GraphProps {
 }
 
 export class Graph extends React.Component<GraphProps> {
+    private static FONT_COLOR = "#ffe0fd";
+    private static BAR_BACKGROUND_COLOR = "rgba(245, 89, 255, 0.2)";
+    private static BAR_BORDER_COLOR = "rgba(245, 89, 255, 1)";
+    private static BAR_HOVER_BACKGROUND_COLOR = "rgba(245, 89, 255, 0.5)";
+    private static BAR_HOVER_BORDER_COLOR = "rgba(245, 89, 255, 1)";
     public constructor(props: GraphProps) {
         super(props);
     }
@@ -15,12 +20,12 @@ export class Graph extends React.Component<GraphProps> {
             labels: ["Mem Read", "Mem Write", "Mem Use", "Db Read", "Db Write", "Db Use", "Http Read", "Http Write", "Http Use"],
             datasets: [
                 {
-                    label: "Data Access Source",
-                    backgroundColor: "rgba(255,99,132,0.2)",
-                    borderColor: "rgba(255,99,132,1)",
+                    label: "Data Access Gateway",
+                    backgroundColor: Graph.BAR_BACKGROUND_COLOR,
+                    borderColor: Graph.BAR_BORDER_COLOR,
                     borderWidth: 1,
-                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                    hoverBorderColor: "rgba(255,99,132,1)",
+                    hoverBackgroundColor: Graph.BAR_HOVER_BACKGROUND_COLOR,
+                    hoverBorderColor: Graph.BAR_HOVER_BORDER_COLOR,
                     data: [
                         this.props.statistics.readMemoryCount,
                         this.props.statistics.saveMemoryCount,
@@ -41,8 +46,30 @@ export class Graph extends React.Component<GraphProps> {
                 height={250}
                 width={600}
                 options={{
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: Graph.FONT_COLOR
+                        }
+                    },
                     maintainAspectRatio: false,
-                    responsive: false
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: Graph.FONT_COLOR,
+                                fontSize: 18,
+                                beginAtZero: false
+                            },
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: Graph.FONT_COLOR,
+                                fontSize: 14,
+                                beginAtZero: false
+                            }
+                        }]
+                    }
                 }}
             />
         </div>;

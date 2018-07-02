@@ -1,4 +1,4 @@
-
+import { Moment } from "moment";
 export enum DataSource {
     HttpRequest = "HttpRequest",
     MemoryCache = "MemoryCache",
@@ -24,7 +24,9 @@ export interface Message {
     id: string;
     payload: LogInfo;
 }
-
+export interface MessageClient extends Message {
+    incomingDateTime: Moment;
+}
 export interface Statistics {
     onGoingRequestCount: number;
 

@@ -2,11 +2,11 @@ import * as React from "react";
 import "./App.css";
 import { ConsoleMessages } from "./ConsoleMessages";
 import { Graph } from "./Graph";
-import { DataAction, DataSource, Message, Statistics } from "./Model";
+import { DataAction, DataSource, Message, Statistics, MessageClient } from "./Model";
 import { Summary } from "./Summary";
-
+import * as moment from "moment";
 interface AppState {
-  listMessages: Message[];
+  listMessages: MessageClient[];
   statistics: Statistics;
 }
 class App extends React.Component<{}, AppState> {
@@ -32,14 +32,14 @@ class App extends React.Component<{}, AppState> {
       // Testing in the browser
       this.state = {
         listMessages: [
-          { id: "", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch } },
-          { id: "", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Fetch } },
-          { id: "", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Fetch } },
-          { id: "", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Use } },
-          { id: "", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Save } },
-          { id: "", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch } },
-          { id: "", payload: { id: "http://url2", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest } },
-          { id: "", payload: { id: "http://url3", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest } },
+          { id: "", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Use }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Save }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url2", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          { id: "", payload: { id: "http://url3", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest }, incomingDateTime: moment("2018-07-01 21:30:00") },
         ],
         statistics: {
           onGoingRequestCount: 2,
@@ -65,7 +65,7 @@ class App extends React.Component<{}, AppState> {
       });
       this.port.onMessage.addListener((message: Message) => {
         const currentMessages = this.state.listMessages.slice();
-        currentMessages.push(message);
+        currentMessages.unshift({ ...message, incomingDateTime: moment() });
         const adjustedStatistics = this.adjustStatistics(message, this.state.statistics);
         this.setState({ listMessages: currentMessages, statistics: adjustedStatistics });
       });

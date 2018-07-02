@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Message } from "./Model";
+import { MessageClient } from "./Model";
 
 export interface ConsoleMessagesProps {
-    listMessages: Message[];
+    listMessages: MessageClient[];
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
@@ -12,8 +12,13 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
     public render(): JSX.Element {
         return <ul className="ConsoleMessages">
             {this.props.listMessages.map(
-                (m: Message, i: number) =>
-                    <li key={i}>{m.payload.id + "," + m.payload.action + "," + m.payload.source}</li>)}
+                (m: MessageClient, i: number) =>
+                    <li key={i}>
+                        <div className="time" title={m.incomingDateTime.toISOString()}>{m.incomingDateTime.fromNow()}</div>
+                        <div className="action">{m.payload.action}</div>
+                        <div className="source">{m.payload.source}</div>
+                        <div className="idurl">{m.payload.id}</div>
+                    </li>)}
         </ul>;
     }
 }
