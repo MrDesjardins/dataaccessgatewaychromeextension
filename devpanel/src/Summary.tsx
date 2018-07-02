@@ -11,7 +11,10 @@ export class Summary extends React.Component<SummaryProps> {
     }
     public render(): JSX.Element {
         return <div className="Summary">
-            On-going Request: {this.props.statistics.onGoingRequestCount}
+            <div className="on-going-request">
+                <div className="on-going-request-value">{this.props.statistics.onGoingRequestCount}</div>
+                <div className="on-going-request-label"> On-going Request</div>
+            </div>
         </div>;
     }
 }

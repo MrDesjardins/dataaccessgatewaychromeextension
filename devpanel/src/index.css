@@ -13,9 +13,6 @@ body {
 	height: 100vh;
 }
 
-.Summary{
-
-}
 .Graph{
   margin:auto;
 }
@@ -50,4 +47,22 @@ ul.ConsoleMessages li div.source{
 
 ul.ConsoleMessages li div.idurl{
   flex:1;
+}
+
+.Summary{
+  display:flex;
+  background-color: #3e3e3e;
+  color:#ffe0fd;
+}
+.Summary .on-going-request{
+  flex: 0 0 100px;
+  margin-left: 20px;
+}
+
+.Summary .on-going-request .on-going-request-label{
+  font-size:16px;
+}
+
+.Summary .on-going-request .on-going-request-value{
+  font-size:48px;
 }
