@@ -22,6 +22,7 @@ export interface LogInfo {
 }
 export interface Message {
     id: string;
+    source: string;
     payload: LogInfo;
 }
 export interface MessageClient extends Message {
@@ -41,5 +42,9 @@ export interface Statistics {
     readPersisentCount: number;
     savePersistentCount: number;
     usePersistentCount: number;
+
+    aggregateUse: number;
+    aggregateRead: number;
+    aggregateMem: number;
 
 }

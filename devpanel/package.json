@@ -12,7 +12,8 @@
     "react-scripts-ts": "2.16.0"
   },
   "scripts": {
-    "start": "SET REACT_APP_RUNENV=web&& react-scripts-ts start",
+    "startwindow": "SET REACT_APP_RUNENV=web&& react-scripts-ts start",
+    "start": "REACT_APP_RUNENV=web react-scripts-ts start",
     "build": "react-scripts-ts build",
     "fullbuild": "react-scripts-ts build && cpx 'build/*' ../dist",
     "fullbuildmac": "react-scripts-ts build && cp -R build/ ../dist",

@@ -40,13 +40,36 @@ ul.ConsoleMessages li div.time{
 ul.ConsoleMessages li div.action{
   flex: 0 0 160px;
 }
-
+ul.ConsoleMessages li div.action.Fetch{
+  color:rgba(247, 77, 255);
+}
+ul.ConsoleMessages li div.action.Use{
+  color:rgb(67, 233, 130);
+}
+ul.ConsoleMessages li div.action.Save{
+  color:rgb(55, 160, 255);
+}
 ul.ConsoleMessages li div.source{
   flex: 0 0 160px;
 }
-
+ul.ConsoleMessages li div.source.MemoryCache{
+  color:#45e882;
+}
+ul.ConsoleMessages li div.source.PersistentStorageCache{
+  color:#e0ac2c;
+}
+ul.ConsoleMessages li div.source.HttpRequest{
+  color:#ff6060;
+}
 ul.ConsoleMessages li div.idurl{
   flex:1;
+}
+ul.ConsoleMessages > li:nth-of-type(odd) {
+  background: #4c4c4c;
+}
+ul.ConsoleMessages li.line-use{
+  background-color: rgba(71, 153, 102, 0.5);
+  color: #490650;
 }
 
 .Summary{
@@ -54,15 +77,16 @@ ul.ConsoleMessages li div.idurl{
   background-color: #3e3e3e;
   color:#ffe0fd;
 }
-.Summary .on-going-request{
-  flex: 0 0 100px;
-  margin-left: 20px;
+.Summary .summary-box{
+  flex: 0 0 150px;
+  margin:auto;
 }
 
-.Summary .on-going-request .on-going-request-label{
+.Summary .summary-box .summary-box-label{
   font-size:16px;
 }
 
-.Summary .on-going-request .on-going-request-value{
+.Summary .summary-box .summary-box-value{
   font-size:48px;
+  text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
 }
