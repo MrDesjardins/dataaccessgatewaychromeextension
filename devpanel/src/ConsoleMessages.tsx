@@ -3,6 +3,7 @@ import { DataAction, DataSource, MessageClient, sizeConversation } from "./Model
 
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
+    demoMode?: boolean;
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
@@ -63,7 +64,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
                         <div className={actionStyles}>{m.payload.action}</div>
                         <div className={sourceStyles}>{m.payload.source}</div>
                         <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
-                        <div className="idurl">{m.payload.id}</div>
+                        <div className="idurl">{this.props.demoMode ? btoa(m.payload.id) : m.payload.id}</div>
                     </li>;
                 }
             )

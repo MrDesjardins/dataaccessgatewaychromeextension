@@ -290,7 +290,7 @@ class App extends React.Component<{}, AppState> {
       <div className="App">
         <Summary statistics={this.state.statistics} />
         <Graph statistics={this.state.statistics} />
-        <ConsoleMessages listMessages={this.state.listMessages} />
+        <ConsoleMessages demoMode={true} listMessages={this.state.listMessages} />
       </div>
     );
   }

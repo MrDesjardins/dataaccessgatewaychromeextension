@@ -7,14 +7,20 @@ This is the source code for the [Data Access Gateway library](https://github.com
 ## Consumer Readme
 The extension goal is to provide insight about how the library is manipulating the data. It will indicate how many question are still pending (on-going request), and will give information about which source of data is trying read and write (memory, IndexDb or Http). It also give statistic to which of the three source the data is used as well as a complete list of URL (id) that is being accessed by the system.
 
-## Developer Readme
+![alt text](./readmeAssets/AnimatedDAGExtension.gif)
+
+## Features
+The extension is literally the extension of the [Data Access Gateway library](https://github.com/MrDesjardins/dataaccessgateway). It gives insight about what is being used, when, what was the size of the payload and how long it tooks to be distributed to your application. It shows if the memory cache, or the persisted cache (IndexDb) is used and how many requests and bytes are you saving.
+
+
+# Developer Readme
 If you want to contribute to this Chrome Extension here are some details.
 
 The technologies used it TypeScript and React. TypeScript is used for the agent and the Chrome Extension which is a panel that is inserted in the Chrome's developer tool. React is used inside the panel where the information about the Data Access Gateway.
 
 At the moment, to build to code has many caveats. First, it is possible work on the panel without hosting the Chrome panel. This make the development faster. You can leverage the `create-react-app`. There is fake data pushed into the React application which allows to test the panel UI. It is faster to developer because every change are automatically compiled and the browser refresh. A second caveat is how to execute the NPM scripts. Some copy use `cpx` but some not. For some reasons it does not work properly when moving code between the two projects. I have not invested any time on it and focused that it work on a Mac OS. I'll fix that later.
 
-### Here are the steps for developing the panel:
+## Here are the steps for developing the panel:
 
 1. At the root: `npm install`
 2. Move to the `devpanel`
@@ -23,7 +29,7 @@ At the moment, to build to code has many caveats. First, it is possible work on 
 or
 4. To build: `npm run fullbuildmac`. This will build and move the files in the extension `dist` folder.
 
-### Here are the steps for building the Chrome's extension:
+## Here are the steps for building the Chrome's extension:
 
 1. At the root: `npm install`
 2. `npm run build`
