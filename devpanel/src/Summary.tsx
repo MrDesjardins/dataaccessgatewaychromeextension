@@ -14,6 +14,8 @@ export interface SummaryState {
     newAggregateRead: number;
     oldAggregateMem: number;
     newAggregateMem: number;
+    oldAggregateSuccessfulFetchRate: number;
+    newAggregateSuccessFetchRate: number;
 }
 export class Summary extends React.Component<SummaryProps, SummaryState> {
     public constructor(props: SummaryProps) {
@@ -27,6 +29,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             newAggregateRead: 0,
             oldAggregateMem: 0,
             newAggregateMem: 0,
+            oldAggregateSuccessfulFetchRate: 0,
+            newAggregateSuccessFetchRate: 0
         };
     }
     public static getDerivedStateFromProps(props: SummaryProps, state: SummaryState): SummaryState {
@@ -37,8 +41,10 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             oldAggregateUse: state.newAggregateUse,
             newAggregateRead: props.statistics.aggregateRead,
             oldAggregateRead: state.newAggregateRead,
-            newAggregateMem:  props.statistics.aggregateMem,
+            newAggregateMem: props.statistics.aggregateMem,
             oldAggregateMem: state.newAggregateMem,
+            newAggregateSuccessFetchRate: props.statistics.aggregateSuccessFetchRate,
+            oldAggregateSuccessfulFetchRate: state.newAggregateSuccessFetchRate,
         };
     }
 
@@ -59,6 +65,10 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             <div className="summary-box use">
                 <div className="summary-box-value"><CountUp start={this.state.oldAggregateRead * 100} end={this.state.newAggregateRead * 100} /></div>
                 <div className="summary-box-label">% Read vs Write</div>
+            </div>
+            <div className="summary-box use">
+                <div className="summary-box-value"><CountUp start={this.state.oldAggregateSuccessfulFetchRate * 100} end={this.state.newAggregateSuccessFetchRate * 100} /></div>
+                <div className="summary-box-label">% Fetch Success</div>
             </div>
         </div>;
     }

@@ -15,6 +15,11 @@ body {
 
 .Graph{
   margin:auto;
+  display:flex;
+}
+
+.Graph .IndividualGraph{
+  float:left;
 }
 
 ul.ConsoleMessages{
@@ -34,11 +39,15 @@ ul.ConsoleMessages li{
 }
 
 ul.ConsoleMessages li div.time{
-  flex: 0 0 120px;
+  flex: 0 0 100px;
+  font-size:0.85em;
 }
 
 ul.ConsoleMessages li div.action{
   flex: 0 0 160px;
+}
+ul.ConsoleMessages li div.performance{
+  flex: 0 0 85px;
 }
 ul.ConsoleMessages li div.action.Fetch{
   color:rgba(247, 77, 255);
@@ -61,6 +70,11 @@ ul.ConsoleMessages li div.source.PersistentStorageCache{
 ul.ConsoleMessages li div.source.HttpRequest{
   color:#ff6060;
 }
+ul.ConsoleMessages li div.performance span.size{
+  font-size: 0.7em;
+  margin-left: 3px;
+  color: #b7b7b7;
+}
 ul.ConsoleMessages li div.idurl{
   flex:1;
 }
@@ -72,6 +86,22 @@ ul.ConsoleMessages li.line-use{
   color: #490650;
 }
 
+ul.ConsoleMessages li.line-error{
+  background-color: rgba(253, 60, 0, 0.4);
+  color: #490650;
+  animation: backgrounderror 8s infinite;
+}
+@keyframes backgrounderror {
+  0%     {  background-color: rgba(253, 60, 0, 0.2);}
+  20%     {  background-color: rgba(253, 60, 0, 0.2);}
+  25%  {  background-color: rgba(253, 60, 0, 0.8);}
+  30%  {  background-color: rgba(253, 60, 0, 0.5);}
+  35%  {  background-color: rgba(253, 60, 0, 0.8);}
+  40%  {  background-color: rgba(253, 60, 0, 0.5);}
+  55%  {  background-color: rgba(253, 60, 0, 0.8);}
+  80%  {  background-color: rgba(253, 60, 0, 0.2);}
+  100%  {  background-color: rgba(253, 60, 0, 0.2);}
+}
 .Summary{
   display:flex;
   background-color: #3e3e3e;

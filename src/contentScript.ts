@@ -11,7 +11,7 @@ window.addEventListener("message", (event) => {
 
     // Only accept messages that we know are ours
     if (typeof message !== "object" || message === null ||
-        !message.source && message.source !== "dataaccessgateway-agent") {
+        !!message.source && message.source !== "dataaccessgateway-agent") {
         return;
     }
     chrome.runtime.sendMessage(message);

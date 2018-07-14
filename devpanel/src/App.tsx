@@ -29,6 +29,12 @@ class App extends React.Component<{}, AppState> {
         aggregateUse: 0,
         aggregateRead: 0,
         aggregateMem: 0,
+        aggregateSuccessFetchRate: 0,
+        failedFetchFull: 0,
+        successfulFetchFull: 0,
+        httpBytes: 0,
+        memoryBytes: 0,
+        persistenceStorageBytes: 0
       }
     };
     console.log("RUNENV", process.env.REACT_APP_RUNENV);
@@ -36,14 +42,110 @@ class App extends React.Component<{}, AppState> {
       // Testing in the browser
       this.state = {
         listMessages: [
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.Use }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.PersistentStorageCache, action: DataAction.Save }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url1", source: DataSource.MemoryCache, action: DataAction.Fetch }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url2", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest }, incomingDateTime: moment("2018-07-01 21:30:00") },
-          { id: "", source: "dataaccessgateway-agent", payload: { id: "http://url3", source: DataSource.MemoryCache, action: DataAction.AddFromOnGoingRequest }, incomingDateTime: moment("2018-07-01 21:30:00") },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.MemoryCache,
+              action: DataAction.Fetch,
+              performanceInsight:
+              {
+                fetch: { startMs: 333, stopMs: 1003 },
+                httpRequest: { startMs: 333, stopMs: 1000 }
+              }
+            },
+            incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://404",
+              source: DataSource.PersistentStorageCache,
+              action: DataAction.Fetch,
+              performanceInsight: {
+                httpRequest: { startMs: 2, stopMs: 56 },
+                fetch: { startMs: 0, stopMs: 60 },
+              }
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogError",
+              id: "http://url1",
+              source: DataSource.HttpRequest,
+              action: DataAction.Fetch,
+              error: "This is an error!!!"
+            },
+            incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.HttpRequest,
+              action: DataAction.Fetch,
+              performanceInsight: { httpRequest: { startMs: 0, stopMs: 2500 }, fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12312 }
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.HttpRequest,
+              action: DataAction.Use,
+              performanceInsight: { fetch: { startMs: 0, stopMs: 2800 } }
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.PersistentStorageCache,
+              action: DataAction.Save
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.MemoryCache,
+              action: DataAction.Fetch
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url2",
+              source: DataSource.MemoryCache,
+              action: DataAction.AddFromOnGoingRequest
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url3",
+              source: DataSource.MemoryCache,
+              action: DataAction.AddFromOnGoingRequest
+            }, incomingDateTime: moment("2018-07-01 21:30:00")
+          },
         ],
         statistics: {
           onGoingRequestCount: 2,
@@ -59,16 +161,22 @@ class App extends React.Component<{}, AppState> {
           aggregateUse: 0,
           aggregateRead: 0,
           aggregateMem: 0,
+          aggregateSuccessFetchRate: 0,
+          failedFetchFull: 1,
+          successfulFetchFull: 9,
+          httpBytes: 12_312,
+          memoryBytes: 243_325_133,
+          persistenceStorageBytes: 883_324
         }
       };
       setTimeout(
         () => {
           requestAnimationFrame(() => {
-            const message = {
+            const message: MessageClient = {
               id: "",
-              payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.AddFromOnGoingRequest },
+              payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.AddFromOnGoingRequest, kind: "LogInfo" },
               incomingDateTime: moment(),
-              source: "dataaccessgateway-agent"
+              source: "dataaccessgateway-agent",
             };
             const currentMessages = this.state.listMessages.slice();
             currentMessages.unshift({ ...message });
@@ -103,53 +211,77 @@ class App extends React.Component<{}, AppState> {
   }
   public adjustStatistics(message: Message, currentStatistics: Statistics): Statistics {
     const newStatistics = { ...currentStatistics };
+
     if (!message.payload) {
       console.warn("Payload was undefined. Here is the message:", message);
       return newStatistics;
     }
-    if (message.payload.action === DataAction.AddFromOnGoingRequest) {
-      newStatistics.onGoingRequestCount++;
-    }
-    if (message.payload.action === DataAction.RemoveFromOnGoingRequest) {
-      newStatistics.onGoingRequestCount--;
-    }
-    if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.HttpRequest) {
-      newStatistics.readHttpCount++;
-    }
-    if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.MemoryCache) {
-      newStatistics.readMemoryCount++;
-    }
-    if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
-      newStatistics.readPersisentCount++;
-    }
-    if (message.payload.action === DataAction.Save && message.payload.source === DataSource.HttpRequest) {
-      newStatistics.saveHttpCount++;
-    }
-    if (message.payload.action === DataAction.Save && message.payload.source === DataSource.MemoryCache) {
-      newStatistics.saveMemoryCount++;
-    }
-    if (message.payload.action === DataAction.Save && message.payload.source === DataSource.PersistentStorageCache) {
-      newStatistics.savePersistentCount++;
-    }
-    if (message.payload.action === DataAction.Use && message.payload.source === DataSource.HttpRequest) {
-      newStatistics.useHttpCount++;
-    }
-    if (message.payload.action === DataAction.Use && message.payload.source === DataSource.MemoryCache) {
-      newStatistics.useMemoryCount++;
-    }
-    if (message.payload.action === DataAction.Use && message.payload.source === DataSource.PersistentStorageCache) {
-      newStatistics.usePersistentCount++;
-    }
+    // Stastistic with LogInfo
+    if (message.payload.kind === "LogInfo") {
+      if (message.payload.action === DataAction.AddFromOnGoingRequest) {
+        newStatistics.onGoingRequestCount++;
+      }
+      if (message.payload.action === DataAction.RemoveFromOnGoingRequest) {
+        newStatistics.onGoingRequestCount--;
+      }
+      if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.HttpRequest) {
+        newStatistics.readHttpCount++;
+      }
+      if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.MemoryCache) {
+        newStatistics.readMemoryCount++;
+      }
+      if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
+        newStatistics.readPersisentCount++;
+      }
+      if (message.payload.action === DataAction.Save && message.payload.source === DataSource.HttpRequest) {
+        newStatistics.saveHttpCount++;
+      }
+      if (message.payload.action === DataAction.Save && message.payload.source === DataSource.MemoryCache) {
+        newStatistics.saveMemoryCount++;
+      }
+      if (message.payload.action === DataAction.Save && message.payload.source === DataSource.PersistentStorageCache) {
+        newStatistics.savePersistentCount++;
+      }
+      if (message.payload.action === DataAction.Use && message.payload.source === DataSource.HttpRequest) {
+        newStatistics.useHttpCount++;
+        if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+          newStatistics.httpBytes += message.payload.performanceInsight.dataSizeInBytes;
+        }
+      }
+      if (message.payload.action === DataAction.Use && message.payload.source === DataSource.MemoryCache) {
+        newStatistics.useMemoryCount++;
+        if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+          newStatistics.memoryBytes += message.payload.performanceInsight.dataSizeInBytes;
+        }
+      }
+      if (message.payload.action === DataAction.Use && message.payload.source === DataSource.PersistentStorageCache) {
+        newStatistics.usePersistentCount++;
+        if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+          newStatistics.persistenceStorageBytes += message.payload.performanceInsight.dataSizeInBytes;
+        }
+      }
 
-    // Aggregate statistic
-    const totalUse = newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount;
-    newStatistics.aggregateUse = totalUse === 0 ? 0 : (newStatistics.useMemoryCount + newStatistics.usePersistentCount) / (newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount);
+      // Aggregate statistic
+      const totalUse = newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount;
+      newStatistics.aggregateUse = totalUse === 0 ? 0 : (newStatistics.useMemoryCount + newStatistics.usePersistentCount) / (newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount);
 
-    const totalRead = newStatistics.readHttpCount + newStatistics.readMemoryCount + newStatistics.readPersisentCount;
-    const totalWrite = newStatistics.saveHttpCount + newStatistics.saveMemoryCount + newStatistics.savePersistentCount;
-    newStatistics.aggregateRead = totalRead + totalWrite === 0 ? 0 : totalRead / (totalRead + totalWrite);
+      const totalRead = newStatistics.readHttpCount + newStatistics.readMemoryCount + newStatistics.readPersisentCount;
+      const totalWrite = newStatistics.saveHttpCount + newStatistics.saveMemoryCount + newStatistics.savePersistentCount;
+      newStatistics.aggregateRead = totalRead + totalWrite === 0 ? 0 : totalRead / (totalRead + totalWrite);
 
-    newStatistics.aggregateMem = newStatistics.useMemoryCount + newStatistics.usePersistentCount === 0 ? 0 : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
+      newStatistics.aggregateMem = newStatistics.useMemoryCount + newStatistics.usePersistentCount === 0 ? 0 : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
+
+      if (message.payload.action === DataAction.Use) {
+        newStatistics.successfulFetchFull++;
+      }
+    }
+    if (message.payload.kind === "LogError") {
+      if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
+        newStatistics.failedFetchFull++;
+      }
+    }
+    const totalFetch = newStatistics.successfulFetchFull + newStatistics.failedFetchFull;
+    newStatistics.aggregateSuccessFetchRate = totalFetch === 0 ? 0 : newStatistics.successfulFetchFull / totalFetch;
 
     return newStatistics;
   }
