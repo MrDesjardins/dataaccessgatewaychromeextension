@@ -77,6 +77,9 @@ ul.ConsoleMessages li div.performance span.size{
 }
 ul.ConsoleMessages li div.idurl{
   flex:1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 ul.ConsoleMessages > li:nth-of-type(odd) {
   background: #4c4c4c;
