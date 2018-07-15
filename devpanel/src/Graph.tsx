@@ -1,7 +1,7 @@
 import percentile from "@elstats/percentile";
 import * as chartjs from "chart.js";
 import * as React from "react";
-import { Bar, ChartData, Radar } from "react-chartjs-2";
+import { Bar, ChartData, Line } from "react-chartjs-2";
 import { sizeConversation, Statistics, Unit } from "./Model";
 export interface GraphProps {
     statistics: Statistics;
@@ -94,7 +94,7 @@ export class Graph extends React.Component<GraphProps> {
                 }
             ]
         };
-        return <Radar
+        return <Line
             height={Graph.GRAPH_HEIGHT}
             width={Graph.GRAPH_WIDTH}
             data={data}
@@ -106,10 +106,23 @@ export class Graph extends React.Component<GraphProps> {
                     }
                 },
                 scales: {
-                    scaleLabel: {
-                        fontColor: Graph.FONT_COLOR,
-                        fontSize: 50
-                    }
+                    yAxes: [{
+                        ticks: {
+                            fontColor: Graph.FONT_COLOR,
+                            fontSize: 18,
+                            beginAtZero: false,
+                            callback: function (value: number, index: number) {
+                                return value.toFixed(0) + "ms";
+                            },
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: Graph.FONT_COLOR,
+                            fontSize: 14,
+                            beginAtZero: false
+                        }
+                    }]
                 },
                 tooltips: {
                     callbacks: {
@@ -190,6 +203,13 @@ export class Graph extends React.Component<GraphProps> {
                             beginAtZero: false
                         }
                     }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem: any) {
+                            return Number(tooltipItem.yLabel).toFixed(0) + " calls";
+                        }
+                    }
                 }
             }}
         />;
