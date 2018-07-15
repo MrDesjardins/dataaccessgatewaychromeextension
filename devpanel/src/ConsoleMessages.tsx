@@ -60,7 +60,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
                         }
                     }
                     const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
-                    const idStyles = this.props.demoMode ? { filter: "blur(1)" } : {};
+                    const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
                     return <li key={i} className={lineStyles}>
                         <div className="time" title={m.incomingDateTime.toISOString()}>{m.incomingDateTime.fromNow()}</div>
                         <div className={actionStyles}>{m.payload.action}</div>
