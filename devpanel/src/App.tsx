@@ -34,7 +34,8 @@ class App extends React.Component<{}, AppState> {
         successfulFetchFull: 0,
         httpBytes: 0,
         memoryBytes: 0,
-        persistenceStorageBytes: 0
+        persistenceStorageBytes: 0,
+        fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] }
       }
     };
     console.log("RUNENV", process.env.REACT_APP_RUNENV);
@@ -166,7 +167,8 @@ class App extends React.Component<{}, AppState> {
           successfulFetchFull: 9,
           httpBytes: 12_312,
           memoryBytes: 243_325_133,
-          persistenceStorageBytes: 883_324
+          persistenceStorageBytes: 883_324,
+          fetchMs: { persistentStorageRequestsMs: [1, 2, 3, 4, 5, 20, 50, 80, 90, 99, 100], memoryRequestsMs: [100, 50, 200, 125], httpRequestsMs: [150, 4000, 6000] }
         }
       };
       setTimeout(
@@ -274,6 +276,28 @@ class App extends React.Component<{}, AppState> {
       if (message.payload.action === DataAction.Use) {
         newStatistics.successfulFetchFull++;
       }
+      // Performance Percentile
+      if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.HttpRequest) {
+        if (message.payload.performanceInsight !== undefined 
+          && message.payload.performanceInsight.httpRequest !== undefined
+          && message.payload.performanceInsight.httpRequest.stopMs !== undefined) {
+          newStatistics.fetchMs.httpRequestsMs.push(message.payload.performanceInsight.httpRequest.stopMs - message.payload.performanceInsight.httpRequest.startMs);
+        }
+      }
+      if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
+        if (message.payload.performanceInsight !== undefined 
+          && message.payload.performanceInsight.persistentStorageCache !== undefined
+          && message.payload.performanceInsight.persistentStorageCache.stopMs !== undefined) {
+          newStatistics.fetchMs.persistentStorageRequestsMs.push(message.payload.performanceInsight.persistentStorageCache.stopMs - message.payload.performanceInsight.persistentStorageCache.startMs);
+        }
+      }
+      // if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.MemoryCache) {
+      //   if (message.payload.performanceInsight !== undefined 
+      //     && message.payload.performanceInsight.memoryCache !== undefined
+      //     && message.payload.performanceInsight.memoryCache.stopMs !== undefined) {
+      //     newStatistics.fetchMs.memoryRequestsMs.push(message.payload.performanceInsight.memoryCache.stopMs - message.payload.performanceInsight.memoryCache.startMs);
+      //   }
+      // }
     }
     if (message.payload.kind === "LogError") {
       if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
@@ -290,7 +314,7 @@ class App extends React.Component<{}, AppState> {
       <div className="App">
         <Summary statistics={this.state.statistics} />
         <Graph statistics={this.state.statistics} />
-        <ConsoleMessages demoMode={true} listMessages={this.state.listMessages} />
+        <ConsoleMessages demoMode={false} listMessages={this.state.listMessages} />
       </div>
     );
   }

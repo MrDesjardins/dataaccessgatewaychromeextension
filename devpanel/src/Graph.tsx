@@ -1,6 +1,7 @@
+import percentile from "@elstats/percentile";
 import * as chartjs from "chart.js";
 import * as React from "react";
-import { Bar, ChartData } from "react-chartjs-2";
+import { Bar, ChartData, Radar } from "react-chartjs-2";
 import { sizeConversation, Statistics, Unit } from "./Model";
 export interface GraphProps {
     statistics: Statistics;
@@ -8,7 +9,7 @@ export interface GraphProps {
 
 export class Graph extends React.Component<GraphProps> {
     private static GRAPH_HEIGHT = 250;
-    private static GRAPH_WIDTH = 400;
+    private static GRAPH_WIDTH = 350;
     private static FONT_COLOR = "#ffe0fd";
     private static BAR_HOVER_BACKGROUND_COLOR = "rgba(245, 89, 255, 0.5)";
     private static BAR_HOVER_BORDER_COLOR = "rgba(245, 89, 255, 1)";
@@ -28,9 +29,98 @@ export class Graph extends React.Component<GraphProps> {
             <div className="IndividualGraph">
                 {this.renderSizeGraphBySource()}
             </div>
+            <div className="IndividualGraph">
+                {this.renderPercentilePerformance()}
+            </div>
         </div>;
     }
-
+    public renderPercentilePerformance(): JSX.Element {
+        // const memory5th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 5);
+        // const memory25th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 25);
+        // const memory50th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 50);
+        // const memory75th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 75);
+        // const memory95th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 95);
+        // const memory99th = percentile(this.props.statistics.fetchMs.memoryRequestsMs, 99);
+        // const memoryArray = [memory5th, memory25th, memory50th, memory75th, memory95th, memory99th];
+        // console.log("Memory", memoryArray);
+        const db5th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 5);
+        const db25th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 25);
+        const db50th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 50);
+        const db75th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 75);
+        const db95th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 95);
+        const db99th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 99);
+        const dbArray = [db5th, db25th, db50th, db75th, db95th, db99th];
+        console.log("Db", dbArray);
+        const http5th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 5);
+        const http25th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 25);
+        const http50th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 50);
+        const http75th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 75);
+        const http95th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 95);
+        const http99th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 99);
+        const httpArray = [http5th, http25th, http50th, http75th, http95th, http99th];
+        console.log("Http", httpArray);
+        const data: ChartData<chartjs.ChartData> = {
+            labels: ["5th", "25th", "50th", "75th", "95th", "99th"],
+            datasets: [
+                // {
+                //     label: "Memory",
+                //     backgroundColor: Graph.BAR_SAVE_BACKGROUND_COLOR,
+                //     borderColor: Graph.BAR_SAVE_BACKGROUND_COLOR,
+                //     pointBackgroundColor: "rgba(255,99,132,1)",
+                //     pointBorderColor: "#fff",
+                //     pointHoverBackgroundColor: "#fff",
+                //     pointHoverBorderColor: "rgba(255,99,132,1)",
+                //     data: httpArray
+                // },
+                {
+                    label: "Persistent",
+                    backgroundColor: Graph.BAR_READ_BACKGROUND_COLOR,
+                    borderColor: Graph.BAR_READ_BACKGROUND_COLOR,
+                    pointBackgroundColor: "rgba(179,181,198,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(179,181,198,1)",
+                    data: dbArray
+                },
+                {
+                    label: "Http",
+                    backgroundColor: Graph.BAR_USE_BACKGROUND_COLOR,
+                    borderColor: Graph.BAR_USE_BACKGROUND_COLOR,
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(255,99,132,1)",
+                    data: httpArray
+                }
+            ]
+        };
+        return <Radar
+            height={Graph.GRAPH_HEIGHT}
+            width={Graph.GRAPH_WIDTH}
+            data={data}
+            options={{
+                legend: {
+                    labels: {
+                        fontColor: Graph.FONT_COLOR,
+                        fontSize: 18,
+                    }
+                },
+                scales: {
+                    scaleLabel: {
+                        fontColor: Graph.FONT_COLOR,
+                        fontSize: 50
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem: any) {
+                            return Number(tooltipItem.yLabel).toFixed(0) + "ms";
+                        }
+                    }
+                }
+            }}
+        />;
+    }
     public renderCountBySourceAndAction(): JSX.Element {
         const data: ChartData<chartjs.ChartData> = {
             labels: ["Mem Read", "Mem Write", "Mem Use", "Db Read", "Db Write", "Db Use", "Http Read", "Http Write", "Http Use"],

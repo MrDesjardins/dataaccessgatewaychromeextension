@@ -48,6 +48,12 @@ export interface Message {
 export interface MessageClient extends Message {
     incomingDateTime: Moment;
 }
+
+export interface FetchPerformances {
+    persistentStorageRequestsMs: number[];
+    httpRequestsMs: number[];
+    memoryRequestsMs: number[];
+}
 export interface Statistics {
     onGoingRequestCount: number;
 
@@ -74,6 +80,7 @@ export interface Statistics {
     memoryBytes: number;
     persistenceStorageBytes: number;
     httpBytes: number;
+    fetchMs: FetchPerformances;
 }
 
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@elstats/percentile": "^3.3.0",
     "chart.js": "^2.7.2",
     "moment": "^2.22.2",
     "react": "^16.4.1",
