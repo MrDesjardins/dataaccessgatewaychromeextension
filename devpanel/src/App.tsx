@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import * as React from "react";
+import { ActionsPanel } from "./ActionsPanel";
 import "./App.css";
 import { ConsoleMessages } from "./ConsoleMessages";
 import { Graph } from "./Graph";
@@ -9,34 +10,39 @@ interface AppState {
   listMessages: MessageClient[];
   statistics: Statistics;
 }
+
+const AppStateDefaultValue: AppState = {
+  listMessages: [],
+  statistics: {
+    onGoingRequestCount: 0,
+    readHttpCount: 0,
+    saveHttpCount: 0,
+    useHttpCount: 0,
+    readMemoryCount: 0,
+    saveMemoryCount: 0,
+    useMemoryCount: 0,
+    readPersisentCount: 0,
+    savePersistentCount: 0,
+    usePersistentCount: 0,
+    aggregateUse: 0,
+    aggregateRead: 0,
+    aggregateMem: 0,
+    aggregateSuccessFetchRate: 0,
+    failedFetchFull: 0,
+    successfulFetchFull: 0,
+    httpBytes: 0,
+    memoryBytes: 0,
+    persistenceStorageBytes: 0,
+    fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] }
+  }
+};
 class App extends React.Component<{}, AppState> {
   private port: chrome.runtime.Port;
+
   public constructor(props: {}) {
     super(props);
     this.state = {
-      listMessages: [],
-      statistics: {
-        onGoingRequestCount: 0,
-        readHttpCount: 0,
-        saveHttpCount: 0,
-        useHttpCount: 0,
-        readMemoryCount: 0,
-        saveMemoryCount: 0,
-        useMemoryCount: 0,
-        readPersisentCount: 0,
-        savePersistentCount: 0,
-        usePersistentCount: 0,
-        aggregateUse: 0,
-        aggregateRead: 0,
-        aggregateMem: 0,
-        aggregateSuccessFetchRate: 0,
-        failedFetchFull: 0,
-        successfulFetchFull: 0,
-        httpBytes: 0,
-        memoryBytes: 0,
-        persistenceStorageBytes: 0,
-        fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] }
-      }
+      ...AppStateDefaultValue
     };
     console.log("RUNENV", process.env.REACT_APP_RUNENV);
     if (process.env.REACT_APP_RUNENV === "web") {
@@ -279,26 +285,19 @@ class App extends React.Component<{}, AppState> {
       }
       // Performance Percentile
       if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.HttpRequest) {
-        if (message.payload.performanceInsight !== undefined 
+        if (message.payload.performanceInsight !== undefined
           && message.payload.performanceInsight.httpRequest !== undefined
           && message.payload.performanceInsight.httpRequest.stopMs !== undefined) {
           newStatistics.fetchMs.httpRequestsMs.push(message.payload.performanceInsight.httpRequest.stopMs - message.payload.performanceInsight.httpRequest.startMs);
         }
       }
       if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
-        if (message.payload.performanceInsight !== undefined 
+        if (message.payload.performanceInsight !== undefined
           && message.payload.performanceInsight.persistentStorageCache !== undefined
           && message.payload.performanceInsight.persistentStorageCache.stopMs !== undefined) {
           newStatistics.fetchMs.persistentStorageRequestsMs.push(message.payload.performanceInsight.persistentStorageCache.stopMs - message.payload.performanceInsight.persistentStorageCache.startMs);
         }
       }
-      // if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.MemoryCache) {
-      //   if (message.payload.performanceInsight !== undefined 
-      //     && message.payload.performanceInsight.memoryCache !== undefined
-      //     && message.payload.performanceInsight.memoryCache.stopMs !== undefined) {
-      //     newStatistics.fetchMs.memoryRequestsMs.push(message.payload.performanceInsight.memoryCache.stopMs - message.payload.performanceInsight.memoryCache.startMs);
-      //   }
-      // }
     }
     if (message.payload.kind === "LogError") {
       if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
@@ -316,8 +315,13 @@ class App extends React.Component<{}, AppState> {
         <Summary statistics={this.state.statistics} />
         <Graph statistics={this.state.statistics} />
         <ConsoleMessages demoMode={false} listMessages={this.state.listMessages} />
+        <ActionsPanel onReset={() => this.resetState()} />
       </div>
     );
+  }
+
+  public resetState(): void {
+    this.setState({ ...AppStateDefaultValue });
   }
 }
 

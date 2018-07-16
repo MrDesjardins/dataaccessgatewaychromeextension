@@ -8,7 +8,7 @@ body {
 
 .App{
   display: grid;
-	grid-template-rows: 100px 300px auto;
+	grid-template-rows: 100px 300px auto 50px;
 	grid-template-columns: 1fr;
 	height: 100vh;
 }
@@ -122,4 +122,21 @@ ul.ConsoleMessages li.line-error{
 .Summary .summary-box .summary-box-value{
   font-size:48px;
   text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
+}
+
+.ActionsPanel{
+  display:flex;
+}
+
+button{
+  width: 200px;
+  margin: 3px;
+
+  background-color: #778488;
+  border-color: #404040;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #94a5aa;
 }
