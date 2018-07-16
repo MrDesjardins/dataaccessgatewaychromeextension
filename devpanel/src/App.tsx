@@ -208,7 +208,8 @@ class App extends React.Component<{}, AppState> {
           const currentMessages = this.state.listMessages.slice();
           currentMessages.unshift({ ...message, incomingDateTime: moment() });
           const adjustedStatistics = this.adjustStatistics(message, this.state.statistics);
-          this.setState({ listMessages: currentMessages, statistics: adjustedStatistics });
+          const newState: AppState = { listMessages: currentMessages, statistics: adjustedStatistics };
+          this.setState(newState);
         }
       });
       chrome.devtools.panels.create(
@@ -217,6 +218,22 @@ class App extends React.Component<{}, AppState> {
         "index.html"
       );
     }
+  }
+  public persistState(): void {
+    const state = this.state;
+    console.log("Saving");
+    chrome.storage.local.set({ state: state }, () => {
+      console.log("Saved");
+    });
+  }
+  public loadState(): void {
+    console.log("Loading");
+    chrome.storage.local.get(["state"], (result) => {
+      console.log("Loaded", result);
+      if (result !== undefined && result.state !== undefined) {
+        this.setState(result.state);
+      }
+    });
   }
   public adjustStatistics(message: Message, currentStatistics: Statistics): Statistics {
     const newStatistics = { ...currentStatistics };
@@ -315,7 +332,11 @@ class App extends React.Component<{}, AppState> {
         <Summary statistics={this.state.statistics} />
         <Graph statistics={this.state.statistics} />
         <ConsoleMessages demoMode={false} listMessages={this.state.listMessages} />
-        <ActionsPanel onReset={() => this.resetState()} />
+        <ActionsPanel
+          onReset={() => this.resetState()}
+          onLoad={() => this.loadState()}
+          onSave={() => this.persistState()}
+        />
       </div>
     );
   }
