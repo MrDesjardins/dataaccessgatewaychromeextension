@@ -8,11 +8,13 @@ import { DataAction, DataSource, Message, MessageClient, Statistics } from "./Mo
 import { Summary } from "./Summary";
 const SAVE_KEY = "state";
 interface AppState {
+  demoModeOn: boolean;
   listMessages: MessageClient[];
   statistics: Statistics;
 }
 
 const AppStateDefaultValue: AppState = {
+  demoModeOn: false,
   listMessages: [],
   statistics: {
     onGoingRequestCount: 0,
@@ -49,6 +51,7 @@ class App extends React.Component<{}, AppState> {
     if (process.env.REACT_APP_RUNENV === "web") {
       // Testing in the browser
       this.state = {
+        demoModeOn: false,
         listMessages: [
           {
             id: "",
@@ -207,9 +210,9 @@ class App extends React.Component<{}, AppState> {
       this.port.onMessage.addListener((message: Message) => {
         if (message.source === "dataaccessgateway-agent") {
           const currentMessages = this.state.listMessages.slice();
-          currentMessages.unshift({ ...message, incomingDateTime: moment().toISOString()});
+          currentMessages.unshift({ ...message, incomingDateTime: moment().toISOString() });
           const adjustedStatistics = this.adjustStatistics(message, this.state.statistics);
-          const newState: AppState = { listMessages: currentMessages, statistics: adjustedStatistics };
+          const newState: AppState = { demoModeOn: this.state.demoModeOn, listMessages: currentMessages, statistics: adjustedStatistics };
           this.setState(newState);
         }
       });
@@ -328,11 +331,12 @@ class App extends React.Component<{}, AppState> {
       <div className="App">
         <Summary statistics={this.state.statistics} />
         <Graph statistics={this.state.statistics} />
-        <ConsoleMessages demoMode={false} listMessages={this.state.listMessages} />
+        <ConsoleMessages demoMode={this.state.demoModeOn} listMessages={this.state.listMessages} />
         <ActionsPanel
           onReset={() => this.resetState()}
           onLoad={() => this.loadState()}
           onSave={() => this.persistState()}
+          onChangeDemoMode={(isDemoOn: boolean) => { this.setState({ demoModeOn: isDemoOn }); }}
         />
       </div>
     );

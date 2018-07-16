@@ -128,9 +128,18 @@ ul.ConsoleMessages li.line-error{
   display:flex;
 }
 
-button{
+button, 
+.actionInput{
   width: 200px;
   margin: 3px;
+
+}
+.actionInput{
+  border: 1px solid #778387;
+  line-height: 40px;
+}
+button{
+
 
   background-color: #778488;
   border-color: #404040;
