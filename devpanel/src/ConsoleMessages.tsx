@@ -1,6 +1,6 @@
+import * as moment from "moment";
 import * as React from "react";
 import { DataAction, DataSource, MessageClient, sizeConversation } from "./Model";
-
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoMode?: boolean;
@@ -62,7 +62,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
                     const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
                     const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
                     return <li key={i} className={lineStyles}>
-                        <div className="time" title={m.incomingDateTime.toISOString()}>{m.incomingDateTime.fromNow()}</div>
+                        <div className="time" title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
                         <div className={actionStyles}>{m.payload.action}</div>
                         <div className={sourceStyles}>{m.payload.source}</div>
                         <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>

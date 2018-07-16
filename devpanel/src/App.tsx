@@ -6,6 +6,7 @@ import { ConsoleMessages } from "./ConsoleMessages";
 import { Graph } from "./Graph";
 import { DataAction, DataSource, Message, MessageClient, Statistics } from "./Model";
 import { Summary } from "./Summary";
+const SAVE_KEY = "state";
 interface AppState {
   listMessages: MessageClient[];
   statistics: Statistics;
@@ -63,7 +64,7 @@ class App extends React.Component<{}, AppState> {
                 httpRequest: { startMs: 333, stopMs: 1000 }
               }
             },
-            incomingDateTime: moment("2018-07-01 21:30:00")
+            incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -78,7 +79,7 @@ class App extends React.Component<{}, AppState> {
                 httpRequest: { startMs: 2, stopMs: 56 },
                 fetch: { startMs: 0, stopMs: 60 },
               }
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -90,7 +91,7 @@ class App extends React.Component<{}, AppState> {
               action: DataAction.Fetch,
               error: "This is an error!!!"
             },
-            incomingDateTime: moment("2018-07-01 21:30:00")
+            incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -101,7 +102,7 @@ class App extends React.Component<{}, AppState> {
               source: DataSource.HttpRequest,
               action: DataAction.Fetch,
               performanceInsight: { httpRequest: { startMs: 0, stopMs: 2500 }, fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12312 }
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -112,7 +113,7 @@ class App extends React.Component<{}, AppState> {
               source: DataSource.HttpRequest,
               action: DataAction.Use,
               performanceInsight: { fetch: { startMs: 0, stopMs: 2800 } }
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -122,7 +123,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url1",
               source: DataSource.PersistentStorageCache,
               action: DataAction.Save
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -132,7 +133,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url1",
               source: DataSource.MemoryCache,
               action: DataAction.Fetch
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -142,7 +143,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url2",
               source: DataSource.MemoryCache,
               action: DataAction.AddFromOnGoingRequest
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
           {
             id: "",
@@ -152,7 +153,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url3",
               source: DataSource.MemoryCache,
               action: DataAction.AddFromOnGoingRequest
-            }, incomingDateTime: moment("2018-07-01 21:30:00")
+            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },
         ],
         statistics: {
@@ -184,7 +185,7 @@ class App extends React.Component<{}, AppState> {
             const message: MessageClient = {
               id: "",
               payload: { id: "http://url1", source: DataSource.HttpRequest, action: DataAction.AddFromOnGoingRequest, kind: "LogInfo" },
-              incomingDateTime: moment(),
+              incomingDateTime: moment().toISOString(),
               source: "dataaccessgateway-agent",
             };
             const currentMessages = this.state.listMessages.slice();
@@ -206,7 +207,7 @@ class App extends React.Component<{}, AppState> {
       this.port.onMessage.addListener((message: Message) => {
         if (message.source === "dataaccessgateway-agent") {
           const currentMessages = this.state.listMessages.slice();
-          currentMessages.unshift({ ...message, incomingDateTime: moment() });
+          currentMessages.unshift({ ...message, incomingDateTime: moment().toISOString()});
           const adjustedStatistics = this.adjustStatistics(message, this.state.statistics);
           const newState: AppState = { listMessages: currentMessages, statistics: adjustedStatistics };
           this.setState(newState);
@@ -221,17 +222,13 @@ class App extends React.Component<{}, AppState> {
   }
   public persistState(): void {
     const state = this.state;
-    console.log("Saving");
-    chrome.storage.local.set({ state: state }, () => {
-      console.log("Saved");
-    });
+    chrome.storage.local.set({ [SAVE_KEY]: state });
   }
   public loadState(): void {
-    console.log("Loading");
-    chrome.storage.local.get(["state"], (result) => {
-      console.log("Loaded", result);
-      if (result !== undefined && result.state !== undefined) {
-        this.setState(result.state);
+    chrome.storage.local.get([SAVE_KEY], (result) => {
+      if (result !== undefined && result[SAVE_KEY] !== undefined) {
+        const state = result[SAVE_KEY] as AppState;
+        this.setState(state);
       }
     });
   }

@@ -1,4 +1,3 @@
-import { Moment } from "moment";
 export enum DataSource {
     HttpRequest = "HttpRequest",
     MemoryCache = "MemoryCache",
@@ -46,7 +45,7 @@ export interface Message {
     payload: LogInfo | LogError;
 }
 export interface MessageClient extends Message {
-    incomingDateTime: Moment;
+    incomingDateTime: string; // IsoString
 }
 
 export interface FetchPerformances {

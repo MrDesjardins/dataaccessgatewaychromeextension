@@ -140,3 +140,7 @@ button{
 button:hover{
   background-color: #94a5aa;
 }
+
+button:active {
+  background: rgb(180, 246, 255);
+}
