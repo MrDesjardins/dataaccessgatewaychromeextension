@@ -139,6 +139,10 @@ body {
   font-size:12px;
 }
 .ConsoleMessages .console-options label,
+.ConsoleMessages .console-options span.unit{
+  color:#ffe0fd;
+}
+.ConsoleMessages .console-options label,
 .ConsoleMessages .console-options select,
 .ConsoleMessages .console-options input{
   margin-right:5px;
@@ -183,8 +187,6 @@ button,
   line-height: 40px;
 }
 button{
-
-
   background-color: #778488;
   border-color: #404040;
   cursor: pointer;
