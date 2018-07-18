@@ -28,6 +28,11 @@ body {
 }
 .ConsoleMessages .ConsoleMessage-header{
   flex: 0 0 20px;
+  transition: flex 200ms;
+  cursor: pointer;
+}
+.ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
+  flex: 0 0 100px;
 }
 .ConsoleMessages .ConsoleMessage-items{
   flex:1;
