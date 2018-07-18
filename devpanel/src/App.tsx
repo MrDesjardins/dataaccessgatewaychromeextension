@@ -91,8 +91,7 @@ class App extends React.Component<{}, AppState> {
               kind: "LogError",
               id: "http://error",
               source: DataSource.HttpRequest,
-              action: DataAction.Fetch,
-              error: "This is an error!!!"
+              action: DataAction.Fetch
             },
             incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
           },

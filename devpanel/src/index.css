@@ -21,75 +21,96 @@ body {
 .Graph .IndividualGraph{
   float:left;
 }
-
-ul.ConsoleMessages{
-  list-style: none;
+.ConsoleMessages {
+  display:flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.ConsoleMessages .ConsoleMessage-header{
+  flex: 0 0 20px;
+}
+.ConsoleMessages .ConsoleMessage-items{
+  flex:1;
+  overflow: scroll;
+}
+.ConsoleMessages ul.ConsoleMessage-header>li.tableheader,
+.ConsoleMessages ul.ConsoleMessage-header>li.tableheader div.time{
+  padding:0;
+  font-size:14px;
+  color:white;
+  background-color:#717171;
+}
+.ConsoleMessages {
   padding:0;
   margin:0;
   text-align: left;
   background-color:#3e3e3e;
-  padding:10px;
   overflow: auto;
 }
+.ConsoleMessages ul{
+  list-style: none;
+  padding:0;
+  margin:0;
+}
 
-ul.ConsoleMessages li{
+.ConsoleMessages ul>li{
   display:flex;
   margin-bottom: 5px;
   font-size: 12px;
 }
 
-ul.ConsoleMessages li div.time{
+.ConsoleMessages ul>li div.time{
   flex: 0 0 100px;
   font-size:0.85em;
 }
 
-ul.ConsoleMessages li div.action{
+.ConsoleMessages ul>li div.action{
   flex: 0 0 160px;
 }
-ul.ConsoleMessages li div.performance{
+.ConsoleMessages ul>li div.performance{
   flex: 0 0 85px;
 }
-ul.ConsoleMessages li div.action.Fetch{
+.ConsoleMessages ul>li div.action.Fetch{
   color:rgba(247, 77, 255);
 }
-ul.ConsoleMessages li div.action.Use{
+.ConsoleMessages ul>li div.action.Use{
   color:rgb(67, 233, 130);
 }
-ul.ConsoleMessages li div.action.Save{
+.ConsoleMessages ul>li div.action.Save{
   color:rgb(55, 160, 255);
 }
-ul.ConsoleMessages li div.source{
+.ConsoleMessages ul>li div.source{
   flex: 0 0 160px;
 }
-ul.ConsoleMessages li div.source.MemoryCache{
+.ConsoleMessages ul>li div.source.MemoryCache{
   color:#45e882;
 }
-ul.ConsoleMessages li div.source.PersistentStorageCache{
+.ConsoleMessages ul>li div.source.PersistentStorageCache{
   color:#e0ac2c;
 }
-ul.ConsoleMessages li div.source.HttpRequest{
+.ConsoleMessages ul>li div.source.HttpRequest{
   color:#ff6060;
 }
-ul.ConsoleMessages li div.performance span.size{
+.ConsoleMessages ul>li div.performance span.size{
   font-size: 0.7em;
   margin-left: 3px;
   color: #b7b7b7;
 }
-ul.ConsoleMessages li div.idurl{
+.ConsoleMessages ul>li div.idurl{
   flex:1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-ul.ConsoleMessages > li:nth-of-type(odd) {
+.ConsoleMessages ul> li:nth-of-type(odd) {
   background: #4c4c4c;
 }
-ul.ConsoleMessages li.line-use{
+.ConsoleMessages ul>li.line-use{
   background-color: rgba(71, 153, 102, 0.5);
   color: #490650;
 }
 
-ul.ConsoleMessages li.line-error{
+.ConsoleMessages ul>li.line-error{
   background-color: rgba(253, 60, 0, 0.4);
   color: #490650;
   animation: backgrounderror 8s infinite;

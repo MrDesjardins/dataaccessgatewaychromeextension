@@ -7,17 +7,33 @@ export interface ConsoleMessagesProps {
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
+    private static CSS_TIME = "time";
+    private static CSS_SOURCE = "source";
+    private static CSS_ACTION = "action";
+    private static CSS_PERFORMANCE = "performance";
+    private static CSS_ID = "idurl";
     public constructor(props: ConsoleMessagesProps) {
         super(props);
     }
     public render(): JSX.Element {
-        return <ul className="ConsoleMessages">
+        const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
+        return <div className="ConsoleMessages">
+        <ul className="ConsoleMessage-header">
+            {<li key="tableheader" className="tableheader">
+                <div className={ConsoleMessages.CSS_TIME}>Time</div>
+                <div className={ConsoleMessages.CSS_SOURCE}>Source</div>
+                <div className={ConsoleMessages.CSS_ACTION}>Action</div>
+                <div className={ConsoleMessages.CSS_PERFORMANCE}>Perf</div>
+                <div className={ConsoleMessages.CSS_ID}>Id/Url</div>
+            </li>}
+        </ul>
+        <ul className="ConsoleMessage-items">
             {this.props.listMessages.map(
                 (m: MessageClient, i: number) => {
                     const lineStyles = m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
-                    const sourceStyles = "source " + m.payload.source;
-                    const actionStyles = "action " + m.payload.action;
-                    const performanceStyles = "performance " + m.payload.source;
+                    const sourceStyles = `${ConsoleMessages.CSS_SOURCE} ${m.payload.source}`;
+                    const actionStyles = `${ConsoleMessages.CSS_ACTION} ${m.payload.action}`;
+                    const performanceStyles = `${ConsoleMessages.CSS_PERFORMANCE} ${m.payload.source}`;
                     let performance = 0;
                     let performanceString = "";
                     let sizeString = "";
@@ -60,18 +76,18 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps> {
                         }
                     }
                     const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
-                    const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
                     return <li key={i} className={lineStyles}>
-                        <div className="time" title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
+                        <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
                         <div className={actionStyles}>{m.payload.action}</div>
                         <div className={sourceStyles}>{m.payload.source}</div>
                         <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
-                        <div className="idurl" style={idStyles} title={idUrl}>{idUrl}</div>
+                        <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
                     </li>;
                 }
             )
             }
-        </ul>;
+            </ul>
+        </div>;
     }
 
     private timeConversion(ms: number): string {

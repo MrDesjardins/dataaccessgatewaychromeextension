@@ -42,7 +42,7 @@ export class Graph extends React.Component<GraphProps> {
         const db95th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 95);
         const db99th = percentile(this.props.statistics.fetchMs.persistentStorageRequestsMs, 99);
         let dbArray = [db5th, db25th, db50th, db75th, db95th, db99th];
-
+        dbArray = dbArray.map(d => { if (d === undefined) { return 0; } else { return d; } });
         const http5th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 5);
         const http25th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 25);
         const http50th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 50);
@@ -50,11 +50,12 @@ export class Graph extends React.Component<GraphProps> {
         const http95th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 95);
         const http99th = percentile(this.props.statistics.fetchMs.httpRequestsMs, 99);
         let httpArray = [http5th, http25th, http50th, http75th, http95th, http99th];
+        httpArray = httpArray.map(d => { if (d === undefined) { return 0; } else { return d; } });
         let unit: string = "ms";
         if (http99th > 10000) {
             unit = "s";
             httpArray = httpArray.map(d => d / 1000);
-            dbArray = httpArray.map(d => d / 1000);
+            dbArray = dbArray.map(d => d / 1000);
         }
 
         const data: ChartData<chartjs.ChartData> = {

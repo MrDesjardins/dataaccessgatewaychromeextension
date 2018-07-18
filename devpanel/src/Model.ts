@@ -30,7 +30,6 @@ export interface LogError {
     id: string;
     action: DataAction;
     source: DataSource;
-    error: any;
 }
 export interface LogInfo {
     kind: "LogInfo";
