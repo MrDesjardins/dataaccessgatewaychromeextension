@@ -29,6 +29,8 @@ body {
 .ConsoleMessages .ConsoleMessage-header{
   flex: 0 0 20px;
   transition: flex 200ms;
+}
+.ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
   cursor: pointer;
 }
 .ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
@@ -130,6 +132,22 @@ body {
   55%  {  background-color: rgba(253, 60, 0, 0.8);}
   80%  {  background-color: rgba(253, 60, 0, 0.2);}
   100%  {  background-color: rgba(253, 60, 0, 0.2);}
+}
+
+.ConsoleMessages .console-options{
+  padding:5px;
+  font-size:12px;
+}
+.ConsoleMessages .console-options label,
+.ConsoleMessages .console-options select,
+.ConsoleMessages .console-options input{
+  margin-right:5px;
+}
+.ConsoleMessages .console-options input.numericInput{
+  width:50px;
+}
+.ConsoleMessages .console-options span.unit{
+  margin-left:2px;
 }
 .Summary{
   display:flex;
