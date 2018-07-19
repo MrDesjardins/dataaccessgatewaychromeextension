@@ -39,13 +39,18 @@ body {
 .ConsoleMessages .ConsoleMessage-items{
   flex:1;
   overflow: scroll;
+  background-color:#3e3e3e;
+  color:#ffe0fd;
+}
+.ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
+  padding:0 0 0 2px;
 }
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader,
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader div.time{
-  padding:0;
   font-size:14px;
   color:white;
   background-color:#717171;
+  text-shadow: black 1px 1px 1px;
 }
 .ConsoleMessages {
   padding:0;
@@ -114,12 +119,12 @@ body {
 }
 .ConsoleMessages ul>li.line-use{
   background-color: rgba(71, 153, 102, 0.5);
-  color: #490650;
+  color: #98ffee;
 }
 
 .ConsoleMessages ul>li.line-error{
   background-color: rgba(253, 60, 0, 0.4);
-  color: #490650;
+  color: #ff6c6c;
   animation: backgrounderror 8s infinite;
 }
 @keyframes backgrounderror {
@@ -137,6 +142,16 @@ body {
 .ConsoleMessages .console-options{
   padding:5px;
   font-size:12px;
+  transition: height 10ms ease 200ms;
+}
+.ConsoleMessages .console-options.console-options-open{
+  height:100%;
+}
+.ConsoleMessages .console-options.console-options-close{
+  height:0;
+  padding-bottom:0;
+  padding-top:0;
+  transition:none;
 }
 .ConsoleMessages .console-options label,
 .ConsoleMessages .console-options span.unit{
@@ -185,21 +200,24 @@ body {
 .ActionsPanel{
   display:flex;
 }
-
-button, 
-.actionInput{
-  width: 200px;
-  margin: 3px;
-
+.actionInput input,
+button{
+  cursor: pointer;
 }
 .actionInput{
   border: 1px solid #778387;
   line-height: 40px;
+  cursor: default;
 }
-button{
+button,
+.actionInput{
   background-color: #778488;
   border-color: #404040;
-  cursor: pointer;
+  color: #ffe0fd;
+  font-size: 14px;
+  text-shadow: #6b1f7d 1px 1px 1px;
+  width: 200px;
+  margin: 3px;
 }
 
 button:hover{

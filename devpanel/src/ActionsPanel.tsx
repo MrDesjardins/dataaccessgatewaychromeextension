@@ -17,7 +17,7 @@ export class ActionsPanel extends React.Component<ActionsPanelProps> {
             <button onClick={() => this.props.onLoad()}>Load</button>
             <button onClick={() => this.props.onSave()}>Save</button>
             <span className="actionInput">
-                Demo:
+                <span>Demo:</span>
                 <input
                     type="checkbox"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onChangeDemoMode(event.target.checked)}

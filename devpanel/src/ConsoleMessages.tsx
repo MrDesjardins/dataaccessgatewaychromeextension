@@ -165,44 +165,41 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         });
     }
     private renderConsoleOptions(): JSX.Element | undefined {
-        if (this.state.isOpen) {
-            return <div className="console-options">
-                <div>
-                    <label>Performance threshold:</label>
-                    <select onChange={(e) => this.onPerformanceThresholdSignChange(e)}>
-                        <option value="gt" selected={this.state.performance.sign === "gt"}>Greater</option>
-                        <option value="lt" selected={this.state.performance.sign === "lt"}>Smaller</option>
-                    </select>
-                    <input
-                        type="textbox"
-                        className="numericInput"
-                        value={this.state.performance.value}
-                        onChange={(e) => this.onPerformanceThresholdChange(e)}
-                    />
-                    <span className="unit">
-                        ms
+        const classOptions = "console-options " + (this.state.isOpen ? "console-options-open" : "console-options-close");
+        return <div className={classOptions}>
+            <div>
+                <label>Performance threshold:</label>
+                <select onChange={(e) => this.onPerformanceThresholdSignChange(e)}>
+                    <option value="gt" selected={this.state.performance.sign === "gt"}>Greater</option>
+                    <option value="lt" selected={this.state.performance.sign === "lt"}>Smaller</option>
+                </select>
+                <input
+                    type="textbox"
+                    className="numericInput"
+                    value={this.state.performance.value}
+                    onChange={(e) => this.onPerformanceThresholdChange(e)}
+                />
+                <span className="unit">
+                    ms
                     </span>
-                </div>
-                <div>
-                    <label>Payload size threshold:</label>
-                    <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
-                        <option value="gt" selected={this.state.size.sign === "gt"}>Greater</option>
-                        <option value="lt" selected={this.state.size.sign === "lt"}>Smaller</option>
-                    </select>
-                    <input
-                        type="textbox"
-                        className="numericInput"
-                        value={this.state.size.value}
-                        onChange={(e) => this.onSizeThresholdChange(e)}
-                    />
-                    <span className="unit">
-                        bytes
+            </div>
+            <div>
+                <label>Payload size threshold:</label>
+                <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
+                    <option value="gt" selected={this.state.size.sign === "gt"}>Greater</option>
+                    <option value="lt" selected={this.state.size.sign === "lt"}>Smaller</option>
+                </select>
+                <input
+                    type="textbox"
+                    className="numericInput"
+                    value={this.state.size.value}
+                    onChange={(e) => this.onSizeThresholdChange(e)}
+                />
+                <span className="unit">
+                    bytes
                     </span>
-                </div>
-            </div>;
-        } else {
-            return undefined;
-        }
+            </div>
+        </div>;
     }
     private onPerformanceThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
         const value = e.currentTarget.value as Sign;
