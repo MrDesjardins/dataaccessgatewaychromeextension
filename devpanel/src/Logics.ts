@@ -1,8 +1,9 @@
-import { DataAction, DataSource, MessageClient } from "./Model";
+import { DataAction, DataSource, MessageClient, Threshold } from "./Model";
 
 export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
     timeConversion(ms: number): string;
+    filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean;
 }
 export class Logics implements ILogics {
     public extractPerformanceFromPayload(m: MessageClient): number {
@@ -40,6 +41,42 @@ export class Logics implements ILogics {
         return performance;
     }
 
+    public filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean {
+        if (performance.value !== "") {
+            const performanceMs = this.extractPerformanceFromPayload(m);
+            if (performanceMs !== 0 && performance.value !== 0) { // If the payload has data, and something in the input
+                if (performance.sign === "gt" && performanceMs < performance.value) {
+                    return false;
+                }
+                if (performance.sign === "lt" && performanceMs > performance.value) {
+                    return false;
+                }
+            }
+        }
+        if (size.value !== "") {
+            const sizeBytes = this.extractSizeFromPayload(m);
+            if (size.sign === "gt" && sizeBytes < size.value) {
+                return false;
+            }
+            if (size.sign === "lt" && sizeBytes > size.value) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+    public extractSizeFromPayload(m: MessageClient): number {
+        let size: number = 0;
+        if (m.payload.kind === "LogInfo") {
+            if (m.payload.performanceInsight !== undefined) {
+                if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                    size = m.payload.performanceInsight.dataSizeInBytes;
+                }
+            }
+        }
+        return size;
+    }
     public timeConversion(ms: number): string {
         if (ms === 0) {
             return "";

@@ -55,7 +55,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             </ul>
             <ul className="ConsoleMessage-items">
                 {this.props.listMessages
-                    .filter((m) => this.filterConsoleMessages(m))
+                    .filter((m) => this.logics.filterConsoleMessages(m, this.state.performance, this.state.size))
                     .map((m: MessageClient, i: number) => this.renderOneLineConsole(m, i))
                 }
             </ul>
@@ -97,43 +97,6 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
             <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
         </li>;
-    }
-
-    private filterConsoleMessages(m: MessageClient): boolean {
-        if (this.state.performance.value !== "") {
-            const performance = this.logics.extractPerformanceFromPayload(m);
-            if (performance !== 0 && this.state.performance.value !== 0) { // If the payload has data, and something in the input
-                if (this.state.performance.sign === "gt" && performance < this.state.performance.value) {
-                    return false;
-                }
-                if (this.state.performance.sign === "lt" && performance > this.state.performance.value) {
-                    return false;
-                }
-            }
-        }
-        if (this.state.size.value !== "") {
-            const size = this.extractSizeFromPayload(m);
-            if (this.state.size.sign === "gt" && size < this.state.size.value) {
-                return false;
-            }
-            if (this.state.size.sign === "lt" && size > this.state.size.value) {
-                return false;
-            }
-        }
-
-        return true;
-
-    }
-    private extractSizeFromPayload(m: MessageClient): number {
-        let size: number = 0;
-        if (m.payload.kind === "LogInfo") {
-            if (m.payload.performanceInsight !== undefined) {
-                if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
-                    size = m.payload.performanceInsight.dataSizeInBytes;
-                }
-            }
-        }
-        return size;
     }
 
     private onHeaderClick(): void {
