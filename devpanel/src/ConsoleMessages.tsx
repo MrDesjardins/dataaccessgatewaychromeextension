@@ -1,16 +1,13 @@
 import * as moment from "moment";
 import * as React from "react";
-import { DataAction, DataSource, MessageClient, sizeConversation } from "./Model";
+import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
+import { ILogics, Logics } from "./Logics";
+import { ConsoleOptions, DataAction, MessageClient, sizeConversation, Threshold } from "./Model";
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoMode?: boolean;
 }
-export type Sign = "gt" | "lt";
 
-export interface Threshold {
-    value: "" | number;
-    sign: Sign;
-}
 export interface ConsoleMessagesState {
     isOpen: boolean;
     performance: Threshold;
@@ -23,6 +20,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
     private static CSS_ACTION = "action";
     private static CSS_PERFORMANCE = "performance";
     private static CSS_ID = "idurl";
+    private logics: ILogics = new Logics(); // To inject later
     public constructor(props: ConsoleMessagesProps) {
         super(props);
         this.state = {
@@ -48,7 +46,12 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     <div className={ConsoleMessages.CSS_PERFORMANCE}>Perf</div>
                     <div className={ConsoleMessages.CSS_ID}>Id/Url</div>
                 </li>}
-                {this.renderConsoleOptions()}
+                <ConsoleMessagesOptions
+                    isOpen={this.state.isOpen}
+                    performance={this.state.performance}
+                    size={this.state.size}
+                    onChangeOptions={(p) => this.onConsoleMessagesOptionsChange(p)}
+                />
             </ul>
             <ul className="ConsoleMessage-items">
                 {this.props.listMessages
@@ -57,6 +60,15 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 }
             </ul>
         </div>;
+    }
+
+    private onConsoleMessagesOptionsChange(options: Partial<ConsoleOptions>): void {
+        if (options.performance !== undefined) {
+            this.setState({ performance: options.performance });
+        }
+        if (options.size !== undefined) {
+            this.setState({ size: options.size });
+        }
     }
     private renderOneLineConsole(m: MessageClient, i: number): JSX.Element {
         const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
@@ -67,9 +79,9 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         let performance = 0;
         let performanceString = "";
         let sizeString = "";
-        performance = this.extractPerformanceFromPayload(m);
+        performance = this.logics.extractPerformanceFromPayload(m);
         if (m.payload.kind === "LogInfo") {
-            performanceString = this.timeConversion(performance);
+            performanceString = this.logics.timeConversion(performance);
             if (m.payload.performanceInsight !== undefined) {
                 if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
                     const sizeConverted = sizeConversation(m.payload.performanceInsight.dataSizeInBytes);
@@ -89,7 +101,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
 
     private filterConsoleMessages(m: MessageClient): boolean {
         if (this.state.performance.value !== "") {
-            const performance = this.extractPerformanceFromPayload(m);
+            const performance = this.logics.extractPerformanceFromPayload(m);
             if (performance !== 0 && this.state.performance.value !== 0) { // If the payload has data, and something in the input
                 if (this.state.performance.sign === "gt" && performance < this.state.performance.value) {
                     return false;
@@ -123,122 +135,11 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         }
         return size;
     }
-    private extractPerformanceFromPayload(m: MessageClient): number {
-        let performance: number = 0;
-        if (m.payload.kind === "LogInfo") {
-            if (m.payload.performanceInsight !== undefined) {
-                const c = m.payload.performanceInsight;
-                if (m.payload.action === DataAction.Use) {
-                    if (c.fetch.stopMs !== undefined) {
-                        performance = (c.fetch.stopMs - c.fetch.startMs);
-                    }
-                } else if (m.payload.action === DataAction.Fetch) {
-                    if (m.payload.source === DataSource.HttpRequest) {
-                        if (c.httpRequest !== undefined) {
-                            if (c.httpRequest.stopMs !== undefined) {
-                                performance = (c.httpRequest.stopMs - c.httpRequest.startMs);
-                            }
-                        }
-                    } else if (m.payload.source === DataSource.MemoryCache) {
-                        if (c.memoryCache !== undefined) {
-                            if (c.memoryCache.stopMs !== undefined) {
-                                performance = (c.memoryCache.stopMs - c.memoryCache.startMs);
-                            }
-                        }
-                    } else if (m.payload.source === DataSource.PersistentStorageCache) {
-                        if (c.persistentStorageCache !== undefined) {
-                            if (c.persistentStorageCache.stopMs !== undefined) {
-                                performance = (c.persistentStorageCache.stopMs - c.persistentStorageCache.startMs);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return performance;
-    }
 
     private onHeaderClick(): void {
         const currentTableHeaderOpenState = this.state.isOpen;
         this.setState({
             isOpen: !currentTableHeaderOpenState
         });
-    }
-    private renderConsoleOptions(): JSX.Element | undefined {
-        const classOptions = "console-options " + (this.state.isOpen ? "console-options-open" : "console-options-close");
-        return <div className={classOptions}>
-            <div>
-                <label>Performance threshold:</label>
-                <select onChange={(e) => this.onPerformanceThresholdSignChange(e)}>
-                    <option value="gt" selected={this.state.performance.sign === "gt"}>Greater</option>
-                    <option value="lt" selected={this.state.performance.sign === "lt"}>Smaller</option>
-                </select>
-                <input
-                    type="textbox"
-                    className="numericInput"
-                    value={this.state.performance.value}
-                    onChange={(e) => this.onPerformanceThresholdChange(e)}
-                />
-                <span className="unit">
-                    ms
-                    </span>
-            </div>
-            <div>
-                <label>Payload size threshold:</label>
-                <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
-                    <option value="gt" selected={this.state.size.sign === "gt"}>Greater</option>
-                    <option value="lt" selected={this.state.size.sign === "lt"}>Smaller</option>
-                </select>
-                <input
-                    type="textbox"
-                    className="numericInput"
-                    value={this.state.size.value}
-                    onChange={(e) => this.onSizeThresholdChange(e)}
-                />
-                <span className="unit">
-                    bytes
-                    </span>
-            </div>
-        </div>;
-    }
-    private onPerformanceThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
-        const value = e.currentTarget.value as Sign;
-        this.setState({ performance: { value: this.state.performance.value, sign: value } });
-    }
-    private onPerformanceThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        const value = e.currentTarget.value;
-        const valueNumber = Number(e.currentTarget.value);
-        const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
-        this.setState({ performance: { value: valueTyped, sign: this.state.performance.sign } });
-    }
-    private onSizeThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
-        const value = e.currentTarget.value as Sign;
-        this.setState({ size: { value: this.state.size.value, sign: value } });
-    }
-    private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        const value = e.currentTarget.value;
-        const valueNumber = Number(e.currentTarget.value);
-        const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
-        this.setState({ size: { value: valueTyped, sign: this.state.size.sign } });
-    }
-    private timeConversion(ms: number): string {
-        if (ms === 0) {
-            return "";
-        }
-        const seconds = (ms / 1000);
-        const minutes = (ms / (1000 * 60));
-        const hours = (ms / (1000 * 60 * 60));
-        const days = (ms / (1000 * 60 * 60 * 24));
-        if (seconds < 1) {
-            return ms.toFixed(0) + "ms";
-        } else if (seconds < 60) {
-            return seconds.toFixed(2) + "s";
-        } else if (minutes < 60) {
-            return minutes.toFixed(2) + "m";
-        } else if (hours < 24) {
-            return hours.toFixed(1) + "h";
-        } else {
-            return days.toFixed(1) + "d";
-        }
     }
 }

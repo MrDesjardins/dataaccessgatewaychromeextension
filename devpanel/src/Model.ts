@@ -95,3 +95,13 @@ export function sizeConversation(bytes: number): { size: number, unit: Unit } {
     } while (Math.abs(bytes) >= thresh && u < units.length - 1);
     return { size: bytes, unit: units[u] };
 }
+export type Sign = "gt" | "lt";
+
+export interface Threshold {
+    value: "" | number;
+    sign: Sign;
+}
+export interface ConsoleOptions {
+    performance: Threshold;
+    size: Threshold;
+}
