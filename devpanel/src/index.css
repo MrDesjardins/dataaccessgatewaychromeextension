@@ -32,6 +32,7 @@ body {
 }
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
   cursor: pointer;
+  display:flex;
 }
 .ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
   flex: 0 0 100px;
@@ -64,79 +65,83 @@ body {
   padding:0;
   margin:0;
 }
-
-.ConsoleMessages ul>li{
+.ConsoleMessage .row{
   display:flex;
+}
+.ConsoleMessages ul li{
   margin-bottom: 5px;
   font-size: 12px;
+  padding-left:3px;
 }
-
-.ConsoleMessages ul>li div.time{
+.ConsoleMessages ul li .row{
+  display:flex;
+}
+.ConsoleMessages ul li div.time{
   flex: 0 0 100px;
   font-size:0.85em;
 }
 
-.ConsoleMessages ul>li div.action{
+.ConsoleMessages ul li div.action{
   flex: 0 0 160px;
 }
-.ConsoleMessages ul>li div.performance{
+.ConsoleMessages ul li div.performance{
   flex: 0 0 85px;
 }
-.ConsoleMessages ul>li div.action.Fetch{
+.ConsoleMessages ul li div.action.Fetch{
   color:rgba(247, 77, 255);
 }
-.ConsoleMessages ul>li div.action.Use{
+.ConsoleMessages ul li div.action.Use{
   color:rgb(67, 233, 130);
 }
-.ConsoleMessages ul>li div.action.Save{
+.ConsoleMessages ul li div.action.Save{
   color:rgb(55, 160, 255);
 }
-.ConsoleMessages ul>li div.source{
+.ConsoleMessages ul li div.source{
   flex: 0 0 160px;
 }
-.ConsoleMessages ul>li div.source.MemoryCache{
+.ConsoleMessages ul li div.source.MemoryCache{
   color:#45e882;
 }
-.ConsoleMessages ul>li div.source.PersistentStorageCache{
+.ConsoleMessages ul li div.source.PersistentStorageCache{
   color:#e0ac2c;
 }
-.ConsoleMessages ul>li div.source.HttpRequest{
+.ConsoleMessages ul li div.source.HttpRequest{
   color:#ff6060;
 }
-.ConsoleMessages ul>li div.performance span.size{
+.ConsoleMessages ul li div.performance span.size{
   font-size: 0.7em;
   margin-left: 3px;
   color: #b7b7b7;
 }
-.ConsoleMessages ul>li div.idurl{
+.ConsoleMessages ul li div.idurl{
   flex:1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.ConsoleMessages ul> li:nth-of-type(odd) {
+.ConsoleMessages ul li:nth-of-type(odd) {
   background: #4c4c4c;
 }
-.ConsoleMessages ul>li.line-use{
+.ConsoleMessages ul li.line-use{
   background-color: rgba(71, 153, 102, 0.5);
   color: #98ffee;
 }
 
-.ConsoleMessages ul>li.line-error{
+.ConsoleMessages ul li.line-error{
   background-color: rgba(253, 60, 0, 0.4);
   color: #ff6c6c;
   animation: backgrounderror 8s infinite;
 }
 @keyframes backgrounderror {
-  0%     {  background-color: rgba(253, 60, 0, 0.2);}
-  20%     {  background-color: rgba(253, 60, 0, 0.2);}
+  0%   {  background-color: rgba(253, 60, 0, 0.2);}
+  20%  {  background-color: rgba(253, 60, 0, 0.2);}
   25%  {  background-color: rgba(253, 60, 0, 0.8);}
   30%  {  background-color: rgba(253, 60, 0, 0.5);}
   35%  {  background-color: rgba(253, 60, 0, 0.8);}
   40%  {  background-color: rgba(253, 60, 0, 0.5);}
   55%  {  background-color: rgba(253, 60, 0, 0.8);}
   80%  {  background-color: rgba(253, 60, 0, 0.2);}
-  100%  {  background-color: rgba(253, 60, 0, 0.2);}
+  100% {  background-color: rgba(253, 60, 0, 0.2);}
 }
 
 .ConsoleMessages .console-options{

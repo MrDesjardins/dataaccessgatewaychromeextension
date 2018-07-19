@@ -12,6 +12,7 @@ export interface ConsoleMessagesState {
     isOpen: boolean;
     performance: Threshold;
     size: Threshold;
+    activeMessage?: MessageClient;
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps, ConsoleMessagesState> {
@@ -90,15 +91,30 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             }
         }
         const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
-        return <li key={i} className={lineStyles}>
-            <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
-            <div className={actionStyles}>{m.payload.action}</div>
-            <div className={sourceStyles}>{m.payload.source}</div>
-            <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
-            <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
+        return <li key={i} className={lineStyles} onClick={() => this.onLineClick(m)}>
+            <div className="row">
+                <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
+                <div className={actionStyles}>{m.payload.action}</div>
+                <div className={sourceStyles}>{m.payload.source}</div>
+                <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
+                <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
+            </div>
+            {this.renderActiveLine(m, i)}
         </li>;
     }
+    private renderActiveLine(m: MessageClient, i: number): JSX.Element {
+        return <div className="line-active">
+            Line Options
+        </div>;
+    }
 
+    private onLineClick(m: MessageClient): void {
+        if (this.state.activeMessage === m) {
+            this.setState({ activeMessage: undefined });
+        } else {
+            this.setState({ activeMessage: m });
+        }
+    }
     private onHeaderClick(): void {
         const currentTableHeaderOpenState = this.state.isOpen;
         this.setState({
