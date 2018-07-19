@@ -6,12 +6,15 @@ export interface ConsoleMessagesProps {
     demoMode?: boolean;
 }
 export type Sign = "gt" | "lt";
+
+export interface Threshold {
+    value: "" | number;
+    sign: Sign;
+}
 export interface ConsoleMessagesState {
     isOpen: boolean;
-    performanceThreshold: "" | number;
-    performanceThresholdSign: Sign;
-    sizeThreshold: "" | number;
-    sizeThresholdSign: Sign;
+    performance: Threshold;
+    size: Threshold;
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps, ConsoleMessagesState> {
@@ -24,14 +27,17 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         super(props);
         this.state = {
             isOpen: false,
-            performanceThreshold: "",
-            performanceThresholdSign: "gt",
-            sizeThreshold: "",
-            sizeThresholdSign: "gt"
+            performance: {
+                value: "",
+                sign: "gt"
+            },
+            size: {
+                value: "",
+                sign: "gt"
+            }
         };
     }
     public render(): JSX.Element {
-        const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
         const tableHeaderClass = `ConsoleMessage-header ${this.state.isOpen ? "ConsoleMessage-header-open" : ""}`;
         return <div className="ConsoleMessages">
             <ul className={tableHeaderClass}>
@@ -46,64 +52,66 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             </ul>
             <ul className="ConsoleMessage-items">
                 {this.props.listMessages
-                    .filter((m) => {
-                        if (this.state.performanceThreshold !== "") {
-                            const performance = this.extractPerformanceFromPayload(m);
-                            if (performance !== 0 && this.state.performanceThreshold !== 0) { // If the payload has data, and something in the input
-                                if (this.state.performanceThresholdSign === "gt" && performance < this.state.performanceThreshold) {
-                                    return false;
-                                }
-                                if (this.state.performanceThresholdSign === "lt" && performance > this.state.performanceThreshold) {
-                                    return false;
-                                }
-                            }
-                        }
-                        if (this.state.sizeThreshold !== "") {
-                            const size = this.extractSizeFromPayload(m);
-                            if (this.state.sizeThresholdSign === "gt" && size < this.state.sizeThreshold) {
-                                return false;
-                            }
-                            if (this.state.sizeThresholdSign === "lt" && size > this.state.sizeThreshold) {
-                                return false;
-                            }
-                        }
-
-                        return true;
-                    })
-                    .map(
-                        (m: MessageClient, i: number) => {
-                            const lineStyles = m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
-                            const sourceStyles = `${ConsoleMessages.CSS_SOURCE} ${m.payload.source}`;
-                            const actionStyles = `${ConsoleMessages.CSS_ACTION} ${m.payload.action}`;
-                            const performanceStyles = `${ConsoleMessages.CSS_PERFORMANCE} ${m.payload.source}`;
-                            let performance = 0;
-                            let performanceString = "";
-                            let sizeString = "";
-                            performance = this.extractPerformanceFromPayload(m);
-                            if (m.payload.kind === "LogInfo") {
-                                performanceString = this.timeConversion(performance);
-                                if (m.payload.performanceInsight !== undefined) {
-                                    if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
-                                        const sizeConverted = sizeConversation(m.payload.performanceInsight.dataSizeInBytes);
-                                        sizeString = sizeConverted.size.toFixed(1) + sizeConverted.unit;
-                                    }
-                                }
-                            }
-                            const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
-                            return <li key={i} className={lineStyles}>
-                                <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
-                                <div className={actionStyles}>{m.payload.action}</div>
-                                <div className={sourceStyles}>{m.payload.source}</div>
-                                <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
-                                <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
-                            </li>;
-                        }
-                    )
+                    .filter((m) => this.filterConsoleMessages(m))
+                    .map((m: MessageClient, i: number) => this.renderOneLineConsole(m, i))
                 }
             </ul>
         </div>;
     }
+    private renderOneLineConsole(m: MessageClient, i: number): JSX.Element {
+        const idStyles = this.props.demoMode ? { filter: "blur(2px)" } : {};
+        const lineStyles = m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
+        const sourceStyles = `${ConsoleMessages.CSS_SOURCE} ${m.payload.source}`;
+        const actionStyles = `${ConsoleMessages.CSS_ACTION} ${m.payload.action}`;
+        const performanceStyles = `${ConsoleMessages.CSS_PERFORMANCE} ${m.payload.source}`;
+        let performance = 0;
+        let performanceString = "";
+        let sizeString = "";
+        performance = this.extractPerformanceFromPayload(m);
+        if (m.payload.kind === "LogInfo") {
+            performanceString = this.timeConversion(performance);
+            if (m.payload.performanceInsight !== undefined) {
+                if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                    const sizeConverted = sizeConversation(m.payload.performanceInsight.dataSizeInBytes);
+                    sizeString = sizeConverted.size.toFixed(1) + sizeConverted.unit;
+                }
+            }
+        }
+        const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
+        return <li key={i} className={lineStyles}>
+            <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
+            <div className={actionStyles}>{m.payload.action}</div>
+            <div className={sourceStyles}>{m.payload.source}</div>
+            <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
+            <div className={ConsoleMessages.CSS_ID} style={idStyles} title={idUrl}>{idUrl}</div>
+        </li>;
+    }
 
+    private filterConsoleMessages(m: MessageClient): boolean {
+        if (this.state.performance.value !== "") {
+            const performance = this.extractPerformanceFromPayload(m);
+            if (performance !== 0 && this.state.performance.value !== 0) { // If the payload has data, and something in the input
+                if (this.state.performance.sign === "gt" && performance < this.state.performance.value) {
+                    return false;
+                }
+                if (this.state.performance.sign === "lt" && performance > this.state.performance.value) {
+                    return false;
+                }
+            }
+        }
+        if (this.state.size.value !== "") {
+            const size = this.extractSizeFromPayload(m);
+            if (this.state.size.sign === "gt" && size < this.state.size.value) {
+                return false;
+            }
+            if (this.state.size.sign === "lt" && size > this.state.size.value) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
     private extractSizeFromPayload(m: MessageClient): number {
         let size: number = 0;
         if (m.payload.kind === "LogInfo") {
@@ -162,13 +170,13 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 <div>
                     <label>Performance threshold:</label>
                     <select onChange={(e) => this.onPerformanceThresholdSignChange(e)}>
-                        <option value="gt" selected={this.state.performanceThresholdSign === "gt"}>Greater</option>
-                        <option value="lt" selected={this.state.performanceThresholdSign === "lt"}>Smaller</option>
+                        <option value="gt" selected={this.state.performance.sign === "gt"}>Greater</option>
+                        <option value="lt" selected={this.state.performance.sign === "lt"}>Smaller</option>
                     </select>
                     <input
                         type="textbox"
                         className="numericInput"
-                        value={this.state.performanceThreshold}
+                        value={this.state.performance.value}
                         onChange={(e) => this.onPerformanceThresholdChange(e)}
                     />
                     <span className="unit">
@@ -178,13 +186,13 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 <div>
                     <label>Payload size threshold:</label>
                     <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
-                        <option value="gt" selected={this.state.sizeThresholdSign === "gt"}>Greater</option>
-                        <option value="lt" selected={this.state.sizeThresholdSign === "lt"}>Smaller</option>
+                        <option value="gt" selected={this.state.size.sign === "gt"}>Greater</option>
+                        <option value="lt" selected={this.state.size.sign === "lt"}>Smaller</option>
                     </select>
                     <input
                         type="textbox"
                         className="numericInput"
-                        value={this.state.sizeThreshold}
+                        value={this.state.size.value}
                         onChange={(e) => this.onSizeThresholdChange(e)}
                     />
                     <span className="unit">
@@ -198,23 +206,23 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
     }
     private onPerformanceThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
         const value = e.currentTarget.value as Sign;
-        this.setState({ performanceThresholdSign: value });
+        this.setState({ performance: { value: this.state.performance.value, sign: value } });
     }
     private onPerformanceThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;
         const valueNumber = Number(e.currentTarget.value);
         const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
-        this.setState({ performanceThreshold: valueTyped });
+        this.setState({ performance: { value: valueTyped, sign: this.state.performance.sign } });
     }
     private onSizeThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
         const value = e.currentTarget.value as Sign;
-        this.setState({ sizeThresholdSign: value });
+        this.setState({ size: { value: this.state.size.value, sign: value } });
     }
     private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;
         const valueNumber = Number(e.currentTarget.value);
         const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
-        this.setState({ sizeThreshold: valueTyped });
+        this.setState({ size: { value: valueTyped, sign: this.state.size.sign } });
     }
     private timeConversion(ms: number): string {
         if (ms === 0) {
