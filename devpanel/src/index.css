@@ -146,12 +146,22 @@ body {
 .ConsoleMessages .console-options select,
 .ConsoleMessages .console-options input{
   margin-right:5px;
+  display: inline-block;
+}
+.ConsoleMessages .console-options label{
+  width:130px;
+}
+.ConsoleMessages .console-options select{
+  width:75px;
 }
 .ConsoleMessages .console-options input.numericInput{
   width:50px;
 }
 .ConsoleMessages .console-options span.unit{
   margin-left:2px;
+}
+.ConsoleMessages .console-options>div{
+  height:24px;
 }
 .Summary{
   display:flex;

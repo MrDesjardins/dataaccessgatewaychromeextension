@@ -10,6 +10,8 @@ export interface ConsoleMessagesState {
     isOpen: boolean;
     performanceThreshold: "" | number;
     performanceThresholdSign: Sign;
+    sizeThreshold: "" | number;
+    sizeThresholdSign: Sign;
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps, ConsoleMessagesState> {
@@ -23,7 +25,9 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         this.state = {
             isOpen: false,
             performanceThreshold: "",
-            performanceThresholdSign: "gt"
+            performanceThresholdSign: "gt",
+            sizeThreshold: "",
+            sizeThresholdSign: "gt"
         };
     }
     public render(): JSX.Element {
@@ -45,16 +49,25 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     .filter((m) => {
                         if (this.state.performanceThreshold !== "") {
                             const performance = this.extractPerformanceFromPayload(m);
-                            if (performance === 0) {
+                            if (performance !== 0 && this.state.performanceThreshold !== 0) { // If the payload has data, and something in the input
+                                if (this.state.performanceThresholdSign === "gt" && performance < this.state.performanceThreshold) {
+                                    return false;
+                                }
+                                if (this.state.performanceThresholdSign === "lt" && performance > this.state.performanceThreshold) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (this.state.sizeThreshold !== "") {
+                            const size = this.extractSizeFromPayload(m);
+                            if (this.state.sizeThresholdSign === "gt" && size < this.state.sizeThreshold) {
                                 return false;
                             }
-                            if (this.state.performanceThresholdSign === "gt" && performance < this.state.performanceThreshold) {
-                                return false;
-                            }
-                            if (this.state.performanceThresholdSign === "lt" && performance > this.state.performanceThreshold) {
+                            if (this.state.sizeThresholdSign === "lt" && size > this.state.sizeThreshold) {
                                 return false;
                             }
                         }
+
                         return true;
                     })
                     .map(
@@ -91,6 +104,17 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         </div>;
     }
 
+    private extractSizeFromPayload(m: MessageClient): number {
+        let size: number = 0;
+        if (m.payload.kind === "LogInfo") {
+            if (m.payload.performanceInsight !== undefined) {
+                if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                    size = m.payload.performanceInsight.dataSizeInBytes;
+                }
+            }
+        }
+        return size;
+    }
     private extractPerformanceFromPayload(m: MessageClient): number {
         let performance: number = 0;
         if (m.payload.kind === "LogInfo") {
@@ -151,6 +175,22 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         ms
                     </span>
                 </div>
+                <div>
+                    <label>Payload size threshold:</label>
+                    <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
+                        <option value="gt" selected={this.state.sizeThresholdSign === "gt"}>Greater</option>
+                        <option value="lt" selected={this.state.sizeThresholdSign === "lt"}>Smaller</option>
+                    </select>
+                    <input
+                        type="textbox"
+                        className="numericInput"
+                        value={this.state.sizeThreshold}
+                        onChange={(e) => this.onSizeThresholdChange(e)}
+                    />
+                    <span className="unit">
+                        bytes
+                    </span>
+                </div>
             </div>;
         } else {
             return undefined;
@@ -165,6 +205,16 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         const valueNumber = Number(e.currentTarget.value);
         const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
         this.setState({ performanceThreshold: valueTyped });
+    }
+    private onSizeThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+        const value = e.currentTarget.value as Sign;
+        this.setState({ sizeThresholdSign: value });
+    }
+    private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        const value = e.currentTarget.value;
+        const valueNumber = Number(e.currentTarget.value);
+        const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
+        this.setState({ sizeThreshold: valueTyped });
     }
     private timeConversion(ms: number): string {
         if (ms === 0) {
