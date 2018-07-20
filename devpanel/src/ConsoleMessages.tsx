@@ -109,7 +109,13 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         let longerMs: number = 0;
         let biggerByte: number = 0;
         if (m === this.state.activeMessage) {
-            const listSimilarIds = this.props.listMessages.filter((msg) => msg.payload.id === m.payload.id && msg.payload.action === DataAction.Use);
+            let listSimilarIds: MessageClient[] = [];
+            for (let iMessage = this.props.listMessages.length - 1; iMessage >= 0; iMessage--) {
+                const msg = this.props.listMessages[iMessage];
+                if (msg.payload.id === m.payload.id && msg.payload.action === DataAction.Use) {
+                    listSimilarIds.push(msg);
+                }
+            }
             const labelData = listSimilarIds.map((msg) => {
                 const perf = this.logics.extractPerformanceFromPayload(msg);
                 const payloadSize = this.logics.extractSizeFromPayload(msg);
