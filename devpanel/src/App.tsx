@@ -82,7 +82,7 @@ class App extends React.Component<{}, AppState> {
                 httpRequest: { startMs: 2, stopMs: 56 },
                 fetch: { startMs: 0, stopMs: 60 },
               }
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:31:00").toISOString()
           },
           {
             id: "",
@@ -93,7 +93,7 @@ class App extends React.Component<{}, AppState> {
               source: DataSource.HttpRequest,
               action: DataAction.Fetch
             },
-            incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            incomingDateTime: moment("2018-07-01 21:31:10").toISOString()
           },
           {
             id: "",
@@ -104,7 +104,7 @@ class App extends React.Component<{}, AppState> {
               source: DataSource.HttpRequest,
               action: DataAction.Fetch,
               performanceInsight: { httpRequest: { startMs: 0, stopMs: 2500 }, fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12312 }
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:32:00").toISOString()
           },
           {
             id: "",
@@ -114,8 +114,9 @@ class App extends React.Component<{}, AppState> {
               id: "http://url1",
               source: DataSource.HttpRequest,
               action: DataAction.Use,
-              performanceInsight: { fetch: { startMs: 0, stopMs: 2800 } }
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+              performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 },
+
+            }, incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
           },
           {
             id: "",
@@ -125,7 +126,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url1",
               source: DataSource.PersistentStorageCache,
               action: DataAction.Save
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:35:45").toISOString()
           },
           {
             id: "",
@@ -135,7 +136,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url1",
               source: DataSource.MemoryCache,
               action: DataAction.Fetch
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:38:00").toISOString()
           },
           {
             id: "",
@@ -145,7 +146,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url2",
               source: DataSource.MemoryCache,
               action: DataAction.AddFromOnGoingRequest
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:39:00").toISOString()
           },
           {
             id: "",
@@ -155,7 +156,7 @@ class App extends React.Component<{}, AppState> {
               id: "http://url3",
               source: DataSource.MemoryCache,
               action: DataAction.AddFromOnGoingRequest
-            }, incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+            }, incomingDateTime: moment("2018-07-01 21:39:10").toISOString()
           },
         ],
         statistics: {

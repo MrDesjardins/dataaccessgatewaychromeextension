@@ -1,8 +1,10 @@
+import * as chartjs from "chart.js";
 import * as moment from "moment";
 import * as React from "react";
+import { Bar, ChartData } from "react-chartjs-2";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
 import { ILogics, Logics } from "./Logics";
-import { ConsoleOptions, DataAction, MessageClient, sizeConversation, Threshold } from "./Model";
+import { ConsoleOptions, DataAction, getDividerSize, getDividerTime, MessageClient, sizeConversation, Threshold } from "./Model";
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoMode?: boolean;
@@ -16,6 +18,7 @@ export interface ConsoleMessagesState {
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps, ConsoleMessagesState> {
+    private static FONT_COLOR = "#ffe0fd";
     private static CSS_TIME = "time";
     private static CSS_SOURCE = "source";
     private static CSS_ACTION = "action";
@@ -81,8 +84,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         let performanceString = "";
         let sizeString = "";
         performance = this.logics.extractPerformanceFromPayload(m);
+        performanceString = this.logics.timeConversion(performance);
         if (m.payload.kind === "LogInfo") {
-            performanceString = this.logics.timeConversion(performance);
             if (m.payload.performanceInsight !== undefined) {
                 if (m.payload.performanceInsight.dataSizeInBytes !== undefined) {
                     const sizeConverted = sizeConversation(m.payload.performanceInsight.dataSizeInBytes);
@@ -91,8 +94,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             }
         }
         const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
-        return <li key={i} className={lineStyles} onClick={() => this.onLineClick(m)}>
-            <div className="row">
+        return <li key={i} className={lineStyles}>
+            <div className="row" onClick={() => this.onLineClick(m)}>
                 <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
                 <div className={actionStyles}>{m.payload.action}</div>
                 <div className={sourceStyles}>{m.payload.source}</div>
@@ -102,10 +105,122 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             {this.renderActiveLine(m, i)}
         </li>;
     }
-    private renderActiveLine(m: MessageClient, i: number): JSX.Element {
-        return <div className="line-active">
-            Line Options
-        </div>;
+    private renderActiveLine(m: MessageClient, i: number): JSX.Element | undefined {
+        let longerMs: number = 0;
+        let biggerByte: number = 0;
+        if (m === this.state.activeMessage) {
+            const listSimilarIds = this.props.listMessages.filter((msg) => msg.payload.id === m.payload.id && msg.payload.action === DataAction.Use);
+            const labelData = listSimilarIds.map((msg) => {
+                const perf = this.logics.extractPerformanceFromPayload(msg);
+                const payloadSize = this.logics.extractSizeFromPayload(msg);
+                if (perf > longerMs) {
+                    longerMs = perf;
+                }
+                if (payloadSize > biggerByte) {
+                    biggerByte = payloadSize;
+                }
+                return [
+                    moment(msg.incomingDateTime).toDate(),
+                    perf,
+                    payloadSize,
+                ];
+            });
+
+            const dividerPerformance = getDividerTime(longerMs);
+            const unitPerformance: string = dividerPerformance === 1 ? "ms" : "sec";
+            const biggerWithUnit = sizeConversation(biggerByte);
+            let dividerSize = getDividerSize(biggerWithUnit);
+            const data: ChartData<chartjs.ChartData> = {
+                labels: labelData.map((arr) => arr[0].toLocaleString()),
+                datasets: [
+                    {
+                        yAxisID: "y-axis-performance",
+                        label: "Performance",
+                        data: labelData.map((arr) => arr[1] as number / dividerPerformance),
+                        borderColor: "#EC932F",
+                        backgroundColor: "#EC932F",
+                    },
+                    {
+                        yAxisID: "y-axis-size",
+                        label: "Size",
+                        data: labelData.map((arr) => arr[2] as number / dividerSize),
+                        backgroundColor: "#71B37C",
+                        borderColor: "#71B37C",
+                    }
+                ]
+            };
+            const options: chartjs.RadialChartOptions = {
+                legend: {
+                    display: true,
+                    position: "left",
+                    labels: {
+                        fontColor: ConsoleMessages.FONT_COLOR
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        id: "y-axis-performance",
+                        position: "left",
+                        type: "linear",
+                        ticks: {
+                            fontColor: ConsoleMessages.FONT_COLOR,
+                            fontSize: 10,
+                            beginAtZero: true,
+                            callback: function (value: number, index: number) {
+                                return value.toFixed(unitPerformance === "ms" ? 0 : 2) + unitPerformance;
+                            }
+                        }
+                    },
+                    {
+                        id: "y-axis-size",
+                        position: "right",
+                        type: "linear",
+                        ticks: {
+                            fontColor: ConsoleMessages.FONT_COLOR,
+                            fontSize: 10,
+                            beginAtZero: true,
+                            callback: function (value: number, index: number) {
+                                return value.toFixed(2) + biggerWithUnit.unit;
+                            },
+                            suggestedMin: 1,
+                            suggestedMax: 25
+                        } as chartjs.RadialLinearScale,
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: ConsoleMessages.FONT_COLOR,
+                            fontSize: 10,
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem: any) {
+                            if (tooltipItem.datasetIndex === 0) {
+                                return Number(tooltipItem.yLabel).toFixed(unitPerformance === "ms" ? 0 : 2) + unitPerformance;
+                            }
+                            return Number(tooltipItem.yLabel).toFixed(2) + biggerWithUnit.unit;
+                        }
+                    }
+                }
+            };
+            return <div className="line-active">
+                <div className="console-chart">
+                    <Bar
+                        data={data}
+                        height={200}
+                        width={500}
+                        options={options}
+                    />
+                </div>
+            </div>;
+        } else {
+            return undefined;
+        }
     }
 
     private onLineClick(m: MessageClient): void {

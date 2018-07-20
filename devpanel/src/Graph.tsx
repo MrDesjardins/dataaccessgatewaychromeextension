@@ -2,7 +2,7 @@ import percentile from "@elstats/percentile";
 import * as chartjs from "chart.js";
 import * as React from "react";
 import { Bar, ChartData, Line } from "react-chartjs-2";
-import { sizeConversation, Statistics, Unit } from "./Model";
+import { getDividerSize, sizeConversation, Statistics, Unit } from "./Model";
 export interface GraphProps {
     statistics: Statistics;
 }
@@ -63,8 +63,8 @@ export class Graph extends React.Component<GraphProps> {
             datasets: [
                 {
                     label: "Persistent",
-                    backgroundColor: Graph.BAR_READ_BACKGROUND_COLOR,
-                    borderColor: Graph.BAR_READ_BACKGROUND_COLOR,
+                    backgroundColor: Graph.BAR_SAVE_BACKGROUND_COLOR,
+                    borderColor: Graph.BAR_SAVE_BACKGROUND_COLOR,
                     pointBackgroundColor: "rgba(179,181,198,1)",
                     pointBorderColor: "#fff",
                     pointHoverBackgroundColor: "#fff",
@@ -212,14 +212,7 @@ export class Graph extends React.Component<GraphProps> {
             bigger = this.props.statistics.httpBytes;
         }
         const biggerWithUnit = sizeConversation(bigger);
-        let divider = 1;
-        if (biggerWithUnit.unit === "KB") {
-            divider = 1024;
-        } else if (biggerWithUnit.unit === "MB") {
-            divider = 1024 * 1024;
-        } else if (biggerWithUnit.unit === "TB") {
-            divider = 1024 * 1024 * 1024;
-        }
+        let divider = getDividerSize(biggerWithUnit);
         return {
             unit: biggerWithUnit.unit,
             memory: this.props.statistics.memoryBytes / divider,

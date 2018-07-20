@@ -39,7 +39,7 @@ body {
 }
 .ConsoleMessages .ConsoleMessage-items{
   flex:1;
-  overflow: scroll;
+  overflow: auto;
   background-color:#3e3e3e;
   color:#ffe0fd;
 }
@@ -75,6 +75,12 @@ body {
 }
 .ConsoleMessages ul li .row{
   display:flex;
+  cursor: pointer;
+}
+
+.ConsoleMessages .ConsoleMessage-items .console-chart{
+  width:500px;
+  margin: 15px auto 15px;
 }
 .ConsoleMessages ul li div.time{
   flex: 0 0 100px;
@@ -122,12 +128,12 @@ body {
 .ConsoleMessages ul li:nth-of-type(odd) {
   background: #4c4c4c;
 }
-.ConsoleMessages ul li.line-use{
+.ConsoleMessages ul li.line-use .row{
   background-color: rgba(71, 153, 102, 0.5);
   color: #98ffee;
 }
 
-.ConsoleMessages ul li.line-error{
+.ConsoleMessages ul li.line-error .row{
   background-color: rgba(253, 60, 0, 0.4);
   color: #ff6c6c;
   animation: backgrounderror 8s infinite;

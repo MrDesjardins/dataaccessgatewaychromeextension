@@ -30,6 +30,7 @@ export interface LogError {
     id: string;
     action: DataAction;
     source: DataSource;
+    performanceInsight?: PerformanceRequestInsight;
 }
 export interface LogInfo {
     kind: "LogInfo";
@@ -82,7 +83,11 @@ export interface Statistics {
 }
 
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";
-export function sizeConversation(bytes: number): { size: number, unit: Unit } {
+export interface SizeUnit {
+    size: number;
+    unit: Unit;
+}
+export function sizeConversation(bytes: number): SizeUnit {
     const thresh = 1024;
     if (Math.abs(bytes) < thresh) {
         return { size: bytes, unit: "B" };
@@ -94,6 +99,25 @@ export function sizeConversation(bytes: number): { size: number, unit: Unit } {
         ++u;
     } while (Math.abs(bytes) >= thresh && u < units.length - 1);
     return { size: bytes, unit: units[u] };
+}
+
+export function getDividerSize(data: SizeUnit): number {
+    let divider = 1;
+    if (data.unit === "KB") {
+        divider = 1024;
+    } else if (data.unit === "MB") {
+        divider = 1024 * 1024;
+    } else if (data.unit === "TB") {
+        divider = 1024 * 1024 * 1024;
+    }
+    return divider;
+}
+
+export function getDividerTime(numberMs: number): number {
+    if (numberMs < 10000) {
+        return 1; // Stay in millisecond
+    }
+    return 1000; // Seconds
 }
 export type Sign = "gt" | "lt";
 

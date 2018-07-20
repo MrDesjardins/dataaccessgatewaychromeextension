@@ -4,6 +4,7 @@ export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
     timeConversion(ms: number): string;
     filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean;
+    extractSizeFromPayload(m: MessageClient): number;
 }
 export class Logics implements ILogics {
     public extractPerformanceFromPayload(m: MessageClient): number {
