@@ -193,7 +193,16 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         ticks: {
                             fontColor: ConsoleMessages.FONT_COLOR,
                             fontSize: 10,
-                            beginAtZero: false
+                            beginAtZero: false,
+                            callback: function (value: any, index: any, values: any[]): string {
+                                if (index === 0 || index === values.length - 1 || index === values.length / 2) {
+                                    const dated = moment(Date.parse(value));
+                                    return dated.format("HH:mm:ss");
+                                }
+                                return "";
+                            },
+                            minRotation: 0,
+                            maxRotation: 0
                         }
                     }]
                 },
