@@ -123,6 +123,30 @@ class App extends React.Component<{}, AppState> {
             source: "dataaccessgateway-agent",
             payload: {
               kind: "LogInfo",
+              id: "http://url2",
+              source: DataSource.HttpRequest,
+              action: DataAction.Use,
+              performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 },
+
+            }, incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
+              id: "http://url1",
+              source: DataSource.HttpRequest,
+              action: DataAction.Use,
+              performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 },
+
+            }, incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
+          },
+          {
+            id: "",
+            source: "dataaccessgateway-agent",
+            payload: {
+              kind: "LogInfo",
               id: "http://url1",
               source: DataSource.PersistentStorageCache,
               action: DataAction.Save

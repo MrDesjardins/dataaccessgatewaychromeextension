@@ -128,4 +128,5 @@ export interface Threshold {
 export interface ConsoleOptions {
     performance: Threshold;
     size: Threshold;
+    levenshteinThreshold: number | undefined;
 }

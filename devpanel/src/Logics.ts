@@ -45,7 +45,10 @@ export class Logics implements ILogics {
     public filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean {
         if (performance.value !== "") {
             const performanceMs = this.extractPerformanceFromPayload(m);
-            if (performanceMs !== 0 && performance.value !== 0) { // If the payload has data, and something in the input
+            if (performanceMs === 0) {
+                return false;
+            }
+            if (performance.value !== 0) { // If the payload has data, and something in the input
                 if (performance.sign === "gt" && performanceMs < performance.value) {
                     return false;
                 }
@@ -56,6 +59,9 @@ export class Logics implements ILogics {
         }
         if (size.value !== "") {
             const sizeBytes = this.extractSizeFromPayload(m);
+            if (sizeBytes === 0) {
+                return false;
+            }
             if (size.sign === "gt" && sizeBytes < size.value) {
                 return false;
             }

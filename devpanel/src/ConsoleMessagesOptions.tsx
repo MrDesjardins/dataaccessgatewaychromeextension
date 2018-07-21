@@ -8,7 +8,15 @@ export interface ConsoleMessagesOptionsProps {
     onChangeOptions: (consoleOptions: Partial<ConsoleOptions>) => void;
 }
 
-export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptionsProps> {
+export interface ConsoleMessagesOptionsState {
+    levenshteinThreshold: number | undefined;
+}
+
+export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptionsProps, ConsoleMessagesOptionsState> {
+    public constructor(props: ConsoleMessagesOptionsProps) {
+        super(props);
+        this.setState({ levenshteinThreshold: undefined });
+    }
     public render(): JSX.Element | undefined {
         const classOptions = "console-options " + (this.props.isOpen ? "console-options-open" : "console-options-close");
         return <div className={classOptions}>
@@ -52,7 +60,7 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
     }
     private onPerformanceThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;
-        const valueNumber = Number(e.currentTarget.value);
+        const valueNumber = Number(value);
         const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
         this.props.onChangeOptions({ performance: { value: valueTyped, sign: this.props.performance.sign } });
     }
@@ -62,7 +70,7 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
     }
     private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;
-        const valueNumber = Number(e.currentTarget.value);
+        const valueNumber = Number(value);
         const valueTyped = value === "" ? "" : (isNaN(valueNumber) ? "" : valueNumber);
         this.props.onChangeOptions({ size: { value: valueTyped, sign: this.props.size.sign } });
     }

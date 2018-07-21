@@ -5,6 +5,7 @@
   "dependencies": {
     "@elstats/percentile": "^3.3.0",
     "chart.js": "^2.7.2",
+    "fast-levenshtein": "^2.0.6",
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-chartjs-2": "^2.7.2",
