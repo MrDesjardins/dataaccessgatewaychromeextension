@@ -9,7 +9,7 @@ export interface GraphProps {
 
 export class Graph extends React.Component<GraphProps> {
     private static GRAPH_HEIGHT = 250;
-    private static GRAPH_WIDTH = 350;
+    private static GRAPH_WIDTH = 300;
     private static FONT_COLOR = "#ffe0fd";
     private static BAR_HOVER_BACKGROUND_COLOR = "rgba(245, 89, 255, 0.5)";
     private static BAR_HOVER_BORDER_COLOR = "rgba(245, 89, 255, 1)";
@@ -94,6 +94,8 @@ export class Graph extends React.Component<GraphProps> {
                         fontSize: 18,
                     }
                 },
+                maintainAspectRatio: false,
+                responsive: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -173,7 +175,8 @@ export class Graph extends React.Component<GraphProps> {
             width={Graph.GRAPH_WIDTH}
             options={{
                 legend: {
-                    display: false
+                    display: false,
+                
                 },
                 maintainAspectRatio: false,
                 responsive: false,
@@ -189,7 +192,10 @@ export class Graph extends React.Component<GraphProps> {
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
                             fontSize: 14,
-                            beginAtZero: false
+                            beginAtZero: false,
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
                         }
                     }]
                 },

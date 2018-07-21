@@ -14,12 +14,16 @@ body {
 }
 
 .Graph{
-  margin:auto;
   display:flex;
 }
 
 .Graph .IndividualGraph{
-  float:left;
+  flex:1;
+  margin: auto;
+}
+
+.Graph .IndividualGraph canvas{
+  margin: auto;
 }
 .ConsoleMessages {
   display:flex;
@@ -274,18 +278,49 @@ body {
   background-color: #3e3e3e;
   color:#ffe0fd;
 }
-.Summary .summary-box{
+.Summary .summary-box,
+.Summary .summary-box-dual{
   flex: 0 0 150px;
   margin:auto;
 }
 
 .Summary .summary-box .summary-box-label{
   font-size:16px;
+  min-height:38px;
 }
 
 .Summary .summary-box .summary-box-value{
   font-size:48px;
   text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
+  min-height:58px;
+}
+
+.Summary .summary-box-dual{
+  display: flex;
+  flex-direction: column;
+}
+
+.Summary .summary-box-dual-row{
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.Summary .summary-box-dual .summary-box-label{
+  font-size:14px;
+  min-height:19px;
+  flex: 0 0 125px;
+  padding-top: 5px;
+}
+
+.Summary .summary-box-dual .summary-box-value{
+  font-size:32px;
+  text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
+  flex: 0 0 25px;
+  line-height: 25px;
+  padding-top: 8px;
 }
 
 .ActionsPanel{

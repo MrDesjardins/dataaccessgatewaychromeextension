@@ -16,8 +16,8 @@ export interface SummaryState {
     newAggregateMem: number;
     oldAggregateSuccessfulFetchRate: number;
     newAggregateSuccessFetchRate: number;
-    oldPercentBytesCache: number;
-    newPercentBytesCache: number;
+    oldBytesInCacheRate: number;
+    newBytesInCacheRate: number;
 }
 export class Summary extends React.Component<SummaryProps, SummaryState> {
     public constructor(props: SummaryProps) {
@@ -33,8 +33,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             newAggregateMem: 0,
             oldAggregateSuccessfulFetchRate: 0,
             newAggregateSuccessFetchRate: 0,
-            oldPercentBytesCache: 0,
-            newPercentBytesCache: 0,
+            oldBytesInCacheRate: 0,
+            newBytesInCacheRate: 0,
         };
     }
     public static getDerivedStateFromProps(props: SummaryProps, state: SummaryState): SummaryState {
@@ -49,8 +49,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             oldAggregateMem: state.newAggregateMem,
             newAggregateSuccessFetchRate: props.statistics.aggregateSuccessFetchRate,
             oldAggregateSuccessfulFetchRate: state.newAggregateSuccessFetchRate,
-            oldPercentBytesCache: state.newPercentBytesCache,
-            newPercentBytesCache: props.statistics.bytesInCacheRate,
+            newBytesInCacheRate: props.statistics.bytesInCacheRate,
+            oldBytesInCacheRate: state.newBytesInCacheRate,
         };
     }
 
@@ -60,13 +60,15 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                 <div className="summary-box-value"><CountUp start={this.state.oldOnGoingRequestCount} end={this.state.newOnGoingRequestCount} /></div>
                 <div className="summary-box-label">On-going Request</div>
             </div>
-            <div className="summary-box use">
-                <div className="summary-box-value"><CountUp start={this.state.oldAggregateUse * 100} end={this.state.newAggregateUse * 100} /></div>
-                <div className="summary-box-label">% Request Used Cache vs Http</div>
-            </div>
-            <div className="summary-box use">
-                <div className="summary-box-value"><CountUp start={this.state.oldPercentBytesCache * 100} end={this.state.newPercentBytesCache * 100} /></div>
-                <div className="summary-box-label">% Bytes From Cache vs Http</div>
+            <div className="summary-box-dual use">
+                <div className="summary-box-dual-row">
+                    <div className="summary-box-value"><CountUp start={this.state.oldAggregateUse * 100} end={this.state.newAggregateUse * 100} /></div>
+                    <div className="summary-box-label">% Request Used Cache vs Http</div>
+                </div>
+                <div className="summary-box-dual-row">
+                    <div className="summary-box-value"><CountUp start={this.state.oldBytesInCacheRate * 100} end={this.state.newBytesInCacheRate * 100} /></div>
+                    <div className="summary-box-label">% Bytes From Cache vs Http</div>
+                </div>
             </div>
             <div className="summary-box use">
                 <div className="summary-box-value"><CountUp start={this.state.oldAggregateMem * 100} end={this.state.newAggregateMem * 100} /></div>

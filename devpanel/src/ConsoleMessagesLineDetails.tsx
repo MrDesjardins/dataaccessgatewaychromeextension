@@ -141,10 +141,13 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
             tooltips: {
                 callbacks: {
                     label: function (tooltipItem: any) {
+                        let perf: string;
                         if (tooltipItem.datasetIndex === 0) {
-                            return Number(tooltipItem.yLabel).toFixed(unitPerformance === "ms" ? 0 : 2) + unitPerformance;
+                            perf = Number(tooltipItem.yLabel).toFixed(unitPerformance === "ms" ? 0 : 2) + unitPerformance;
                         }
-                        return Number(tooltipItem.yLabel).toFixed(2) + biggerWithUnit.unit;
+                        perf = Number(tooltipItem.yLabel).toFixed(2) + biggerWithUnit.unit;
+
+                        return perf;
                     }
                 }
             }
