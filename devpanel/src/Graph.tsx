@@ -8,6 +8,7 @@ export interface GraphProps {
 }
 
 export class Graph extends React.Component<GraphProps> {
+    private static FONT_SIZE = 14;
     private static GRAPH_HEIGHT = 250;
     private static GRAPH_WIDTH = 300;
     private static FONT_COLOR = "#ffe0fd";
@@ -91,7 +92,7 @@ export class Graph extends React.Component<GraphProps> {
                 legend: {
                     labels: {
                         fontColor: Graph.FONT_COLOR,
-                        fontSize: 18,
+                        fontSize: Graph.FONT_SIZE,
                     }
                 },
                 maintainAspectRatio: false,
@@ -100,7 +101,7 @@ export class Graph extends React.Component<GraphProps> {
                     yAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 18,
+                            fontSize: Graph.FONT_SIZE,
                             beginAtZero: false,
                             callback: function (value: number, index: number) {
                                 return value.toFixed(0) + unit;
@@ -110,7 +111,7 @@ export class Graph extends React.Component<GraphProps> {
                     xAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 14,
+                            fontSize: Graph.FONT_SIZE,
                             beginAtZero: false
                         }
                     }]
@@ -184,14 +185,14 @@ export class Graph extends React.Component<GraphProps> {
                     yAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 18,
+                            fontSize: 14,
                             beginAtZero: false
                         },
                     }],
                     xAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 14,
+                            fontSize: Graph.FONT_SIZE,
                             beginAtZero: false,
                             autoSkip: false,
                             maxRotation: 90,
@@ -268,7 +269,7 @@ export class Graph extends React.Component<GraphProps> {
                     yAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 18,
+                            fontSize: Graph.FONT_SIZE,
                             beginAtZero: false,
                             min: 0,
                             max: 1024,
@@ -287,7 +288,7 @@ export class Graph extends React.Component<GraphProps> {
                     xAxes: [{
                         ticks: {
                             fontColor: Graph.FONT_COLOR,
-                            fontSize: 14,
+                            fontSize: Graph.FONT_SIZE,
                             beginAtZero: false
                         }
                     }]

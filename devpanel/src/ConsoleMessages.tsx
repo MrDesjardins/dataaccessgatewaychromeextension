@@ -93,8 +93,9 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
             }
         }
         const idUrl = this.props.demoMode ? btoa(m.payload.id) : m.payload.id;
+        const rowStyles = "row" + (this.state.activeMessage === m ? " active-row" : "");
         return <li key={i} className={lineStyles}>
-            <div className="row" onClick={() => this.onLineClick(m)}>
+            <div className={rowStyles} onClick={() => this.onLineClick(m)}>
                 <div className={ConsoleMessages.CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
                 <div className={actionStyles}>{m.payload.action}</div>
                 <div className={sourceStyles}>{m.payload.source}</div>
@@ -106,7 +107,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
     }
     private renderActiveLine(m: MessageClient, i: number): JSX.Element | undefined {
         if (this.state.activeMessage === m) {
-            return <ConsoleMessagesLineDetails message={m} listMessages={this.props.listMessages} demoMode={this.props.demoMode}/>;
+            return <ConsoleMessagesLineDetails message={m} listMessages={this.props.listMessages} demoMode={this.props.demoMode} />;
         } else {
             return undefined;
         }

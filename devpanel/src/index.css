@@ -34,12 +34,9 @@ body {
   flex: 0 0 20px;
   transition: flex 200ms;
 }
-.ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
-  cursor: pointer;
-  display:flex;
-}
 .ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
   flex: 0 0 100px;
+  background-color:#435059;
 }
 .ConsoleMessages .ConsoleMessage-items{
   flex:1;
@@ -47,15 +44,28 @@ body {
   background-color:#3e3e3e;
   color:#ffe0fd;
 }
+.ConsoleMessages .ConsoleMessage-items>li:hover,
+.ConsoleMessages .ConsoleMessage-items>li>.active-row,
+.ConsoleMessages .ConsoleMessage-items>li>.active-row>div{
+  background-color: #435059;
+  text-shadow: black 1px 1px 1px;
+  color:white;
+}
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
+  cursor: pointer;
+  display:flex;
   padding:0 0 0 2px;
+  color:white;
+  background-color:#717171;
+  text-shadow: black 1px 1px 1px;
 }
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader,
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader div.time{
   font-size:14px;
-  color:white;
-  background-color:#717171;
-  text-shadow: black 1px 1px 1px;
+}
+
+.ConsoleMessages ul.ConsoleMessage-header>li.tableheader:hover{
+  background-color:#435059;
 }
 .ConsoleMessages {
   padding:0;
@@ -81,12 +91,17 @@ body {
   display:flex;
   cursor: pointer;
 }
-
+.ConsoleMessages ul li .row.active-row{
+  border: 3px solid #ffffff;
+  border-bottom: none;
+}
 .ConsoleMessagesLineDetails{
   padding:15px 5px 15px 5px;
   background-color: #43505a;
   box-shadow: #1a242b 0px 2px 6px;
   display:flex;
+  border: 3px solid #ffffff;
+  border-top: none;
 }
 .ConsoleMessages .ConsoleMessage-items .console-chart{
   width:500px;
@@ -95,6 +110,9 @@ body {
   width:100px;
 }
 
+.ConsoleMessagesLineDetails .console-chart-and-options{
+  flex: 1;
+}
 .ConsoleMessagesLineDetails .console-chart-options{
   line-height: 20px;
   margin: 0;
@@ -103,22 +121,28 @@ body {
 }
 
 .ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst{
-  height:200px;
-  background-color:#3e3e3e;
+  flex: 1;
+  background-color:#2b3a48;
   overflow:auto;
+  margin-left:10px;
 }
 
-.console-chart-and-options{
-  flex: 1 1 500px;
-}
-.console-chart-listMessageComparedAgainst{
-  flex: 0 0 500px;
+
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul{
+  padding:3px;
 }
 
-.ConsoleMessages .compareLine ul {
+.ConsoleMessagesLineDetails .compareLine ul {
   list-style: none;
   padding:0;
   margin:0;
+}
+
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 16px;
+  word-break: break-all;
 }
 .ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine{
   background-color: #435059;
