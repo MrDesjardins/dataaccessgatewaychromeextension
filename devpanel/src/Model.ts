@@ -80,6 +80,9 @@ export interface Statistics {
     persistenceStorageBytes: number;
     httpBytes: number;
     fetchMs: FetchPerformances;
+
+    bytesInCacheRate: number;
+
 }
 
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";

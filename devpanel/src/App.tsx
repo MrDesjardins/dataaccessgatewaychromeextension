@@ -36,7 +36,8 @@ const AppStateDefaultValue: AppState = {
     httpBytes: 0,
     memoryBytes: 0,
     persistenceStorageBytes: 0,
-    fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] }
+    fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] },
+    bytesInCacheRate: 0
   }
 };
 class App extends React.Component<{}, AppState> {
@@ -184,6 +185,7 @@ class App extends React.Component<{}, AppState> {
           },
         ],
         statistics: {
+          bytesInCacheRate: 0.23,
           onGoingRequestCount: 2,
           readHttpCount: 31,
           saveHttpCount: 12,
@@ -321,7 +323,7 @@ class App extends React.Component<{}, AppState> {
 
       newStatistics.aggregateMem = newStatistics.useMemoryCount + newStatistics.usePersistentCount === 0 ? 0 : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
 
-      if (message.payload.action === DataAction.Use) {
+      if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
         newStatistics.successfulFetchFull++;
       }
       // Performance Percentile
@@ -339,6 +341,17 @@ class App extends React.Component<{}, AppState> {
           newStatistics.fetchMs.persistentStorageRequestsMs.push(message.payload.performanceInsight.persistentStorageCache.stopMs - message.payload.performanceInsight.persistentStorageCache.startMs);
         }
       }
+
+      // Bytes used are coming from where?
+      if (message.payload.action === DataAction.Use) {
+        const totalBytes = newStatistics.httpBytes + newStatistics.memoryBytes + newStatistics.persistenceStorageBytes;
+        if (totalBytes > 0) {
+          newStatistics.bytesInCacheRate = (newStatistics.memoryBytes + newStatistics.persistenceStorageBytes) / totalBytes;
+        } else {
+          newStatistics.bytesInCacheRate = 0;
+        }
+      }
+
     }
     if (message.payload.kind === "LogError") {
       if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
