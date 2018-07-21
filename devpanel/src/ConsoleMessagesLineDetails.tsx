@@ -144,9 +144,9 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                         let perf: string;
                         if (tooltipItem.datasetIndex === 0) {
                             perf = Number(tooltipItem.yLabel).toFixed(unitPerformance === "ms" ? 0 : 2) + unitPerformance;
+                        } else {
+                            perf = Number(tooltipItem.yLabel).toFixed(2) + biggerWithUnit.unit;
                         }
-                        perf = Number(tooltipItem.yLabel).toFixed(2) + biggerWithUnit.unit;
-
                         return perf;
                     }
                 }

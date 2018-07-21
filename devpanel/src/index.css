@@ -102,6 +102,7 @@ body {
   display:flex;
   border: 3px solid #ffffff;
   border-top: none;
+  height:230px;
 }
 .ConsoleMessages .ConsoleMessage-items .console-chart{
   width:500px;
