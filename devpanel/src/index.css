@@ -354,6 +354,7 @@ body {
 
 .ActionsPanel{
   display:flex;
+  padding-left:10px;
 }
 .actionInput input,
 button{
@@ -367,20 +368,22 @@ button{
 button,
 .actionInput{
   background-color: #778488;
-  border-color: #404040;
+  border-color: #27304d;
   color: #ffe0fd;
   font-size: 14px;
   text-shadow: #6b1f7d 1px 1px 1px;
-  width: 200px;
+  width: 100px;
   margin: 3px;
+  border-radius: 6px;
+  border-style: solid;
 }
 
 button:hover{
-  background-color: #94a5aa;
+  background-color: #5e6b94;
 }
 
 button:active {
-  background: rgb(180, 246, 255);
+  background-color: #6b1f7d
 }
 
 .demo-mode{
