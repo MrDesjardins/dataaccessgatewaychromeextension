@@ -22,5 +22,8 @@
     "cpx": "^1.5.0",
     "create-react-app": "^1.5.2",
     "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "npm": "^6.1.0"
   }
 }

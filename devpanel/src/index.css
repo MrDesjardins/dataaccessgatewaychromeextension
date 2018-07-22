@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  background-color:#4c4c4c;
+  background-color:#182038;
 }
 
 
@@ -20,6 +20,10 @@ body {
 .Graph .IndividualGraph{
   flex:1;
   margin: auto;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 15px;
+  background-color:#27304d;
 }
 
 .Graph .IndividualGraph canvas{
@@ -29,6 +33,13 @@ body {
   display:flex;
   flex-direction: column;
   flex-wrap: nowrap;
+
+  padding: 10px;
+  margin: 10px;
+  text-align: left;
+  overflow: auto;
+  border-radius: 15px;
+  background-color: #27304d
 }
 .ConsoleMessages .ConsoleMessage-header{
   flex: 0 0 20px;
@@ -36,27 +47,29 @@ body {
 }
 .ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
   flex: 0 0 100px;
-  background-color:#435059;
 }
 .ConsoleMessages .ConsoleMessage-items{
   flex:1;
   overflow: auto;
-  background-color:#3e3e3e;
   color:#ffe0fd;
 }
 .ConsoleMessages .ConsoleMessage-items>li:hover,
+.ConsoleMessages .ConsoleMessage-items>li:hover>div.row,
+.ConsoleMessages .ConsoleMessage-items>li.line-use:hover>div.row,
+.ConsoleMessages .ConsoleMessage-items>li.line-error:hover>div.row,
 .ConsoleMessages .ConsoleMessage-items>li>.active-row,
 .ConsoleMessages .ConsoleMessage-items>li>.active-row>div{
-  background-color: #435059;
+  background-color: #8f3fa6;
   text-shadow: black 1px 1px 1px;
   color:white;
+  animation:none;
 }
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
   cursor: pointer;
   display:flex;
   padding:0 0 0 2px;
   color:white;
-  background-color:#717171;
+  background-color:#27304d;
   text-shadow: black 1px 1px 1px;
 }
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader,
@@ -65,43 +78,34 @@ body {
 }
 
 .ConsoleMessages ul.ConsoleMessage-header>li.tableheader:hover{
-  background-color:#435059;
+  background-color:#8f3fa6;
 }
-.ConsoleMessages {
-  padding:0;
-  margin:0;
-  text-align: left;
-  background-color:#3e3e3e;
-  overflow: auto;
-}
+
 .ConsoleMessages ul{
   list-style: none;
   padding:0;
   margin:0;
+  background-color: #27304d;
 }
 .ConsoleMessage .row{
   display:flex;
 }
 .ConsoleMessages ul li{
   margin-bottom: 5px;
-  font-size: 12px;
-  padding-left:3px;
+  font-size: 12px;  
 }
 .ConsoleMessages ul li .row{
   display:flex;
   cursor: pointer;
 }
 .ConsoleMessages ul li .row.active-row{
-  border: 3px solid #ffffff;
-  border-bottom: none;
+
 }
 .ConsoleMessagesLineDetails{
   padding:15px 5px 15px 5px;
-  background-color: #43505a;
+  background-color: #182038;
   box-shadow: #1a242b 0px 2px 6px;
   display:flex;
-  border: 3px solid #ffffff;
-  border-top: none;
   height:230px;
 }
 .ConsoleMessages .ConsoleMessage-items .console-chart{
@@ -123,9 +127,10 @@ body {
 
 .ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst{
   flex: 1;
-  background-color:#2b3a48;
-  overflow:auto;
-  margin-left:10px;
+  background-color: #27304d;
+  overflow: auto;
+  margin-left: 10px;
+  border-radius: 7px;
 }
 
 
@@ -146,11 +151,11 @@ body {
   word-break: break-all;
 }
 .ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine{
-  background-color: #435059;
+  background-color: #182038;
   margin-bottom:2px;
 }
 .ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine:nth-of-type(odd) {
-  background-color: #537288;
+  background-color: #27304d;
 }
 
 .console-chart-listMessageComparedAgainst h3{
@@ -235,7 +240,7 @@ body {
   text-overflow: ellipsis;
 }
 .ConsoleMessages ul li:nth-of-type(odd) {
-  background: #4c4c4c;
+  background: #182038;
 }
 .ConsoleMessages ul li.line-use .row{
   background-color: rgba(71, 153, 102, 0.5);
@@ -300,7 +305,6 @@ body {
 }
 .Summary{
   display:flex;
-  background-color: #3e3e3e;
   color:#ffe0fd;
 }
 .Summary .summary-box,
