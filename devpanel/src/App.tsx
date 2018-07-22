@@ -1,13 +1,13 @@
 import * as moment from "moment";
 import * as React from "react";
-import { ActionsPanel } from "./ActionsPanel";
 import "./App.css";
-import { ConsoleMessages } from "./ConsoleMessages";
-import { Graph } from "./Graph";
-import { ILogics, Logics } from "./Logics";
-import { Message, MessageClient, Statistics } from "./Model";
-import { Summary } from "./Summary";
-import { TestingData } from "./TestingData";
+import { ILogics, Logics } from "./BusinessLogics/Logics";
+import { Message, MessageClient, Statistics } from "./BusinessLogics/Model";
+import { TestingData } from "./BusinessLogics/TestingData";
+import { ActionsPanel } from "./Components/ActionsPanel/ActionsPanel";
+import { ConsoleMessages } from "./Components/Console/ConsoleMessages";
+import { Graph } from "./Components/Graphs/Graph";
+import { Summary } from "./Components/Summary/Summary";
 const SAVE_KEY = "state";
 interface AppState {
   demoModeEnabled: boolean;

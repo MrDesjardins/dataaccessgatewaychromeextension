@@ -1,5 +1,5 @@
 import React from "react";
-import { ConsoleMessageOptionsModel, Sign, Threshold } from "./Model";
+import { ConsoleMessageOptionsModel, Sign, Threshold } from "../../BusinessLogics/Model";
 
 export interface ConsoleMessagesOptionsProps {
     isOpen: boolean;

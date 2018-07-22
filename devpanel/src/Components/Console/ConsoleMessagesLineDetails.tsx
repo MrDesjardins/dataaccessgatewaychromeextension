@@ -3,13 +3,13 @@ import * as Levenshtein from "fast-levenshtein";
 import * as moment from "moment";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
-import { ILogics, Logics } from "./Logics";
-import { getDividerSize, getDividerTime, MessageClient, sizeConversation } from "./Model";
+import { ILogics, Logics } from "../../BusinessLogics/Logics";
+import { getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 
 export interface ConsoleMessagesLineDetailsProps {
     message: MessageClient;
     listMessages: MessageClient[];
-    demoMode: boolean | undefined;
+    isDemoModeEnabled: boolean | undefined;
 }
 export interface ConsoleMessagesLineDetailsState {
     levenshteinThreshold: number;
@@ -155,7 +155,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
         const levenshteinValue = this.state.levenshteinThreshold;
         const c = new Set(listSimilarIds.map(d => d.payload.id));
         const uniq = [...Array.from(c)];
-        const classCompareLine = `compareLine ${this.props.demoMode ? "demo-mode" : ""}`;
+        const classCompareLine = `compareLine ${this.props.isDemoModeEnabled ? "demo-mode" : ""}`;
         return <div className="ConsoleMessagesLineDetails">
             <div className="console-chart-and-options">
                 <div className="console-chart">
@@ -184,7 +184,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                 <h3>Id/Url Compared Against</h3>
                 <ul>
                     {uniq.map((m, index) => {
-                        const idUrl = this.props.demoMode ? btoa(m) : m;
+                        const idUrl = this.props.isDemoModeEnabled ? btoa(m) : m;
                         return <li className={classCompareLine} key={index}>{idUrl}</li>;
                     })}
                 </ul>

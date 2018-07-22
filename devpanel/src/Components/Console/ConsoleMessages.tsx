@@ -1,8 +1,8 @@
 import * as React from "react";
+import { ILogics, Logics } from "../../BusinessLogics/Logics";
+import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
-import { ILogics, Logics } from "./Logics";
-import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, MessageClient } from "./Model";
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoModeEnabled?: boolean;

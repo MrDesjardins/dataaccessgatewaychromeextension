@@ -1,6 +1,6 @@
 import * as React from "react";
 import CountUp from "react-countup";
-import { Statistics } from "./Model";
+import { Statistics } from "../../BusinessLogics/Model";
 export interface SummaryProps {
     statistics: Statistics;
 }

@@ -1,8 +1,8 @@
 import * as moment from "moment";
 import * as React from "react";
+import { ILogics, Logics } from "../../BusinessLogics/Logics";
+import { CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, DataAction, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLineDetails } from "./ConsoleMessagesLineDetails";
-import { ILogics, Logics } from "./Logics";
-import { CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, DataAction, MessageClient, sizeConversation } from "./Model";
 export interface ConsoleMessagesLineProps {
     message: MessageClient;
     demoModeEnabled?: boolean;
@@ -56,7 +56,11 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
 
     private renderActiveLine(m: MessageClient): JSX.Element | undefined {
         if (this.state.activeMessage === m) {
-            return <ConsoleMessagesLineDetails message={m} listMessages={this.props.listMessages} demoMode={this.props.demoModeEnabled} />;
+            return <ConsoleMessagesLineDetails
+                message={m}
+                listMessages={this.props.listMessages}
+                isDemoModeEnabled={this.props.demoModeEnabled}
+            />;
         } else {
             return undefined;
         }
