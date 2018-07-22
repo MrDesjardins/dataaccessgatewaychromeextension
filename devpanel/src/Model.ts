@@ -84,7 +84,10 @@ export interface Statistics {
     bytesInCacheRate: number;
 
 }
-
+export interface ConsoleMessageOptionsModel {
+    performance: Threshold;
+    size: Threshold;
+}
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";
 export interface SizeUnit {
     size: number;
@@ -128,8 +131,9 @@ export interface Threshold {
     value: "" | number;
     sign: Sign;
 }
-export interface ConsoleOptions {
-    performance: Threshold;
-    size: Threshold;
-    levenshteinThreshold: number | undefined;
-}
+
+export const CSS_TIME = "time";
+export const CSS_SOURCE = "source";
+export const CSS_ACTION = "action";
+export const CSS_PERFORMANCE = "performance";
+export const CSS_ID = "idurl";

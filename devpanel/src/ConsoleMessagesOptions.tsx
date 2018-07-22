@@ -1,11 +1,11 @@
 import React from "react";
-import { ConsoleOptions, Sign, Threshold } from "./Model";
+import { ConsoleMessageOptionsModel, Sign, Threshold } from "./Model";
 
 export interface ConsoleMessagesOptionsProps {
     isOpen: boolean;
     performance: Threshold;
     size: Threshold;
-    onChangeOptions: (consoleOptions: Partial<ConsoleOptions>) => void;
+    onChangeOptions: (consoleOptions: Partial<ConsoleMessageOptionsModel>) => void;
 }
 
 export interface ConsoleMessagesOptionsState {
@@ -15,16 +15,16 @@ export interface ConsoleMessagesOptionsState {
 export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptionsProps, ConsoleMessagesOptionsState> {
     public constructor(props: ConsoleMessagesOptionsProps) {
         super(props);
-        this.setState({ levenshteinThreshold: undefined });
+        this.state = { levenshteinThreshold: undefined };
     }
     public render(): JSX.Element | undefined {
         const classOptions = "console-options " + (this.props.isOpen ? "console-options-open" : "console-options-close");
         return <div className={classOptions}>
             <div>
                 <label>Performance threshold:</label>
-                <select onChange={(e) => this.onPerformanceThresholdSignChange(e)}>
-                    <option value="gt" selected={this.props.performance.sign === "gt"}>Greater</option>
-                    <option value="lt" selected={this.props.performance.sign === "lt"}>Smaller</option>
+                <select onChange={(e) => this.onPerformanceThresholdSignChange(e)} value={this.props.performance.sign}>
+                    <option value="gt">Greater</option>
+                    <option value="lt">Smaller</option>
                 </select>
                 <input
                     type="textbox"
@@ -38,9 +38,9 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
             </div>
             <div>
                 <label>Payload size threshold:</label>
-                <select onChange={(e) => this.onSizeThresholdSignChange(e)}>
-                    <option value="gt" selected={this.props.size.sign === "gt"}>Greater</option>
-                    <option value="lt" selected={this.props.size.sign === "lt"}>Smaller</option>
+                <select onChange={(e) => this.onSizeThresholdSignChange(e)} value={this.props.size.sign}>
+                    <option value="gt">Greater</option>
+                    <option value="lt">Smaller</option>
                 </select>
                 <input
                     type="textbox"
