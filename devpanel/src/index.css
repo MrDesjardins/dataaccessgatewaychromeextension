@@ -18,6 +18,7 @@ body {
 }
 
 .Graph .IndividualGraph{
+  position:relative; /*Allow to positionate with absolute the big number on top of canvas*/
   flex:1;
   margin: auto;
   padding: 10px;
@@ -29,6 +30,21 @@ body {
 .Graph .IndividualGraph canvas{
   margin: auto;
 }
+.Graph .IndividualGraph .highlight-number-on-graph {
+  position:absolute;
+  top: 10px;
+  right:10px;
+  color:#737c9a;
+}
+
+.Graph .IndividualGraph .highlight-number-on-graph .number {
+  font-size: 50px;
+  text-shadow: #b2b9ce 1px 1px 1px, #383c4a -1px -1px 1px;
+}
+.Graph .IndividualGraph .highlight-number-on-graph .unit {
+  font-size: 10px;
+}
+/****** CONSOLE *****/
 .ConsoleMessages {
   display:flex;
   flex-direction: column;
@@ -97,9 +113,6 @@ body {
 .ConsoleMessages ul li .row{
   display:flex;
   cursor: pointer;
-}
-.ConsoleMessages ul li .row.active-row{
-
 }
 .ConsoleMessagesLineDetails{
   padding:15px 5px 15px 5px;

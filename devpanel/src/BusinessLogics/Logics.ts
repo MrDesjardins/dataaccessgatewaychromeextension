@@ -1,4 +1,4 @@
-import { DataAction, DataSource, Message, MessageClient, Statistics, Threshold } from "./Model";
+import { DataAction, DataSource, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
 
 export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
@@ -7,6 +7,7 @@ export interface ILogics {
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
     getMessageKey(message: MessageClient): string;
+    getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
 }
 export class Logics implements ILogics {
     public extractPerformanceFromPayload(m: MessageClient): number {
@@ -216,5 +217,23 @@ export class Logics implements ILogics {
         ${encodeURI(JSON.stringify(message.payload.performanceInsight))}_
         ${encodeURI(message.payload.action)}_
         ${encodeURI(message.payload.source)}`;
+    }
+
+    public getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType {
+        let bigger = statistics.memoryBytes;
+        if (statistics.persistenceStorageBytes > bigger) {
+            bigger = statistics.persistenceStorageBytes;
+        }
+        if (statistics.httpBytes > bigger) {
+            bigger = statistics.httpBytes;
+        }
+        const biggerWithUnit = sizeConversation(bigger);
+        let divider = getDividerSize(biggerWithUnit);
+        return {
+            unit: biggerWithUnit.unit,
+            memory: statistics.memoryBytes / divider,
+            db: statistics.persistenceStorageBytes / divider,
+            http: statistics.httpBytes / divider
+        };
     }
 }

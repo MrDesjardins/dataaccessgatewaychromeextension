@@ -1,15 +1,17 @@
 import * as chartjs from "chart.js";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
-import { getDividerSize, sizeConversation, Statistics, Unit } from "../../BusinessLogics/Model";
+import { ILogics, Logics } from "../../BusinessLogics/Logics";
+import { Statistics } from "../../BusinessLogics/Model";
 import { BAR_HOVER_BACKGROUND_COLOR, BAR_HOVER_BORDER_COLOR, FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH, HTTP_BACKGROUND_COLOR, MEMORY_BACKGROUND_COLOR, PERSISTENCE_BACKGROUND_COLOR } from "./Constants";
 export interface GraphSizeBySourceProps {
     statistics: Statistics;
 }
 export class GraphSizeBySource extends React.Component<GraphSizeBySourceProps> {
 
+    private logic: ILogics = new Logics();
     public render(): JSX.Element {
-        const unitWithData = this.getDataWithBiggerUnit();
+        const unitWithData = this.logic.getDataWithBiggerUnit(this.props.statistics);
         const unit = unitWithData.unit;
         const data: ChartData<chartjs.ChartData> = {
             labels: ["Mem " + unit, "DB " + unit, "Http " + unit],
@@ -84,22 +86,5 @@ export class GraphSizeBySource extends React.Component<GraphSizeBySourceProps> {
             }
             }
         />;
-    }
-    public getDataWithBiggerUnit(): { memory: number, db: number, http: number, unit: Unit } {
-        let bigger = this.props.statistics.memoryBytes;
-        if (this.props.statistics.persistenceStorageBytes > bigger) {
-            bigger = this.props.statistics.persistenceStorageBytes;
-        }
-        if (this.props.statistics.httpBytes > bigger) {
-            bigger = this.props.statistics.httpBytes;
-        }
-        const biggerWithUnit = sizeConversation(bigger);
-        let divider = getDividerSize(biggerWithUnit);
-        return {
-            unit: biggerWithUnit.unit,
-            memory: this.props.statistics.memoryBytes / divider,
-            db: this.props.statistics.persistenceStorageBytes / divider,
-            http: this.props.statistics.httpBytes / divider
-        };
     }
 }

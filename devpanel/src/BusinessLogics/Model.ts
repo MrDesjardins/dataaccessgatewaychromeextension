@@ -132,6 +132,13 @@ export interface Threshold {
     sign: Sign;
 }
 
+export interface MemorySizesByType {
+    memory: number;
+    db: number;
+    http: number;
+    unit: Unit;
+}
+
 export const CSS_TIME = "time";
 export const CSS_SOURCE = "source";
 export const CSS_ACTION = "action";
