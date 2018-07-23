@@ -2,12 +2,12 @@
 
 This is the source code for the [Data Access Gateway library](https://github.com/MrDesjardins/dataaccessgateway). The goal of this Chrome Extension is to receive statistics about how the data is fetched and saved by the library.
 
-![alt text](./readmeAssets/SceenshotDataAccessGatewayExtensionChrome.png)
+![alt text](./readmeAssets/DataAccessGatewayOverview.png)
 
 ## Why?
 The extension goal is to provide insight about how the library is manipulating the data. It will indicate how many question are still pending (on-going request), and will give information about which source of data is trying read and write (memory, IndexDb or Http). It also give statistic to which of the three source the data is used as well as a complete list of URL (id) that is being accessed by the system.
 
-![alt text](./readmeAssets/AnimatedDAGExtension.gif)
+![alt text](./readmeAssets/DataAccessGatewayAnimated.gif)
 
 ## Features
 The extension is literally the extension of the [Data Access Gateway library](https://github.com/MrDesjardins/dataaccessgateway). It gives insight about what is being used, when, what was the size of the payload and how long it tooks to be distributed to your application. It shows if the memory cache, or the persisted cache (IndexDb) is used and how many requests and bytes are you saving.
@@ -37,13 +37,13 @@ The extension is literally the extension of the [Data Access Gateway library](ht
 ### Header
 The header of the console can be clicked. It will open a panel. The panel contains option to filter the grid. Changing the value will trim the number of result in the grid allowing to see large payload in size or long request.
 
-![alt text](./readmeAssets/TableHeaderOptionPanel.png)
+![alt text](./readmeAssets/DataAccessGatewayConsoleOption.png)
 
 ### Line
 
 Every line of the console can be clicked. It opens the detailled view of a single request. The view allows to see in detail every ID (URL) that was executed to compare it against the one selected. This will filter by the line "action". For example, if the selected time is an action of "use" it will generate a graph of all the "action" for the same url. However, this is configurable. It is possible to use a slider to move a threshold value which will be used to compare ID (URL) with the Levenshtein algorithm. The configuration allows to bring in the analysis ID (URL) that change because of query string value that are different. For example, in the image below, the threshold is set to 1. It allows 1 character permutation. The line is for "http://url2" but the analysis includes "http://url1" as well. This can be adjusted to work for REST Api URL format and allow to see if specific parameter influence the performance or the payload size.
 
-![alt text](./readmeAssets/DiveInConsoleLineView.png)
+![alt text](./readmeAssets/DataAccessGatewayConsoleLineDetail.png)
 
 
 # Developer Readme
