@@ -185,7 +185,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                 <ul>
                     {uniq.map((m, index) => {
                         const idUrl = this.props.isDemoModeEnabled ? btoa(m) : m;
-                        return <li className={classCompareLine} key={index}>{idUrl}</li>;
+                        return <li className={classCompareLine} key={index} title={idUrl}>{idUrl}</li>;
                     })}
                 </ul>
             </div>

@@ -8,7 +8,7 @@ body {
 
 .App{
   display: grid;
-	grid-template-rows: 100px 300px auto 50px;
+	grid-template-rows: 120px 300px auto 50px;
 	grid-template-columns: 1fr;
 	height: 100vh;
 }
@@ -40,16 +40,17 @@ body {
   position:absolute;
   top: 10px;
   right:10px;
-  color:#737c9a;
+  color:#bc75d0;
 }
 
 .Graph .IndividualGraph .highlight-number-on-graph .number {
   font-size: 50px;
-  text-shadow: #b2b9ce 1px 1px 1px, #383c4a -1px -1px 1px;
+  text-shadow: #a566e0 1px 1px 1px, #323252 -1px -1px 1px;
 }
 .Graph .IndividualGraph .highlight-number-on-graph .unit {
   font-size: 10px;
   margin-left:2px;
+  color: #d9b1e4;
 }
 /****** CONSOLE *****/
 .ConsoleMessages {
