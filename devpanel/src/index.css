@@ -366,6 +366,7 @@ body {
 .actionInput input,
 button{
   cursor: pointer;
+  vertical-align: middle;
 }
 .actionInput{
   border: 1px solid #778387;
@@ -374,7 +375,7 @@ button{
 }
 button,
 .actionInput{
-  background-color: #778488;
+  background-color: #27304d;
   border-color: #27304d;
   color: #ffe0fd;
   font-size: 14px;
@@ -383,6 +384,7 @@ button,
   margin: 3px;
   border-radius: 6px;
   border-style: solid;
+  letter-spacing: 0.1em;
 }
 
 button:hover{
@@ -395,4 +397,52 @@ button:active {
 
 .demo-mode{
   filter: blur(2px);
+}
+
+/*===== Checkbox =====*/
+input[type="checkbox"] {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  background:#182038;
+  height: 16px;
+  width: 16px;
+  border: 1px solid white;
+}
+
+input[type="checkbox"]:checked {
+  background: #ac8fc0;
+}
+
+input[type="checkbox"]:hover {
+  filter: brightness(90%);
+}
+
+input[type="checkbox"]:disabled {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+input[type="checkbox"]:after {
+  content: '';
+  position: relative;
+  left: 40%;
+  top: 20%;
+  width: 15%;
+  height: 40%;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  display: none;
+}
+
+input[type="checkbox"]:checked:after {
+  display: block;
+}
+
+input[type="checkbox"]:disabled:after {
+  border-color: #7b7b7b;
 }
