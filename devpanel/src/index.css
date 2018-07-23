@@ -27,6 +27,12 @@ body {
   background-color:#27304d;
 }
 
+.Graph .IndividualGraph,
+.ConsoleMessages .ConsoleMessage-items .console-chart{
+  background: linear-gradient(45deg, rgba(40,49,77,1) 0%,rgba(98, 55, 114, 0.81) 47%,rgba(24,33,56,1) 100%);
+  box-shadow: #0c101d 1px 1px 5px;
+}
+
 .Graph .IndividualGraph canvas{
   margin: auto;
 }
@@ -120,13 +126,19 @@ body {
   background-color: #182038;
   box-shadow: #1a242b 0px 2px 6px;
   display:flex;
-  height:230px;
+  height:250px;
 }
 .ConsoleMessages .ConsoleMessage-items .console-chart{
   width:500px;
+  padding:10px;
+  border-radius:15px;
 }
 .ConsoleMessagesLineDetails .slider{
-  width:100px;
+  width:330px;
+}
+
+.ConsoleMessagesLineDetails .levenshteinValue{
+  margin-left:5px;
 }
 
 .ConsoleMessagesLineDetails .console-chart-and-options{
@@ -134,7 +146,7 @@ body {
 }
 .ConsoleMessagesLineDetails .console-chart-options{
   line-height: 20px;
-  margin: 0;
+  margin: 10px 0 5px 0;
   padding: 0;
   height: 20px;
 }
