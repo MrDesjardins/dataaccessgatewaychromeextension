@@ -69,15 +69,15 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                     yAxisID: "y-axis-performance",
                     label: "Performance",
                     data: labelData.map((arr) => arr[1] as number / dividerPerformance),
-                    borderColor: "#EC932F",
-                    backgroundColor: "#EC932F",
+                    borderColor: "#ac77f1",
+                    backgroundColor: "#ac77f1",
                 },
                 {
                     yAxisID: "y-axis-size",
                     label: "Size",
                     data: labelData.map((arr) => arr[2] as number / dividerSize),
-                    backgroundColor: "#71B37C",
-                    borderColor: "#71B37C",
+                    backgroundColor: "#8477f1",
+                    borderColor: "#8477f1",
                 }
             ]
         };

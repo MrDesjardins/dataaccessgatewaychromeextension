@@ -224,13 +224,13 @@ body {
   flex: 0 0 160px;
 }
 .ConsoleMessages ul li div.source.MemoryCache{
-  color:#45e882;
+  color:#a566e0;
 }
 .ConsoleMessages ul li div.source.PersistentStorageCache{
-  color:#e0ac2c;
+  color:#bc75d0;
 }
 .ConsoleMessages ul li div.source.HttpRequest{
-  color:#ff6060;
+  color:#d851ab;
 }
 .ConsoleMessages ul li div.performance span.size{
   font-size: 0.7em;
@@ -253,15 +253,15 @@ body {
   animation: backgrounderror 8s infinite;
 }
 @keyframes backgrounderror {
-  0%   {  background-color: rgba(253, 60, 0, 0.2);}
-  20%  {  background-color: rgba(253, 60, 0, 0.2);}
-  25%  {  background-color: rgba(253, 60, 0, 0.8);}
-  30%  {  background-color: rgba(253, 60, 0, 0.5);}
-  35%  {  background-color: rgba(253, 60, 0, 0.8);}
-  40%  {  background-color: rgba(253, 60, 0, 0.5);}
-  55%  {  background-color: rgba(253, 60, 0, 0.8);}
-  80%  {  background-color: rgba(253, 60, 0, 0.2);}
-  100% {  background-color: rgba(253, 60, 0, 0.2);}
+  0%   {  background-color: rgba(209, 34, 87, 0.2);}
+  20%  {  background-color: rgba(209, 34, 87, 0.2);}
+  25%  {  background-color: rgba(209, 34, 87, 0.8);}
+  30%  {  background-color: rgba(209, 34, 87, 0.5);}
+  35%  {  background-color: rgba(209, 34, 87, 0.8);}
+  40%  {  background-color: rgba(209, 34, 87, 0.5);}
+  55%  {  background-color: rgba(209, 34, 87, 0.8);}
+  80%  {  background-color: rgba(209, 34, 87, 0.2);}
+  100% {  background-color: rgba(209, 34, 87, 0.2);}
 }
 
 .ConsoleMessages .console-options{

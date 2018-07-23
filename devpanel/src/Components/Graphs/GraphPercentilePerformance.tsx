@@ -3,7 +3,7 @@ import * as chartjs from "chart.js";
 import * as React from "react";
 import { ChartData, Line } from "react-chartjs-2";
 import { Statistics } from "../../BusinessLogics/Model";
-import { BAR_SAVE_BACKGROUND_COLOR, BAR_USE_BACKGROUND_COLOR, FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH } from "./Constants";
+import { FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH, HTTP_BACKGROUND_COLOR, PERSISTENCE_BACKGROUND_COLOR } from "./Constants";
 
 export interface GraphPercentilePerformanceProps {
     statistics: Statistics;
@@ -28,7 +28,7 @@ export class GraphPercentilePerformance extends React.Component<GraphPercentileP
         let httpArray = [http5th, http25th, http50th, http75th, http95th, http99th];
         httpArray = httpArray.map(d => { if (d === undefined) { return 0; } else { return d; } });
         let unit: string = "ms";
-        if (http99th > 10000) {
+        if (http99th >= 1000) {
             unit = "s";
             httpArray = httpArray.map(d => d / 1000);
             dbArray = dbArray.map(d => d / 1000);
@@ -39,8 +39,8 @@ export class GraphPercentilePerformance extends React.Component<GraphPercentileP
             datasets: [
                 {
                     label: "Persistent",
-                    backgroundColor: BAR_SAVE_BACKGROUND_COLOR,
-                    borderColor: BAR_SAVE_BACKGROUND_COLOR,
+                    backgroundColor: PERSISTENCE_BACKGROUND_COLOR,
+                    borderColor: PERSISTENCE_BACKGROUND_COLOR,
                     pointBackgroundColor: "rgba(179,181,198,1)",
                     pointBorderColor: "#fff",
                     pointHoverBackgroundColor: "#fff",
@@ -49,8 +49,8 @@ export class GraphPercentilePerformance extends React.Component<GraphPercentileP
                 },
                 {
                     label: "Http",
-                    backgroundColor: BAR_USE_BACKGROUND_COLOR,
-                    borderColor: BAR_USE_BACKGROUND_COLOR,
+                    backgroundColor: HTTP_BACKGROUND_COLOR,
+                    borderColor: HTTP_BACKGROUND_COLOR,
                     pointBackgroundColor: "rgba(255,99,132,1)",
                     pointBorderColor: "#fff",
                     pointHoverBackgroundColor: "#fff",

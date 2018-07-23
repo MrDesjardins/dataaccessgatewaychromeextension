@@ -2,7 +2,7 @@ import * as chartjs from "chart.js";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
 import { Statistics } from "../../BusinessLogics/Model";
-import { BAR_HOVER_BACKGROUND_COLOR, BAR_HOVER_BORDER_COLOR, BAR_READ_BACKGROUND_COLOR, BAR_SAVE_BACKGROUND_COLOR, BAR_USE_BACKGROUND_COLOR, FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH } from "./Constants";
+import { BAR_HOVER_BACKGROUND_COLOR, BAR_HOVER_BORDER_COLOR, FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH, HTTP_BACKGROUND_COLOR, MEMORY_BACKGROUND_COLOR, PERSISTENCE_BACKGROUND_COLOR } from "./Constants";
 export interface GraphCountBySourceAndActionProps {
     statistics: Statistics;
 }
@@ -14,26 +14,26 @@ export class GraphCountBySourceAndAction extends React.Component<GraphCountBySou
             datasets: [
                 {
                     backgroundColor: [
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
                     ],
                     borderColor: [
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
-                        BAR_READ_BACKGROUND_COLOR,
-                        BAR_SAVE_BACKGROUND_COLOR,
-                        BAR_USE_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
+                        MEMORY_BACKGROUND_COLOR,
+                        PERSISTENCE_BACKGROUND_COLOR,
+                        HTTP_BACKGROUND_COLOR,
                     ],
                     borderWidth: 1,
                     hoverBackgroundColor: BAR_HOVER_BACKGROUND_COLOR,
