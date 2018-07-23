@@ -5,6 +5,7 @@ import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
 import { getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { FONT_COLOR } from "../Graphs/Constants";
 
 export interface ConsoleMessagesLineDetailsProps {
     message: MessageClient;
@@ -15,7 +16,6 @@ export interface ConsoleMessagesLineDetailsState {
     levenshteinThreshold: number;
 }
 export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesLineDetailsProps, ConsoleMessagesLineDetailsState> {
-    private static FONT_COLOR = "#ffe0fd";
     private logics: ILogics = new Logics(); // To inject later
     constructor(props: ConsoleMessagesLineDetailsProps) {
         super(props);
@@ -86,7 +86,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                 display: true,
                 position: "left",
                 labels: {
-                    fontColor: ConsoleMessagesLineDetails.FONT_COLOR
+                    fontColor: FONT_COLOR
                 }
             },
             scales: {
@@ -95,7 +95,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                     position: "left",
                     type: "linear",
                     ticks: {
-                        fontColor: ConsoleMessagesLineDetails.FONT_COLOR,
+                        fontColor: FONT_COLOR,
                         fontSize: 10,
                         beginAtZero: true,
                         callback: function (value: number, index: number) {
@@ -108,7 +108,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                     position: "right",
                     type: "linear",
                     ticks: {
-                        fontColor: ConsoleMessagesLineDetails.FONT_COLOR,
+                        fontColor: FONT_COLOR,
                         fontSize: 10,
                         beginAtZero: true,
                         callback: function (value: number, index: number) {
@@ -123,7 +123,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: ConsoleMessagesLineDetails.FONT_COLOR,
+                        fontColor: FONT_COLOR,
                         fontSize: 10,
                         beginAtZero: false,
                         callback: function (value: any, index: any, values: any[]): string {
