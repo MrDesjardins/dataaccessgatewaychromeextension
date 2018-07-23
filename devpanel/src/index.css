@@ -43,6 +43,7 @@ body {
 }
 .Graph .IndividualGraph .highlight-number-on-graph .unit {
   font-size: 10px;
+  margin-left:2px;
 }
 /****** CONSOLE *****/
 .ConsoleMessages {
