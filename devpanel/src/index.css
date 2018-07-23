@@ -170,7 +170,7 @@ body {
 .ConsoleMessagesLineDetails .slider {
   appearance: none;
   height: 15px;
-  background: #d3d3d3;
+  background: #edbefb;
   outline: none;
   opacity: 0.7;
   transition: opacity .2s;
@@ -185,14 +185,14 @@ body {
   appearance: none;
   width: 15px;
   height: 15px;
-  background: #4CAF50;
+  background: #8f3fa6;
   cursor: pointer;
 }
 
 .ConsoleMessagesLineDetails .slider::-moz-range-thumb {
   width: 15px;
   height: 15px;
-  background: #4CAF50;
+  background: #8f3fa6;
   cursor: pointer;
 }
 
@@ -210,8 +210,12 @@ body {
 .ConsoleMessages ul li div.action.Fetch{
   color:rgba(247, 77, 255);
 }
-.ConsoleMessages ul li div.action.Use{
-  color:rgb(67, 233, 130);
+.ConsoleMessages ul li div.action.Use>span{
+  color: rgb(67, 233, 130);
+  background-color: #358d67;
+  border-radius: 2px;
+  padding: 1px 3px 1px 3px;
+  text-shadow: #283e34 1px 1px 1px;
 }
 .ConsoleMessages ul li div.action.Save{
   color:rgb(55, 160, 255);
@@ -241,10 +245,6 @@ body {
 }
 .ConsoleMessages ul li:nth-of-type(odd) {
   background: #182038;
-}
-.ConsoleMessages ul li.line-use .row{
-  background-color: rgba(71, 153, 102, 0.5);
-  color: #98ffee;
 }
 
 .ConsoleMessages ul li.line-error .row{
@@ -287,6 +287,13 @@ body {
 .ConsoleMessages .console-options input{
   margin-right:5px;
   display: inline-block;
+}
+.ConsoleMessages .console-options select,
+.ConsoleMessages .console-options input{
+  border-style: solid;
+  background-color: #182038;
+  color: white;
+  border: 1px solid #778488;
 }
 .ConsoleMessages .console-options label{
   width:130px;

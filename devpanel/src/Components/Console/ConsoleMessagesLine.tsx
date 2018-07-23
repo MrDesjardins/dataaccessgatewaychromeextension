@@ -44,11 +44,11 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
         const compositeKey = this.logics.getMessageKey(m);
         return <li key={compositeKey} className={lineStyles}>
             <div className={rowStyles} onClick={() => this.onLineClick(m)}>
-                <div className={CSS_TIME} title={m.incomingDateTime}>{moment(m.incomingDateTime).fromNow()}</div>
-                <div className={actionStyles}>{m.payload.action}</div>
-                <div className={sourceStyles}>{m.payload.source}</div>
-                <div className={performanceStyles}>{performanceString}<span className="size">{sizeString}</span></div>
-                <div className={idStyles} title={idUrl}>{idUrl}</div>
+                <div className={CSS_TIME} title={m.incomingDateTime}><span>{moment(m.incomingDateTime).fromNow()}</span></div>
+                <div className={actionStyles}><span>{m.payload.action}</span></div>
+                <div className={sourceStyles}><span>{m.payload.source}</span></div>
+                <div className={performanceStyles}><span>{performanceString}</span><span className="size">{sizeString}</span></div>
+                <div className={idStyles} title={idUrl}><span>{idUrl}</span></div>
             </div>
             {this.renderActiveLine(m)}
         </li>;
