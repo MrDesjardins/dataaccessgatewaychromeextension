@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, MessageClient } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
 export interface ConsoleMessagesProps {
@@ -40,7 +40,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     <div className={CSS_SOURCE}>Source</div>
                     <div className={CSS_ACTION}>Action</div>
                     <div className={CSS_PERFORMANCE}>Perf</div>
-                    <div className={CSS_ID}>Id/Url</div>
+                    <div className={CSS_URL}>Url</div>
                 </li>}
                 <ConsoleMessagesOptions
                     isOpen={this.state.isConsoleHeaderOpen}

@@ -2,7 +2,7 @@ export enum DataSource {
     HttpRequest = "HttpRequest",
     MemoryCache = "MemoryCache",
     PersistentStorageCache = "PersistentStorageCache",
-    System = "System",
+    System = "System"
 }
 export enum DataAction {
     Save = "Save",
@@ -12,7 +12,7 @@ export enum DataAction {
     WaitingOnGoingRequest = "WaitingOnGoingRequest",
     AddFromOnGoingRequest = "AddFromOnGoingRequest",
     RemoveFromOnGoingRequest = "RemoveFromOnGoingRequest",
-    System = "System",
+    System = "System"
 }
 export interface PerformanceTimeMarker {
     startMs: number;
@@ -25,19 +25,19 @@ export interface PerformanceRequestInsight {
     httpRequest?: PerformanceTimeMarker;
     dataSizeInBytes?: number;
 }
-export interface LogError {
-    kind: "LogError";
-    id: string;
-    action: DataAction;
+export interface LogBase {
     source: DataSource;
+    action: DataAction;
+    id: string;
+    url: string;
     performanceInsight?: PerformanceRequestInsight;
 }
-export interface LogInfo {
+export interface LogError extends LogBase {
+    kind: "LogError";
+    error: any;
+}
+export interface LogInfo extends LogBase {
     kind: "LogInfo";
-    id: string;
-    action: DataAction;
-    source: DataSource;
-    performanceInsight?: PerformanceRequestInsight;
 }
 export interface Message {
     id: string;
@@ -82,7 +82,6 @@ export interface Statistics {
     fetchMs: FetchPerformances;
 
     bytesInCacheRate: number;
-
 }
 export interface ConsoleMessageOptionsModel {
     performance: Threshold;
@@ -143,4 +142,4 @@ export const CSS_TIME = "time";
 export const CSS_SOURCE = "source";
 export const CSS_ACTION = "action";
 export const CSS_PERFORMANCE = "performance";
-export const CSS_ID = "idurl";
+export const CSS_URL = "idurl";

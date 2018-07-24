@@ -31,14 +31,14 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
         let listSimilarIds: MessageClient[] = [];
         for (let iMessage = this.props.listMessages.length - 1; iMessage >= 0; iMessage--) {
             const msg = this.props.listMessages[iMessage];
-            let isSimilarId = false;
+            let isSimilarURL = false;
             if (this.state.levenshteinThreshold === 0) {
-                isSimilarId = msg.payload.id === this.props.message.payload.id;
+                isSimilarURL = msg.payload.url === this.props.message.payload.url;
             } else {
-                const lv = Levenshtein.get(msg.payload.id, this.props.message.payload.id);
-                isSimilarId = lv <= this.state.levenshteinThreshold;
+                const lv = Levenshtein.get(msg.payload.url, this.props.message.payload.url);
+                isSimilarURL = lv <= this.state.levenshteinThreshold;
             }
-            if (isSimilarId && msg.payload.action === this.props.message.payload.action) {
+            if (isSimilarURL && msg.payload.action === this.props.message.payload.action) {
                 listSimilarIds.push(msg);
             }
         }
@@ -153,7 +153,7 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
             }
         };
         const levenshteinValue = this.state.levenshteinThreshold;
-        const c = new Set(listSimilarIds.map(d => d.payload.id));
+        const c = new Set(listSimilarIds.map(d => d.payload.url));
         const uniq = [...Array.from(c)];
         const classCompareLine = `compareLine ${this.props.isDemoModeEnabled ? "demo-mode" : ""}`;
         return <div className="ConsoleMessagesLineDetails">
@@ -181,11 +181,11 @@ export class ConsoleMessagesLineDetails extends React.Component<ConsoleMessagesL
                 </div>
             </div>
             <div className="console-chart-listMessageComparedAgainst">
-                <h3>Id/Url Compared Against</h3>
+                <h3>Url Compared Against</h3>
                 <ul>
                     {uniq.map((m, index) => {
-                        const idUrl = this.props.isDemoModeEnabled ? btoa(m) : m;
-                        return <li className={classCompareLine} key={index} title={idUrl}>{idUrl}</li>;
+                        const url = this.props.isDemoModeEnabled ? btoa(m) : m;
+                        return <li className={classCompareLine} key={index} title={url}>{url}</li>;
                     })}
                 </ul>
             </div>

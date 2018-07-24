@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import * as React from "react";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { CSS_ACTION, CSS_ID, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, DataAction, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, DataAction, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLineDetails } from "./ConsoleMessagesLineDetails";
 export interface ConsoleMessagesLineProps {
     message: MessageClient;
@@ -25,7 +25,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
         const sourceStyles = `${CSS_SOURCE} ${m.payload.source}`;
         const actionStyles = `${CSS_ACTION} ${m.payload.action}`;
         const performanceStyles = `${CSS_PERFORMANCE} ${m.payload.source}`;
-        const idStyles = `${CSS_ID} ${this.props.demoModeEnabled ? "demo-mode" : ""}`;
+        const idStyles = `${CSS_URL} ${this.props.demoModeEnabled ? "demo-mode" : ""}`;
         let performance = 0;
         let performanceString = "";
         let sizeString = "";
@@ -39,7 +39,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                 }
             }
         }
-        const idUrl = this.props.demoModeEnabled ? btoa(m.payload.id) : m.payload.id;
+        const idUrl = this.props.demoModeEnabled ? btoa(m.payload.url) : m.payload.url;
         const rowStyles = "row" + (this.state.activeMessage === m ? " active-row" : "");
         const compositeKey = this.logics.getMessageKey(m);
         return <li key={compositeKey} className={lineStyles}>
