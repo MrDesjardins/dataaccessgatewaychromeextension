@@ -59,10 +59,12 @@ _The panel is what is injected inside Chrome Developer tool. This is what should
 
 1. At the root: `npm install`
 2. Move to the `devpanel`
-3. `yarn install`
+3. `npm install`
 4. To run in browser: `npm run start`
+
 or
-4. To build: `npm run fullbuildmac`. This will build and move the files in the extension `dist` folder. You can then use Chrome to load that folder from `chrome://extensions` and use the extension on real website using the Data Access Gateway library.
+
+4. To build: `npm run build`. This will build and move the files in the root (extension) `dist`. You can then use Chrome to load the root `dist` folder from `chrome://extensions` and use the extension on real website using the Data Access Gateway library. However, you must follow the next section step to generate the manifest.json file in the `dist` folder as well.
 
 ## Here are the steps for building the Chrome's extension
 _The Chrome Extension is what communicate between the library and the Chrome's extension. This should rarely be changed._
@@ -73,11 +75,13 @@ _The Chrome Extension is what communicate between the library and the Chrome's e
 
 ## When developing the extension, make sure to always
 
-1. Load once the extension from the Chrome's Extension `chrome://extensions`
-2. Close and open the Chrome's Dev Tools every time `npm run fullbuildmac` is executed
+1. Build your code. Chrome will not read the code from `run start` but only from the `dist` folder.
+2. Load once the extension from the Chrome's Extension `chrome://extensions` to point to the root `dist` folder.
+3. Close and open the Chrome's Dev Tools every time after `npm run build` is executed.
 
 # Todos
 
 1. Unit tests
 2. Large data set make the UI lag. Too much information is loaded in the console. We could use some virtualization and purge some data after some time.
 3. UI could be improved. A balance between simplicity and density of information should be always respected.
+4. Find a way to have the creat-react-app to be unminimized for debugging purpose
