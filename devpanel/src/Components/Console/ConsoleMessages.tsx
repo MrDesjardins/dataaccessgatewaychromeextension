@@ -130,7 +130,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         }
         if (this.list !== null) {
             this.list.recomputeRowHeights();
-            this.list.forceUpdate();
+            // this.list.forceUpdate();
         }
     }
     private onConsoleMessagesOptionsChange(options: Partial<ConsoleMessageOptionsModel>): void {
