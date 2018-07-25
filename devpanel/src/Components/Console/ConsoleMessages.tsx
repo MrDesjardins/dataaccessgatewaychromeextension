@@ -32,7 +32,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 size: {
                     value: "",
                     sign: "gt"
-                }
+                },
+                charTrimmedFromUrl: 0
             },
             filteredData: []
         };
@@ -117,6 +118,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 demoModeEnabled={this.props.demoModeEnabled}
                 onClick={(msg, o) => this.lineOnClick(msg, o)}
                 isOpen={this.openMessages[m.uuid] !== undefined}
+                charTrimmedFromUrl={this.state.consoleMessageOptions.charTrimmedFromUrl}
             />
         );
     }
@@ -134,16 +136,9 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         }
     }
     private onConsoleMessagesOptionsChange(options: Partial<ConsoleMessageOptionsModel>): void {
-        if (options.performance !== undefined) {
-            const existingState = { ...this.state };
-            existingState.consoleMessageOptions.performance = options.performance;
-            this.setState({ consoleMessageOptions: existingState.consoleMessageOptions });
-        }
-        if (options.size !== undefined) {
-            const existingState = { ...this.state };
-            existingState.consoleMessageOptions.size = options.size;
-            this.setState({ consoleMessageOptions: existingState.consoleMessageOptions });
-        }
+        const existingState = { ...this.state };
+        existingState.consoleMessageOptions = { ...this.state.consoleMessageOptions, ...options };
+        this.setState(existingState);
     }
 
     private onHeaderClick(): void {

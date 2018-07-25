@@ -87,6 +87,7 @@ export interface Statistics {
 export interface ConsoleMessageOptionsModel {
     performance: Threshold;
     size: Threshold;
+    charTrimmedFromUrl: number;
 }
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";
 export interface SizeUnit {

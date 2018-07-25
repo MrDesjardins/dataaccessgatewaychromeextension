@@ -10,6 +10,7 @@ export interface ConsoleMessagesLineProps {
     style: React.CSSProperties;
     onClick: (message: MessageClient, isOpen: boolean) => void;
     isOpen: boolean;
+    charTrimmedFromUrl: number;
 }
 export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProps> {
     private logics: ILogics = new Logics();
@@ -39,7 +40,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                 }
             }
         }
-        const idUrl = this.props.demoModeEnabled ? btoa(m.payload.url) : m.payload.url;
+        const url = this.props.demoModeEnabled ? btoa(m.payload.url) : m.payload.url;
         const rowStyles = "row" + (this.props.isOpen ? " active-row" : "");
 
         return (
@@ -58,8 +59,8 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                         <span>{performanceString}</span>
                         <span className="size">{sizeString}</span>
                     </div>
-                    <div className={idStyles} title={idUrl}>
-                        <span>{idUrl}</span>
+                    <div className={idStyles} title={url}>
+                        <span>{url.substring(this.props.charTrimmedFromUrl)}</span>
                     </div>
                 </div>
                 {this.renderActiveLine(m)}
@@ -74,6 +75,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                     message={m}
                     listMessages={this.props.listMessages}
                     isDemoModeEnabled={this.props.demoModeEnabled}
+                    charTrimmedFromUrl={this.props.charTrimmedFromUrl}
                 />
             );
         } else {
