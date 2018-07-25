@@ -1,8 +1,10 @@
 import * as React from "react";
+import { AutoSizer, Index, List, ListRowProps, ListRowRenderer } from "react-virtualized";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
 import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
+
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoModeEnabled?: boolean;
@@ -11,10 +13,13 @@ export interface ConsoleMessagesProps {
 export interface ConsoleMessagesState {
     isConsoleHeaderOpen: boolean;
     consoleMessageOptions: ConsoleMessageOptionsModel;
+    filteredData: MessageClient[];
 }
 
 export class ConsoleMessages extends React.Component<ConsoleMessagesProps, ConsoleMessagesState> {
-    private logics: ILogics = new Logics(); // To inject later
+    static logics: ILogics = new Logics(); // To inject later
+    private openMessages: { [key: string]: string } = {};
+    private list: List | null = null;
     public constructor(props: ConsoleMessagesProps) {
         super(props);
         this.state = {
@@ -28,41 +33,108 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     value: "",
                     sign: "gt"
                 }
-            }
+            },
+            filteredData: []
+        };
+    }
+
+    public static getDerivedStateFromProps(
+        props: ConsoleMessagesProps,
+        state: ConsoleMessagesState
+    ): ConsoleMessagesState {
+        const allData = props.listMessages.filter(m =>
+            ConsoleMessages.logics.filterConsoleMessages(
+                m,
+                state.consoleMessageOptions.performance,
+                state.consoleMessageOptions.size
+            )
+        );
+        return {
+            ...state,
+            filteredData: allData
         };
     }
     public render(): JSX.Element {
-        const tableHeaderClass = `ConsoleMessage-header ${this.state.isConsoleHeaderOpen ? "ConsoleMessage-header-open" : ""}`;
-        return <div className="ConsoleMessages">
-            <ul className={tableHeaderClass}>
-                {<li key="tableheader" className="tableheader" onClick={() => { this.onHeaderClick(); }}>
-                    <div className={CSS_TIME}>Time</div>
-                    <div className={CSS_SOURCE}>Source</div>
-                    <div className={CSS_ACTION}>Action</div>
-                    <div className={CSS_PERFORMANCE}>Perf</div>
-                    <div className={CSS_URL}>Url</div>
-                </li>}
-                <ConsoleMessagesOptions
-                    isOpen={this.state.isConsoleHeaderOpen}
-                    performance={this.state.consoleMessageOptions.performance}
-                    size={this.state.consoleMessageOptions.size}
-                    onChangeOptions={(p) => this.onConsoleMessagesOptionsChange(p)}
-                />
-            </ul>
-            <ul className="ConsoleMessage-items">
-                {this.props.listMessages
-                    .filter((m) => this.logics.filterConsoleMessages(m, this.state.consoleMessageOptions.performance, this.state.consoleMessageOptions.size))
-                    .map((m: MessageClient) => <ConsoleMessagesLine
-                        key={this.logics.getMessageKey(m)}
-                        message={m}
-                        listMessages={this.props.listMessages}
-                        demoModeEnabled={this.props.demoModeEnabled}
-                    />)
-                }
-            </ul>
-        </div>;
+        const tableHeaderClass = `ConsoleMessage-header ${
+            this.state.isConsoleHeaderOpen ? "ConsoleMessage-header-open" : ""
+        }`;
+        return (
+            <div className="ConsoleMessages">
+                <ul className={tableHeaderClass}>
+                    {
+                        <li
+                            key="tableheader"
+                            className="tableheader"
+                            onClick={() => {
+                                this.onHeaderClick();
+                            }}
+                        >
+                            <div className={CSS_TIME}>Time</div>
+                            <div className={CSS_SOURCE}>Source</div>
+                            <div className={CSS_ACTION}>Action</div>
+                            <div className={CSS_PERFORMANCE}>Perf</div>
+                            <div className={CSS_URL}>Url</div>
+                        </li>
+                    }
+                    <ConsoleMessagesOptions
+                        isOpen={this.state.isConsoleHeaderOpen}
+                        performance={this.state.consoleMessageOptions.performance}
+                        size={this.state.consoleMessageOptions.size}
+                        onChangeOptions={p => this.onConsoleMessagesOptionsChange(p)}
+                    />
+                </ul>
+                <ul className="ConsoleMessage-items">
+                    <AutoSizer>
+                        {({ width, height }) => (
+                            <List
+                                ref={r => (this.list = r)}
+                                className="patrick"
+                                height={height}
+                                rowCount={this.state.filteredData.length}
+                                rowHeight={this._rowHeight}
+                                rowRenderer={this._rowRenderer}
+                                width={width}
+                            />
+                        )}
+                    </AutoSizer>
+                </ul>
+            </div>
+        );
     }
 
+    _rowHeight = (params: Index) => {
+        return this.openMessages[this.state.filteredData[params.index].uuid] === undefined ? 18 : 300;
+        // tslint:disable-next-line:semicolon
+    };
+    _rowRenderer: ListRowRenderer = (props: ListRowProps) => {
+        const index = props.index;
+        const m = this.state.filteredData[index];
+        return (
+            <ConsoleMessagesLine
+                key={m.uuid}
+                style={props.style}
+                message={m}
+                listMessages={this.props.listMessages}
+                demoModeEnabled={this.props.demoModeEnabled}
+                onClick={(msg, o) => this.lineOnClick(msg, o)}
+                isOpen={this.openMessages[m.uuid] !== undefined}
+            />
+        );
+        // tslint:disable-next-line:semicolon
+    };
+
+    private lineOnClick(msg: MessageClient, isOpen: boolean): void {
+        const unique = msg.uuid;
+        if (isOpen) {
+            this.openMessages[unique] = unique;
+        } else {
+            delete this.openMessages[unique];
+        }
+        if (this.list !== null) {
+            this.list.recomputeRowHeights();
+            this.list.forceUpdate();
+        }
+    }
     private onConsoleMessagesOptionsChange(options: Partial<ConsoleMessageOptionsModel>): void {
         if (options.performance !== undefined) {
             const existingState = { ...this.state };

@@ -11,7 +11,8 @@
         "react-chartjs-2": "^2.7.2",
         "react-countup": "^3.0.3",
         "react-dom": "^16.4.1",
-        "react-scripts-ts": "2.16.0"
+        "react-scripts-ts": "2.16.0",
+        "uuid": "^3.3.2"
     },
     "scripts": {
         "start": "node node_modules/cross-env/dist/bin/cross-env REACT_APP_RUNENV=web react-scripts-ts start",
@@ -24,6 +25,7 @@
         "@types/node": "^10.5.1",
         "@types/react": "^16.4.6",
         "@types/react-dom": "^16.0.6",
+        "@types/uuid": "^3.4.3",
         "cpx": "^1.5.0",
         "cross-env": "^5.2.0",
         "dotenv-cli": "^1.4.0",

@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import * as uuidv4 from "uuid/v4";
 import { DataAction, DataSource, MessageClient, Statistics } from "./Model";
 // tslint:disable:max-line-length
 export class TestingData {
@@ -18,7 +19,8 @@ export class TestingData {
                         httpRequest: { startMs: 333, stopMs: 1000 }
                     }
                 },
-                incomingDateTime: moment("2018-07-01 21:30:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:30:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -36,7 +38,8 @@ export class TestingData {
                         fetch: { startMs: 0, stopMs: 60 }
                     }
                 },
-                incomingDateTime: moment("2018-07-01 21:31:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:31:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -49,7 +52,8 @@ export class TestingData {
                     action: DataAction.Fetch,
                     error: ""
                 },
-                incomingDateTime: moment("2018-07-01 21:31:10").toISOString()
+                incomingDateTime: moment("2018-07-01 21:31:10").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -66,7 +70,8 @@ export class TestingData {
                         dataSizeInBytes: 12312
                     }
                 },
-                incomingDateTime: moment("2018-07-01 21:32:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:32:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -79,7 +84,8 @@ export class TestingData {
                     action: DataAction.Use,
                     performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 }
                 },
-                incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -92,7 +98,8 @@ export class TestingData {
                     action: DataAction.Use,
                     performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 }
                 },
-                incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -105,7 +112,8 @@ export class TestingData {
                     action: DataAction.Use,
                     performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 }
                 },
-                incomingDateTime: moment("2018-07-01 21:35:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -117,7 +125,8 @@ export class TestingData {
                     source: DataSource.PersistentStorageCache,
                     action: DataAction.Save
                 },
-                incomingDateTime: moment("2018-07-01 21:35:45").toISOString()
+                incomingDateTime: moment("2018-07-01 21:35:45").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -129,7 +138,8 @@ export class TestingData {
                     source: DataSource.MemoryCache,
                     action: DataAction.Fetch
                 },
-                incomingDateTime: moment("2018-07-01 21:38:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:38:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -141,7 +151,8 @@ export class TestingData {
                     source: DataSource.MemoryCache,
                     action: DataAction.AddFromOnGoingRequest
                 },
-                incomingDateTime: moment("2018-07-01 21:39:00").toISOString()
+                incomingDateTime: moment("2018-07-01 21:39:00").toISOString(),
+                uuid: uuidv4()
             },
             {
                 id: "",
@@ -153,7 +164,8 @@ export class TestingData {
                     source: DataSource.MemoryCache,
                     action: DataAction.AddFromOnGoingRequest
                 },
-                incomingDateTime: moment("2018-07-01 21:39:10").toISOString()
+                incomingDateTime: moment("2018-07-01 21:39:10").toISOString(),
+                uuid: uuidv4()
             }
         ];
     }

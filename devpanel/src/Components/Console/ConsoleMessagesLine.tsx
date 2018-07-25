@@ -7,12 +7,11 @@ export interface ConsoleMessagesLineProps {
     message: MessageClient;
     demoModeEnabled?: boolean;
     listMessages: MessageClient[];
+    style: React.CSSProperties;
+    onClick: (message: MessageClient, isOpen: boolean) => void;
+    isOpen: boolean;
 }
-
-export interface ConsoleMessagesLineState {
-    activeMessage?: MessageClient;
-}
-export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProps, ConsoleMessagesLineState> {
+export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProps> {
     private logics: ILogics = new Logics();
     public constructor(props: ConsoleMessagesLineProps) {
         super(props);
@@ -21,7 +20,8 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
 
     public render(): JSX.Element {
         const m = this.props.message;
-        const lineStyles = m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
+        const lineStyles =
+            m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
         const sourceStyles = `${CSS_SOURCE} ${m.payload.source}`;
         const actionStyles = `${CSS_ACTION} ${m.payload.action}`;
         const performanceStyles = `${CSS_PERFORMANCE} ${m.payload.source}`;
@@ -40,37 +40,54 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
             }
         }
         const idUrl = this.props.demoModeEnabled ? btoa(m.payload.url) : m.payload.url;
-        const rowStyles = "row" + (this.state.activeMessage === m ? " active-row" : "");
-        const compositeKey = this.logics.getMessageKey(m);
-        return <li key={compositeKey} className={lineStyles}>
-            <div className={rowStyles} onClick={() => this.onLineClick(m)}>
-                <div className={CSS_TIME} title={m.incomingDateTime}><span>{moment(m.incomingDateTime).fromNow()}</span></div>
-                <div className={actionStyles}><span>{m.payload.action}</span></div>
-                <div className={sourceStyles}><span>{m.payload.source}</span></div>
-                <div className={performanceStyles}><span>{performanceString}</span><span className="size">{sizeString}</span></div>
-                <div className={idStyles} title={idUrl}><span>{idUrl}</span></div>
-            </div>
-            {this.renderActiveLine(m)}
-        </li>;
+        const rowStyles = "row" + (this.props.isOpen ? " active-row" : "");
+
+        return (
+            <li key={m.uuid} className={lineStyles} style={this.props.style}>
+                <div className={rowStyles} onClick={() => this.onLineClick(m)}>
+                    <div className={CSS_TIME} title={m.incomingDateTime}>
+                        <span>{moment(m.incomingDateTime).fromNow()}</span>
+                    </div>
+                    <div className={actionStyles}>
+                        <span>{m.payload.action}</span>
+                    </div>
+                    <div className={sourceStyles}>
+                        <span>{m.payload.source}</span>
+                    </div>
+                    <div className={performanceStyles}>
+                        <span>{performanceString}</span>
+                        <span className="size">{sizeString}</span>
+                    </div>
+                    <div className={idStyles} title={idUrl}>
+                        <span>{idUrl}</span>
+                    </div>
+                </div>
+                {this.renderActiveLine(m)}
+            </li>
+        );
     }
 
     private renderActiveLine(m: MessageClient): JSX.Element | undefined {
-        if (this.state.activeMessage === m) {
-            return <ConsoleMessagesLineDetails
-                message={m}
-                listMessages={this.props.listMessages}
-                isDemoModeEnabled={this.props.demoModeEnabled}
-            />;
+        if (this.props.isOpen) {
+            return (
+                <ConsoleMessagesLineDetails
+                    message={m}
+                    listMessages={this.props.listMessages}
+                    isDemoModeEnabled={this.props.demoModeEnabled}
+                />
+            );
         } else {
             return undefined;
         }
     }
 
     private onLineClick(m: MessageClient): void {
-        if (this.state.activeMessage === m) {
+        const active = this.props.isOpen;
+        if (active) {
             this.setState({ activeMessage: undefined });
         } else {
             this.setState({ activeMessage: m });
         }
+        this.props.onClick(m, !active);
     }
 }

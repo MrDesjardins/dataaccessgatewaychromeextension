@@ -46,6 +46,7 @@ export interface Message {
 }
 export interface MessageClient extends Message {
     incomingDateTime: string; // IsoString
+    uuid: string;
 }
 
 export interface FetchPerformances {

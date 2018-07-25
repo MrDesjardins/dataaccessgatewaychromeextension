@@ -6,7 +6,6 @@ export interface ILogics {
     filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean;
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
-    getMessageKey(message: MessageClient): string;
     getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
 }
 export class Logics implements ILogics {
@@ -209,14 +208,6 @@ export class Logics implements ILogics {
         newStatistics.aggregateSuccessFetchRate = totalFetch === 0 ? 0 : newStatistics.successfulFetchFull / totalFetch;
 
         return newStatistics;
-    }
-
-    public getMessageKey(message: MessageClient): string {
-        return `${message.incomingDateTime}_
-        ${encodeURI(message.payload.id)}_
-        ${encodeURI(JSON.stringify(message.payload.performanceInsight))}_
-        ${encodeURI(message.payload.action)}_
-        ${encodeURI(message.payload.source)}`;
     }
 
     public getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType {
