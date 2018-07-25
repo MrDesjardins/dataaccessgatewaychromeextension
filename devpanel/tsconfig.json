@@ -21,7 +21,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
-    "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
   "exclude": [

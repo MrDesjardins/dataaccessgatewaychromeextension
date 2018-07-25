@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AutoSizer, Index, List, ListRowProps, ListRowRenderer } from "react-virtualized";
+import { AutoSizer, Index, List, ListRowProps } from "react-virtualized";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
 import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
@@ -88,11 +88,11 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         {({ width, height }) => (
                             <List
                                 ref={r => (this.list = r)}
-                                className="patrick"
+                                className="ConsoleMessage-virtual-list"
                                 height={height}
                                 rowCount={this.state.filteredData.length}
-                                rowHeight={this._rowHeight}
-                                rowRenderer={this._rowRenderer}
+                                rowHeight={p => this.calculateRowHeight(p)}
+                                rowRenderer={p => this.renderRow(p)}
                                 width={width}
                             />
                         )}
@@ -102,11 +102,10 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         );
     }
 
-    _rowHeight = (params: Index) => {
+    private calculateRowHeight(params: Index): number {
         return this.openMessages[this.state.filteredData[params.index].uuid] === undefined ? 18 : 300;
-        // tslint:disable-next-line:semicolon
-    };
-    _rowRenderer: ListRowRenderer = (props: ListRowProps) => {
+    }
+    private renderRow(props: ListRowProps): React.ReactNode {
         const index = props.index;
         const m = this.state.filteredData[index];
         return (
@@ -120,8 +119,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 isOpen={this.openMessages[m.uuid] !== undefined}
             />
         );
-        // tslint:disable-next-line:semicolon
-    };
+    }
 
     private lineOnClick(msg: MessageClient, isOpen: boolean): void {
         const unique = msg.uuid;
