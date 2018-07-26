@@ -60,7 +60,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                         <span className="size">{sizeString}</span>
                     </div>
                     <div className={idStyles} title={url}>
-                        <span>{url.substring(this.props.charTrimmedFromUrl)}</span>
+                        <span>{url === undefined ? "" : url.substring(this.props.charTrimmedFromUrl)}</span>
                     </div>
                 </div>
                 {this.renderActiveLine(m)}

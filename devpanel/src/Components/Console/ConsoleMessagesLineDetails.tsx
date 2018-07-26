@@ -188,7 +188,7 @@ export class ConsoleMessagesLineDetails extends React.Component<
                             const url = this.props.isDemoModeEnabled ? btoa(m) : m;
                             return (
                                 <li className={classCompareLine} key={index} title={url}>
-                                    {url.substring(this.props.charTrimmedFromUrl)}
+                                    {url === undefined ? "" : url.substring(this.props.charTrimmedFromUrl)}
                                 </li>
                             );
                         })}
