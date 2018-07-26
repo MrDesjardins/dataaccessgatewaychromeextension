@@ -33,7 +33,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     value: "",
                     sign: "gt"
                 },
-                charTrimmedFromUrl: 0
+                charTrimmedFromUrl: 0,
+                action: undefined
             },
             filteredData: []
         };
@@ -46,8 +47,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         const allData = props.listMessages.filter(m =>
             ConsoleMessages.logics.filterConsoleMessages(
                 m,
-                state.consoleMessageOptions.performance,
-                state.consoleMessageOptions.size
+                state.consoleMessageOptions
             )
         );
         return {
@@ -71,8 +71,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                             }}
                         >
                             <div className={CSS_TIME}>Time</div>
-                            <div className={CSS_SOURCE}>Source</div>
-                            <div className={CSS_ACTION}>Action</div>
+                            <div className={CSS_SOURCE}>Action</div>
+                            <div className={CSS_ACTION}>Source</div>
                             <div className={CSS_PERFORMANCE}>Perf</div>
                             <div className={CSS_URL}>Url</div>
                         </li>
@@ -81,6 +81,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         isOpen={this.state.isConsoleHeaderOpen}
                         performance={this.state.consoleMessageOptions.performance}
                         size={this.state.consoleMessageOptions.size}
+                        action={this.state.consoleMessageOptions.action}
+                        charTrimmedFromUrl={this.state.consoleMessageOptions.charTrimmedFromUrl}
                         onChangeOptions={p => this.onConsoleMessagesOptionsChange(p)}
                     />
                 </ul>

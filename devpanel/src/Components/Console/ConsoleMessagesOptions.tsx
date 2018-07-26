@@ -1,21 +1,14 @@
 import React from "react";
-import { ConsoleMessageOptionsModel, Sign, Threshold } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, DataAction, Sign } from "../../BusinessLogics/Model";
 
-export interface ConsoleMessagesOptionsProps {
+export interface ConsoleMessagesOptionsProps extends ConsoleMessageOptionsModel {
     isOpen: boolean;
-    performance: Threshold;
-    size: Threshold;
     onChangeOptions: (consoleOptions: Partial<ConsoleMessageOptionsModel>) => void;
 }
 
-export interface ConsoleMessagesOptionsState {
-    charTrimmedFromUrl: number;
-}
-
-export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptionsProps, ConsoleMessagesOptionsState> {
+export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptionsProps> {
     public constructor(props: ConsoleMessagesOptionsProps) {
         super(props);
-        this.state = { charTrimmedFromUrl: 0 };
     }
     public render(): JSX.Element | undefined {
         const classOptions =
@@ -58,10 +51,24 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
                     <input
                         type="textbox"
                         className="numericInput"
-                        value={this.state.charTrimmedFromUrl}
+                        value={this.props.charTrimmedFromUrl}
                         onChange={e => this.onCharTrimmedFromUrlChange(e)}
                     />
                     <span className="unit">chars</span>
+                </div>
+                <div>
+                    <label>Action:</label>
+                    <select onChange={e => this.onActionChange(e)} value={this.props.action}>
+                        <option value="">None</option>
+                        <option value={DataAction.AddFromOnGoingRequest}>AddFromOnGoingRequest</option>
+                        <option value={DataAction.RemoveFromOnGoingRequest}>RemoveFromOnGoingRequest</option>
+                        <option value={DataAction.WaitingOnGoingRequest}>WaitingOnGoingRequest</option>
+                        <option value={DataAction.Delete}>Delete</option>
+                        <option value={DataAction.Fetch}>Fetch</option>
+                        <option value={DataAction.Save}>Save</option>
+                        <option value={DataAction.System}>System</option>
+                        <option value={DataAction.Use}>Use</option>
+                    </select>
                 </div>
             </div>
         );
@@ -91,6 +98,10 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
     private onSizeThresholdSignChange(e: React.ChangeEvent<HTMLSelectElement>): void {
         const value = e.currentTarget.value as Sign;
         this.props.onChangeOptions({ size: { value: this.props.size.value, sign: value } });
+    }
+    private onActionChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+        const value = e.currentTarget.value as DataAction;
+        this.props.onChangeOptions({ action: value});
     }
     private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;

@@ -1,9 +1,9 @@
-import { DataAction, DataSource, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
+import { ConsoleMessageOptionsModel, DataAction, DataSource, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
 
 export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
     timeConversion(ms: number): string;
-    filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean;
+    filterConsoleMessages(m: MessageClient, options: ConsoleMessageOptionsModel): boolean;
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
     getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
@@ -16,25 +16,25 @@ export class Logics implements ILogics {
                 const c = m.payload.performanceInsight;
                 if (m.payload.action === DataAction.Use) {
                     if (c.fetch.stopMs !== undefined) {
-                        performance = (c.fetch.stopMs - c.fetch.startMs);
+                        performance = c.fetch.stopMs - c.fetch.startMs;
                     }
                 } else if (m.payload.action === DataAction.Fetch) {
                     if (m.payload.source === DataSource.HttpRequest) {
                         if (c.httpRequest !== undefined) {
                             if (c.httpRequest.stopMs !== undefined) {
-                                performance = (c.httpRequest.stopMs - c.httpRequest.startMs);
+                                performance = c.httpRequest.stopMs - c.httpRequest.startMs;
                             }
                         }
                     } else if (m.payload.source === DataSource.MemoryCache) {
                         if (c.memoryCache !== undefined) {
                             if (c.memoryCache.stopMs !== undefined) {
-                                performance = (c.memoryCache.stopMs - c.memoryCache.startMs);
+                                performance = c.memoryCache.stopMs - c.memoryCache.startMs;
                             }
                         }
                     } else if (m.payload.source === DataSource.PersistentStorageCache) {
                         if (c.persistentStorageCache !== undefined) {
                             if (c.persistentStorageCache.stopMs !== undefined) {
-                                performance = (c.persistentStorageCache.stopMs - c.persistentStorageCache.startMs);
+                                performance = c.persistentStorageCache.stopMs - c.persistentStorageCache.startMs;
                             }
                         }
                     }
@@ -44,13 +44,16 @@ export class Logics implements ILogics {
         return performance;
     }
 
-    public filterConsoleMessages(m: MessageClient, performance: Threshold, size: Threshold): boolean {
+    public filterConsoleMessages(m: MessageClient, options: ConsoleMessageOptionsModel): boolean {
+        const performance: Threshold = options.performance;
+        const size: Threshold = options.size;
         if (performance.value !== "") {
             const performanceMs = this.extractPerformanceFromPayload(m);
             if (performanceMs === 0) {
                 return false;
             }
-            if (performance.value !== 0) { // If the payload has data, and something in the input
+            if (performance.value !== 0) {
+                // If the payload has data, and something in the input
                 if (performance.sign === "gt" && performanceMs < performance.value) {
                     return false;
                 }
@@ -72,8 +75,13 @@ export class Logics implements ILogics {
             }
         }
 
-        return true;
+        if (options.action !== undefined) {
+            if (m.payload.action !== options.action) {
+                return false;
+            }
+        }
 
+        return true;
     }
     public extractSizeFromPayload(m: MessageClient): number {
         let size: number = 0;
@@ -90,10 +98,10 @@ export class Logics implements ILogics {
         if (ms === 0) {
             return "";
         }
-        const seconds = (ms / 1000);
-        const minutes = (ms / (1000 * 60));
-        const hours = (ms / (1000 * 60 * 60));
-        const days = (ms / (1000 * 60 * 60 * 24));
+        const seconds = ms / 1000;
+        const minutes = ms / (1000 * 60);
+        const hours = ms / (1000 * 60 * 60);
+        const days = ms / (1000 * 60 * 60 * 24);
         if (seconds < 1) {
             return ms.toFixed(0) + "ms";
         } else if (seconds < 60) {
@@ -128,7 +136,10 @@ export class Logics implements ILogics {
             if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.MemoryCache) {
                 newStatistics.readMemoryCount++;
             }
-            if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
+            if (
+                message.payload.action === DataAction.Fetch &&
+                message.payload.source === DataSource.PersistentStorageCache
+            ) {
                 newStatistics.readPersisentCount++;
             }
             if (message.payload.action === DataAction.Save && message.payload.source === DataSource.HttpRequest) {
@@ -137,67 +148,106 @@ export class Logics implements ILogics {
             if (message.payload.action === DataAction.Save && message.payload.source === DataSource.MemoryCache) {
                 newStatistics.saveMemoryCount++;
             }
-            if (message.payload.action === DataAction.Save && message.payload.source === DataSource.PersistentStorageCache) {
+            if (
+                message.payload.action === DataAction.Save &&
+                message.payload.source === DataSource.PersistentStorageCache
+            ) {
                 newStatistics.savePersistentCount++;
             }
             if (message.payload.action === DataAction.Use && message.payload.source === DataSource.HttpRequest) {
                 newStatistics.useHttpCount++;
-                if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                if (
+                    message.payload.performanceInsight !== undefined &&
+                    message.payload.performanceInsight.dataSizeInBytes !== undefined
+                ) {
                     newStatistics.httpBytes += message.payload.performanceInsight.dataSizeInBytes;
                 }
             }
             if (message.payload.action === DataAction.Use && message.payload.source === DataSource.MemoryCache) {
                 newStatistics.useMemoryCount++;
-                if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                if (
+                    message.payload.performanceInsight !== undefined &&
+                    message.payload.performanceInsight.dataSizeInBytes !== undefined
+                ) {
                     newStatistics.memoryBytes += message.payload.performanceInsight.dataSizeInBytes;
                 }
             }
-            if (message.payload.action === DataAction.Use && message.payload.source === DataSource.PersistentStorageCache) {
+            if (
+                message.payload.action === DataAction.Use &&
+                message.payload.source === DataSource.PersistentStorageCache
+            ) {
                 newStatistics.usePersistentCount++;
-                if (message.payload.performanceInsight !== undefined && message.payload.performanceInsight.dataSizeInBytes !== undefined) {
+                if (
+                    message.payload.performanceInsight !== undefined &&
+                    message.payload.performanceInsight.dataSizeInBytes !== undefined
+                ) {
                     newStatistics.persistenceStorageBytes += message.payload.performanceInsight.dataSizeInBytes;
                 }
             }
 
             // Aggregate statistic
-            const totalUse = newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount;
-            newStatistics.aggregateUse = totalUse === 0 ? 0 : (newStatistics.useMemoryCount + newStatistics.usePersistentCount) / (newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount);
+            const totalUse =
+                newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount;
+            newStatistics.aggregateUse =
+                totalUse === 0
+                    ? 0
+                    : (newStatistics.useMemoryCount + newStatistics.usePersistentCount) /
+                      (newStatistics.useMemoryCount + newStatistics.usePersistentCount + newStatistics.useHttpCount);
 
-            const totalRead = newStatistics.readHttpCount + newStatistics.readMemoryCount + newStatistics.readPersisentCount;
-            const totalWrite = newStatistics.saveHttpCount + newStatistics.saveMemoryCount + newStatistics.savePersistentCount;
+            const totalRead =
+                newStatistics.readHttpCount + newStatistics.readMemoryCount + newStatistics.readPersisentCount;
+            const totalWrite =
+                newStatistics.saveHttpCount + newStatistics.saveMemoryCount + newStatistics.savePersistentCount;
             newStatistics.aggregateRead = totalRead + totalWrite === 0 ? 0 : totalRead / (totalRead + totalWrite);
 
-            newStatistics.aggregateMem = newStatistics.useMemoryCount + newStatistics.usePersistentCount === 0 ? 0 : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
+            newStatistics.aggregateMem =
+                newStatistics.useMemoryCount + newStatistics.usePersistentCount === 0
+                    ? 0
+                    : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
 
             if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
                 newStatistics.successfulFetchFull++;
             }
             // Performance Percentile
             if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.HttpRequest) {
-                if (message.payload.performanceInsight !== undefined
-                    && message.payload.performanceInsight.httpRequest !== undefined
-                    && message.payload.performanceInsight.httpRequest.stopMs !== undefined) {
-                    newStatistics.fetchMs.httpRequestsMs.push(message.payload.performanceInsight.httpRequest.stopMs - message.payload.performanceInsight.httpRequest.startMs);
+                if (
+                    message.payload.performanceInsight !== undefined &&
+                    message.payload.performanceInsight.httpRequest !== undefined &&
+                    message.payload.performanceInsight.httpRequest.stopMs !== undefined
+                ) {
+                    newStatistics.fetchMs.httpRequestsMs.push(
+                        message.payload.performanceInsight.httpRequest.stopMs -
+                            message.payload.performanceInsight.httpRequest.startMs
+                    );
                 }
             }
-            if (message.payload.action === DataAction.Fetch && message.payload.source === DataSource.PersistentStorageCache) {
-                if (message.payload.performanceInsight !== undefined
-                    && message.payload.performanceInsight.persistentStorageCache !== undefined
-                    && message.payload.performanceInsight.persistentStorageCache.stopMs !== undefined) {
-                    newStatistics.fetchMs.persistentStorageRequestsMs.push(message.payload.performanceInsight.persistentStorageCache.stopMs - message.payload.performanceInsight.persistentStorageCache.startMs);
+            if (
+                message.payload.action === DataAction.Fetch &&
+                message.payload.source === DataSource.PersistentStorageCache
+            ) {
+                if (
+                    message.payload.performanceInsight !== undefined &&
+                    message.payload.performanceInsight.persistentStorageCache !== undefined &&
+                    message.payload.performanceInsight.persistentStorageCache.stopMs !== undefined
+                ) {
+                    newStatistics.fetchMs.persistentStorageRequestsMs.push(
+                        message.payload.performanceInsight.persistentStorageCache.stopMs -
+                            message.payload.performanceInsight.persistentStorageCache.startMs
+                    );
                 }
             }
 
             // Bytes used are coming from where?
             if (message.payload.action === DataAction.Use) {
-                const totalBytes = newStatistics.httpBytes + newStatistics.memoryBytes + newStatistics.persistenceStorageBytes;
+                const totalBytes =
+                    newStatistics.httpBytes + newStatistics.memoryBytes + newStatistics.persistenceStorageBytes;
                 if (totalBytes > 0) {
-                    newStatistics.bytesInCacheRate = (newStatistics.memoryBytes + newStatistics.persistenceStorageBytes) / totalBytes;
+                    newStatistics.bytesInCacheRate =
+                        (newStatistics.memoryBytes + newStatistics.persistenceStorageBytes) / totalBytes;
                 } else {
                     newStatistics.bytesInCacheRate = 0;
                 }
             }
-
         }
         if (message.payload.kind === "LogError") {
             if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {

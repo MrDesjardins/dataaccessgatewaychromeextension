@@ -295,10 +295,14 @@ body {
   padding:5px;
   font-size:12px;
   transition: height 10ms ease 200ms;
+  display:flex;
+  flex-wrap: wrap;
 }
-.ConsoleMessages .console-options.console-options-open{
-  height:100%;
+
+.ConsoleMessages .console-options > div{
+  flex:1 1 50%;
 }
+
 .ConsoleMessages .console-options.console-options-close{
   height:0;
   padding-bottom:0;
