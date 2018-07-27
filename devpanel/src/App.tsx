@@ -89,7 +89,7 @@ class App extends React.Component<{}, AppState> {
                     const adjustedStatistics = this.logics.adjustStatistics(newMessage, this.state.statistics);
                     const adjustedFetchFootprints = { ...this.state.fetchSignatures };
 
-                    const resultFetchFootprint = this.logics.adjustFetchFootprints(
+                    const resultFetchFootprint = this.logics.adjustFetchSignatures(
                         newMessage,
                         adjustedFetchFootprints[newMessage.payload.id]
                     );

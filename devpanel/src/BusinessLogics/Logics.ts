@@ -7,7 +7,7 @@ export interface ILogics {
     filterConsoleMessages(m: MessageClient, options: ConsoleMessageOptionsModel): boolean;
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
-    adjustFetchFootprints(message: Message, data: FetchSignatureById | undefined): FetchSignatureById | undefined;
+    adjustFetchSignatures(message: Message, data: FetchSignatureById | undefined): FetchSignatureById | undefined;
     getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
 }
 export class Logics implements ILogics {
@@ -280,7 +280,7 @@ export class Logics implements ILogics {
         };
     }
 
-    public adjustFetchFootprints(
+    public adjustFetchSignatures(
         message: Message,
         existingData: FetchSignatureById | undefined
     ): FetchSignatureById | undefined {
@@ -314,13 +314,21 @@ export class Logics implements ILogics {
                         }
                     };
                 } else {
+                    const lastTime = moment(existingData.lastResponse.lastTime);
+                    const currentTime = moment();
+                    const elapsedMillisecond = currentTime.diff(lastTime, "ms");
                     // Check if it has change or not
                     if (existingData.lastResponse.responseSignature === message.payload.dataSignature) {
-                        // Same data, we keep the last response until we find a new signature
+                        // Same data, we keep the last response but update the time for the display
+                        return {
+                            id: message.payload.id,
+                            lastResponse: {
+                                lastTime: currentTime.toISOString(),
+                                responseSignature: message.payload.dataSignature
+                            },
+                            statistics: existingData.statistics
+                        };
                     } else {
-                        const lastTime = moment(existingData.lastResponse.lastTime);
-                        const currentTime = moment();
-                        const elapsedMillisecond = currentTime.diff(lastTime, "ms");
                         const newAverage =
                             (existingData.statistics.averageDeltaMsBetweenSignatureChange + elapsedMillisecond) /
                             (existingData.statistics.numberOfSignatureChange + 1);
