@@ -3,7 +3,7 @@ import * as React from "react";
 import * as uuidv4 from "uuid/v4";
 import "./App.css";
 import { ILogics, Logics } from "./BusinessLogics/Logics";
-import { Message, MessageClient, Statistics } from "./BusinessLogics/Model";
+import { FetchSignatureById, Message, MessageClient, Statistics } from "./BusinessLogics/Model";
 import { TestingData } from "./BusinessLogics/TestingData";
 import { ActionsPanel } from "./Components/ActionsPanel/ActionsPanel";
 import { ConsoleMessages } from "./Components/Console/ConsoleMessages";
@@ -14,6 +14,7 @@ interface AppState {
     demoModeEnabled: boolean;
     listMessages: MessageClient[];
     statistics: Statistics;
+    fetchSignatures: { [id: string]: FetchSignatureById };
 }
 
 const AppStateDefaultValue: AppState = {
@@ -41,7 +42,8 @@ const AppStateDefaultValue: AppState = {
         persistenceStorageBytes: 0,
         fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] },
         bytesInCacheRate: 0
-    }
+    },
+    fetchSignatures: {}
 };
 class App extends React.Component<{}, AppState> {
     private port: chrome.runtime.Port;
@@ -68,7 +70,8 @@ class App extends React.Component<{}, AppState> {
             this.state = {
                 demoModeEnabled: false,
                 listMessages: list,
-                statistics: testingData.getStatistics()
+                statistics: testingData.getStatistics(),
+                fetchSignatures: {}
             };
         } else {
             this.port = chrome.runtime.connect({
@@ -81,12 +84,23 @@ class App extends React.Component<{}, AppState> {
             this.port.onMessage.addListener((message: Message) => {
                 if (message.source === "dataaccessgateway-agent") {
                     const currentMessages = this.state.listMessages.slice();
-                    currentMessages.unshift({ ...message, incomingDateTime: moment().toISOString(), uuid: uuidv4() });
-                    const adjustedStatistics = this.logics.adjustStatistics(message, this.state.statistics);
+                    const newMessage = { ...message, incomingDateTime: moment().toISOString(), uuid: uuidv4() };
+                    currentMessages.unshift(newMessage);
+                    const adjustedStatistics = this.logics.adjustStatistics(newMessage, this.state.statistics);
+                    const adjustedFetchFootprints = { ...this.state.fetchSignatures };
+
+                    const resultFetchFootprint = this.logics.adjustFetchFootprints(
+                        newMessage,
+                        adjustedFetchFootprints[newMessage.payload.id]
+                    );
+                    if (resultFetchFootprint !== undefined) {
+                        adjustedFetchFootprints[newMessage.payload.id] = resultFetchFootprint;
+                    }
                     const newState: AppState = {
                         demoModeEnabled: this.state.demoModeEnabled,
                         listMessages: currentMessages,
-                        statistics: adjustedStatistics
+                        statistics: adjustedStatistics,
+                        fetchSignatures: adjustedFetchFootprints
                     };
                     this.setState(newState);
                 }
@@ -112,7 +126,7 @@ class App extends React.Component<{}, AppState> {
             <div className="App">
                 <Summary statistics={this.state.statistics} />
                 <Graph statistics={this.state.statistics} />
-                <ConsoleMessages demoModeEnabled={this.state.demoModeEnabled} listMessages={this.state.listMessages} />
+                <ConsoleMessages demoModeEnabled={this.state.demoModeEnabled} listMessages={this.state.listMessages} signatures={this.state.fetchSignatures} />
                 <ActionsPanel
                     onReset={() => this.resetState()}
                     onLoad={() => this.loadState()}

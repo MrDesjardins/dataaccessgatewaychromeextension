@@ -36,17 +36,19 @@ body {
 .Graph .IndividualGraph canvas{
   margin: auto;
 }
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph,
 .Graph .IndividualGraph .highlight-number-on-graph {
   position:absolute;
-  top: 10px;
-  right:10px;
   color:#bc75d0;
 }
 
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .number,
 .Graph .IndividualGraph .highlight-number-on-graph .number {
   font-size: 50px;
   text-shadow: #a566e0 1px 1px 1px, #323252 -1px -1px 1px;
 }
+
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .unit,
 .Graph .IndividualGraph .highlight-number-on-graph .unit {
   font-size: 10px;
   margin-left:2px;
@@ -133,7 +135,9 @@ body {
   width:500px;
   padding:10px;
   border-radius:15px;
+  position:relative; /*Allow to positionate with absolute the big number on top of canvas*/
 }
+
 .ConsoleMessagesLineDetails .slider{
   width:330px;
 }

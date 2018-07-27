@@ -4,14 +4,16 @@ import * as moment from "moment";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { FetchSignatureById, getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { FONT_COLOR } from "../Graphs/Constants";
+import { GraphTimeOverlay } from "../Graphs/GraphTimeOverlay";
 
 export interface ConsoleMessagesLineDetailsProps {
     message: MessageClient;
     listMessages: MessageClient[];
     isDemoModeEnabled: boolean | undefined;
     charTrimmedFromUrl: number;
+    signature: FetchSignatureById | undefined;
 }
 export interface ConsoleMessagesLineDetailsState {
     levenshteinThreshold: number;
@@ -165,6 +167,7 @@ export class ConsoleMessagesLineDetails extends React.Component<
             <div className="ConsoleMessagesLineDetails">
                 <div className="console-chart-and-options">
                     <div className="console-chart">
+                        <GraphTimeOverlay time={this.getTimeAverage()} style={{ bottom: 10, left: 10 }} />
                         <Bar data={data} height={200} width={500} options={options} />
                     </div>
                     <div className="console-chart-options">
@@ -203,5 +206,11 @@ export class ConsoleMessagesLineDetails extends React.Component<
         this.setState({
             levenshteinThreshold: valueNumber
         });
+    }
+    private getTimeAverage(): number {
+        if (this.props.signature !== undefined) {
+            return this.props.signature.statistics.averageDeltaMsBetweenSignatureChange;
+        }
+        return 0;
     }
 }

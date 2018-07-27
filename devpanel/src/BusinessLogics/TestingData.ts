@@ -17,7 +17,8 @@ export class TestingData {
                     performanceInsight: {
                         fetch: { startMs: 333, stopMs: 1003 },
                         httpRequest: { startMs: 333, stopMs: 1000 }
-                    }
+                    },
+                    dataSignature: "SignatureUrl1"
                 },
                 incomingDateTime: moment("2018-07-01 21:30:00").toISOString(),
                 uuid: uuidv4()
@@ -36,7 +37,8 @@ export class TestingData {
                     performanceInsight: {
                         httpRequest: { startMs: 2, stopMs: 56 },
                         fetch: { startMs: 0, stopMs: 60 }
-                    }
+                    },
+                    dataSignature: "SignatureUrlLong"
                 },
                 incomingDateTime: moment("2018-07-01 21:31:00").toISOString(),
                 uuid: uuidv4()
@@ -68,7 +70,8 @@ export class TestingData {
                         httpRequest: { startMs: 0, stopMs: 2500 },
                         fetch: { startMs: 0, stopMs: 2800 },
                         dataSizeInBytes: 12312
-                    }
+                    },
+                    dataSignature: "SignatureUrl1"
                 },
                 incomingDateTime: moment("2018-07-01 21:32:00").toISOString(),
                 uuid: uuidv4()
@@ -82,7 +85,8 @@ export class TestingData {
                     url: "http://url1",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 }
+                    performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 },
+                    dataSignature: "SignatureUrl1_v2"
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -96,7 +100,8 @@ export class TestingData {
                     url: "http://url2",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 }
+                    performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 },
+                    dataSignature: "SignatureUrl2"
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -110,7 +115,8 @@ export class TestingData {
                     url: "http://url1",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 }
+                    performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 },
+                    dataSignature: "SignatureUrl1_v3"
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -123,7 +129,8 @@ export class TestingData {
                     id: "***ID***http://url1",
                     url: "http://url1",
                     source: DataSource.PersistentStorageCache,
-                    action: DataAction.Save
+                    action: DataAction.Save,
+                    dataSignature: "SignatureUrl1_v3"
                 },
                 incomingDateTime: moment("2018-07-01 21:35:45").toISOString(),
                 uuid: uuidv4()
@@ -136,7 +143,8 @@ export class TestingData {
                     id: "***ID***http://url1",
                     url: "http://url1",
                     source: DataSource.MemoryCache,
-                    action: DataAction.Fetch
+                    action: DataAction.Fetch,
+                    dataSignature: "SignatureUrl1_v4"
                 },
                 incomingDateTime: moment("2018-07-01 21:38:00").toISOString(),
                 uuid: uuidv4()
@@ -149,7 +157,8 @@ export class TestingData {
                     id: "***ID***http://url2",
                     url: "http://url2",
                     source: DataSource.MemoryCache,
-                    action: DataAction.AddFromOnGoingRequest
+                    action: DataAction.AddFromOnGoingRequest,
+                    dataSignature: "SignatureUrl2_v2"
                 },
                 incomingDateTime: moment("2018-07-01 21:39:00").toISOString(),
                 uuid: uuidv4()
@@ -162,7 +171,8 @@ export class TestingData {
                     id: "***ID***http://url3",
                     url: "http://url3",
                     source: DataSource.MemoryCache,
-                    action: DataAction.AddFromOnGoingRequest
+                    action: DataAction.AddFromOnGoingRequest,
+                    dataSignature: "SignatureUrl1"
                 },
                 incomingDateTime: moment("2018-07-01 21:39:10").toISOString(),
                 uuid: uuidv4()

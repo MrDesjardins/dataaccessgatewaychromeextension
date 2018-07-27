@@ -3,6 +3,7 @@ import CountUp from "react-countup";
 import { sizeConversation, SizeUnit, Statistics } from "../../BusinessLogics/Model";
 export interface GraphSizeOverlayProps {
     statistics: Statistics;
+    style: React.CSSProperties;
 }
 
 export interface GraphSizeOverlayState {
@@ -42,7 +43,7 @@ export class GraphSizeOverlay extends React.Component<GraphSizeOverlayProps, Gra
             this.props.statistics.persistenceStorageBytes;
         const sizeUnit = sizeConversation(total);
         return (
-            <div className="highlight-number-on-graph">
+            <div className="highlight-number-on-graph" style={this.props.style}>
                 <span className="number">
                     <CountUp start={this.state.oldSize.size.toFixed(0)} end={this.state.newSize.size.toFixed(0)} />
                 </span>

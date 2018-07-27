@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import * as React from "react";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, DataAction, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, DataAction, FetchSignatureById, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLineDetails } from "./ConsoleMessagesLineDetails";
 export interface ConsoleMessagesLineProps {
     message: MessageClient;
@@ -11,6 +11,7 @@ export interface ConsoleMessagesLineProps {
     onClick: (message: MessageClient, isOpen: boolean) => void;
     isOpen: boolean;
     charTrimmedFromUrl: number;
+    signatures: { [id: string]: FetchSignatureById };
 }
 export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProps> {
     private logics: ILogics = new Logics();
@@ -76,6 +77,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                     listMessages={this.props.listMessages}
                     isDemoModeEnabled={this.props.demoModeEnabled}
                     charTrimmedFromUrl={this.props.charTrimmedFromUrl}
+                    signature={this.props.signatures[m.payload.id]}
                 />
             );
         } else {

@@ -19,7 +19,7 @@ export class Graph extends React.Component<GraphProps> {
                     <GraphCountBySourceAndAction statistics={this.props.statistics} />
                 </div>
                 <div className="IndividualGraph">
-                    <GraphSizeOverlay statistics={this.props.statistics} />
+                    <GraphSizeOverlay statistics={this.props.statistics} style={{ right: 10, top: 10 }} />
                     <GraphSizeBySource statistics={this.props.statistics} />
                 </div>
                 <div className="IndividualGraph">

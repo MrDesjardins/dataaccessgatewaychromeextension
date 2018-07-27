@@ -1,13 +1,14 @@
 import * as React from "react";
 import { AutoSizer, Index, List, ListRowProps } from "react-virtualized";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, MessageClient } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, FetchSignatureById, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
 
 export interface ConsoleMessagesProps {
     listMessages: MessageClient[];
     demoModeEnabled?: boolean;
+    signatures: { [id: string]: FetchSignatureById };
 }
 
 export interface ConsoleMessagesState {
@@ -121,6 +122,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 onClick={(msg, o) => this.lineOnClick(msg, o)}
                 isOpen={this.openMessages[m.uuid] !== undefined}
                 charTrimmedFromUrl={this.state.consoleMessageOptions.charTrimmedFromUrl}
+                signatures={this.props.signatures}
             />
         );
     }

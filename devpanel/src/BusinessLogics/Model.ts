@@ -38,6 +38,7 @@ export interface LogError extends LogBase {
 }
 export interface LogInfo extends LogBase {
     kind: "LogInfo";
+    dataSignature: string | undefined;
 }
 export interface Message {
     id: string;
@@ -146,3 +147,17 @@ export const CSS_SOURCE = "source";
 export const CSS_ACTION = "action";
 export const CSS_PERFORMANCE = "performance";
 export const CSS_URL = "idurl";
+
+export interface Signature {
+    lastTime: string;
+    responseSignature: string;
+}
+export interface FetchSignatureByIdStatistics {
+    numberOfSignatureChange: number; // Does not contain the 1st one since we need the delta
+    averageDeltaMsBetweenSignatureChange: number; // Milliseconds
+}
+export interface FetchSignatureById {
+    id: string;
+    lastResponse?: Signature;
+    statistics: FetchSignatureByIdStatistics;
+}

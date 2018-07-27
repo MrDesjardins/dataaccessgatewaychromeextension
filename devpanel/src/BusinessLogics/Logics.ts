@@ -1,4 +1,5 @@
-import { ConsoleMessageOptionsModel, DataAction, DataSource, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
+import * as moment from "moment";
+import { ConsoleMessageOptionsModel, DataAction, DataSource, FetchSignatureById, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
 
 export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
@@ -6,6 +7,7 @@ export interface ILogics {
     filterConsoleMessages(m: MessageClient, options: ConsoleMessageOptionsModel): boolean;
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
+    adjustFetchFootprints(message: Message, data: FetchSignatureById | undefined): FetchSignatureById | undefined;
     getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
 }
 export class Logics implements ILogics {
@@ -276,5 +278,68 @@ export class Logics implements ILogics {
             db: statistics.persistenceStorageBytes / divider,
             http: statistics.httpBytes / divider
         };
+    }
+
+    public adjustFetchFootprints(
+        message: Message,
+        existingData: FetchSignatureById | undefined
+    ): FetchSignatureById | undefined {
+        if (
+            message.payload.kind === "LogInfo" &&
+            message.payload.action === DataAction.Fetch &&
+            message.payload.dataSignature !== undefined
+        ) {
+            if (existingData === undefined) {
+                // First time
+                return {
+                    id: message.payload.id,
+                    lastResponse: undefined,
+                    statistics: {
+                        averageDeltaMsBetweenSignatureChange: 0,
+                        numberOfSignatureChange: 0
+                    }
+                };
+            } else {
+                if (existingData.lastResponse === undefined) {
+                    // Might be the second resquest or any request after a data change
+                    return {
+                        id: message.payload.id,
+                        lastResponse: {
+                            lastTime: moment().toISOString(),
+                            responseSignature: message.payload.dataSignature
+                        },
+                        statistics: {
+                            averageDeltaMsBetweenSignatureChange: 0,
+                            numberOfSignatureChange: 0
+                        }
+                    };
+                } else {
+                    // Check if it has change or not
+                    if (existingData.lastResponse.responseSignature === message.payload.dataSignature) {
+                        // Same data, we keep the last response until we find a new signature
+                    } else {
+                        const lastTime = moment(existingData.lastResponse.lastTime);
+                        const currentTime = moment();
+                        const elapsedMillisecond = currentTime.diff(lastTime, "ms");
+                        const newAverage =
+                            (existingData.statistics.averageDeltaMsBetweenSignatureChange + elapsedMillisecond) /
+                            (existingData.statistics.numberOfSignatureChange + 1);
+                        return {
+                            id: message.payload.id,
+                            lastResponse: {
+                                lastTime: currentTime.toISOString(),
+                                responseSignature: message.payload.dataSignature
+                            },
+                            statistics: {
+                                averageDeltaMsBetweenSignatureChange: newAverage,
+                                numberOfSignatureChange: existingData.statistics.numberOfSignatureChange + 1
+                            }
+                        };
+                    }
+                }
+            }
+        }
+
+        return existingData;
     }
 }
