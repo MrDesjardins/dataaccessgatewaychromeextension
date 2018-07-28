@@ -7,7 +7,7 @@ export interface ILogics {
     filterConsoleMessages(m: MessageClient, options: ConsoleMessageOptionsModel): boolean;
     extractSizeFromPayload(m: MessageClient): number;
     adjustStatistics(message: Message, currentStatistics: Statistics): Statistics;
-    adjustFetchSignatures(message: Message, data: FetchSignatureById | undefined): FetchSignatureById | undefined;
+    adjustFetchHttpSignatures(message: Message, data: FetchSignatureById | undefined): FetchSignatureById | undefined;
     getDataWithBiggerUnit(statistics: Statistics): MemorySizesByType;
 }
 export class Logics implements ILogics {
@@ -79,6 +79,12 @@ export class Logics implements ILogics {
 
         if (options.action !== undefined) {
             if (m.payload.action !== options.action) {
+                return false;
+            }
+        }
+
+        if (options.source !== undefined) {
+            if (m.payload.source !== options.source) {
                 return false;
             }
         }
@@ -280,53 +286,49 @@ export class Logics implements ILogics {
         };
     }
 
-    public adjustFetchSignatures(
+    public adjustFetchHttpSignatures(
         message: Message,
         existingData: FetchSignatureById | undefined
     ): FetchSignatureById | undefined {
         if (
             message.payload.kind === "LogInfo" &&
             message.payload.action === DataAction.Fetch &&
+            message.payload.source === DataSource.HttpRequest &&
             message.payload.dataSignature !== undefined
         ) {
             if (existingData === undefined) {
+                console.warn("FIRST TIME", existingData);
                 // First time
                 return {
                     id: message.payload.id,
-                    lastResponse: undefined,
+                    url: message.payload.url,
+                    lastResponse: {
+                        lastTime: moment().toISOString(),
+                        responseSignature: message.payload.dataSignature
+                    },
                     statistics: {
+                        numberOfFetch: 1,
                         averageDeltaMsBetweenSignatureChange: 0,
                         numberOfSignatureChange: 0
                     }
                 };
             } else {
-                if (existingData.lastResponse === undefined) {
-                    // Might be the second resquest or any request after a data change
-                    return {
-                        id: message.payload.id,
-                        lastResponse: {
-                            lastTime: moment().toISOString(),
-                            responseSignature: message.payload.dataSignature
-                        },
-                        statistics: {
-                            averageDeltaMsBetweenSignatureChange: 0,
-                            numberOfSignatureChange: 0
-                        }
-                    };
-                } else {
+                console.warn("EXISTING", existingData, message);
+                if (existingData.id === message.payload.id) {
                     const lastTime = moment(existingData.lastResponse.lastTime);
                     const currentTime = moment();
-                    const elapsedMillisecond = currentTime.diff(lastTime, "ms");
+                    const elapsedMillisecond = moment.duration(currentTime.diff(lastTime)).asMilliseconds();
                     // Check if it has change or not
                     if (existingData.lastResponse.responseSignature === message.payload.dataSignature) {
-                        // Same data, we keep the last response but update the time for the display
+                        // Same data, we keep the last response
                         return {
                             id: message.payload.id,
-                            lastResponse: {
-                                lastTime: currentTime.toISOString(),
-                                responseSignature: message.payload.dataSignature
-                            },
-                            statistics: existingData.statistics
+                            url: message.payload.url,
+                            lastResponse: { ...existingData.lastResponse },
+                            statistics: {
+                                ...existingData.statistics,
+                                numberOfFetch: existingData.statistics.numberOfFetch + 1
+                            }
                         };
                     } else {
                         const newAverage =
@@ -334,11 +336,13 @@ export class Logics implements ILogics {
                             (existingData.statistics.numberOfSignatureChange + 1);
                         return {
                             id: message.payload.id,
+                            url: message.payload.url,
                             lastResponse: {
                                 lastTime: currentTime.toISOString(),
                                 responseSignature: message.payload.dataSignature
                             },
                             statistics: {
+                                numberOfFetch: existingData.statistics.numberOfFetch + 1,
                                 averageDeltaMsBetweenSignatureChange: newAverage,
                                 numberOfSignatureChange: existingData.statistics.numberOfSignatureChange + 1
                             }

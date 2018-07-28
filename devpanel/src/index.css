@@ -1,483 +1,506 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-  background-color:#182038;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    background-color: #182038;
 }
 
-
-.App{
-  display: grid;
-	grid-template-rows: 120px 300px auto 50px;
-	grid-template-columns: 1fr;
-	height: 100vh;
+.App {
+    display: grid;
+    grid-template-rows: 120px 300px auto 50px;
+    grid-template-columns: 1fr;
+    height: 100vh;
 }
 
-.Graph{
-  display:flex;
+.Graph {
+    display: flex;
 }
 
-.Graph .IndividualGraph{
-  position:relative; /*Allow to positionate with absolute the big number on top of canvas*/
-  flex:1;
-  margin: auto;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 15px;
-  background-color:#27304d;
+.Graph .IndividualGraph {
+    position: relative; /*Allow to positionate with absolute the big number on top of canvas*/
+    flex: 1;
+    margin: auto;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: #27304d;
 }
 
 .Graph .IndividualGraph,
-.ConsoleMessages .ConsoleMessage-items .console-chart{
-  background: linear-gradient(45deg, rgba(40,49,77,1) 0%,rgba(98, 55, 114, 0.81) 47%,rgba(24,33,56,1) 100%);
-  box-shadow: #0c101d 1px 1px 5px;
+.ConsoleMessages .ConsoleMessage-items .console-chart {
+    background: linear-gradient(45deg, rgba(40, 49, 77, 1) 0%, rgba(98, 55, 114, 0.81) 47%, rgba(24, 33, 56, 1) 100%);
+    box-shadow: #0c101d 1px 1px 5px;
 }
 
-.Graph .IndividualGraph canvas{
-  margin: auto;
+.Graph .IndividualGraph canvas {
+    margin: auto;
 }
 .ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph,
 .Graph .IndividualGraph .highlight-number-on-graph {
-  position:absolute;
-  color:#bc75d0;
+    position: absolute;
+    color: #bc75d0;
 }
 
-.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .number,
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line1 .number,
 .Graph .IndividualGraph .highlight-number-on-graph .number {
-  font-size: 50px;
-  text-shadow: #a566e0 1px 1px 1px, #323252 -1px -1px 1px;
+    font-size: 50px;
+    text-shadow: #a566e0 1px 1px 1px, #323252 -1px -1px 1px;
 }
 
-.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .unit,
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .separator{
+    margin: 0 2px 0 2px;
+}
+
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .separator,
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .number,
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .unit,
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line1 .unit,
 .Graph .IndividualGraph .highlight-number-on-graph .unit {
-  font-size: 10px;
-  margin-left:2px;
-  color: #d9b1e4;
+    font-size: 10px;
+    margin-left: 2px;
+    color: #d9b1e4;
 }
 /****** CONSOLE *****/
 .ConsoleMessages {
-  display:flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
 
-  padding: 10px;
-  margin: 10px;
-  text-align: left;
-  overflow: auto;
-  border-radius: 15px;
-  background-color: #27304d
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+    overflow: auto;
+    border-radius: 15px;
+    background-color: #27304d;
 }
-.ConsoleMessages .ConsoleMessage-header{
-  flex: 0 0 20px;
-  transition: flex 200ms;
+.ConsoleMessages .ConsoleMessage-header {
+    flex: 0 0 20px;
+    transition: flex 200ms;
 }
-.ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open{
-  flex: 0 0 100px;
+.ConsoleMessages .ConsoleMessage-header.ConsoleMessage-header-open {
+    flex: 0 0 100px;
 }
-.ConsoleMessages .ConsoleMessage-items{
-  flex:1;
-  overflow: auto;
-  color:#ffe0fd;
+.ConsoleMessages .ConsoleMessage-items {
+    flex: 1;
+    overflow: auto;
+    color: #ffe0fd;
 }
-.ConsoleMessages .ConsoleMessage-items>li:hover,
-.ConsoleMessages .ConsoleMessage-items>li:hover>div.row,
-.ConsoleMessages .ConsoleMessage-items>li.line-use:hover>div.row,
-.ConsoleMessages .ConsoleMessage-items>li.line-error:hover>div.row,
-.ConsoleMessages .ConsoleMessage-items>li>.active-row,
-.ConsoleMessages .ConsoleMessage-items>li>.active-row>div{
-  background-color: #8f3fa6;
-  text-shadow: black 1px 1px 1px;
-  color:white;
-  animation:none;
+.ConsoleMessages .ConsoleMessage-items > li:hover,
+.ConsoleMessages .ConsoleMessage-items > li:hover > div.row,
+.ConsoleMessages .ConsoleMessage-items > li.line-use:hover > div.row,
+.ConsoleMessages .ConsoleMessage-items > li.line-error:hover > div.row,
+.ConsoleMessages .ConsoleMessage-items > li > .active-row,
+.ConsoleMessages .ConsoleMessage-items > li > .active-row > div {
+    background-color: #8f3fa6;
+    text-shadow: black 1px 1px 1px;
+    color: white;
+    animation: none;
 }
-.ConsoleMessages ul.ConsoleMessage-header>li.tableheader{
-  cursor: pointer;
-  display:flex;
-  padding:0 0 0 2px;
-  color:white;
-  background-color:#27304d;
-  text-shadow: black 1px 1px 1px;
+.ConsoleMessages ul.ConsoleMessage-header > li.tableheader {
+    cursor: pointer;
+    display: flex;
+    padding: 0 0 0 2px;
+    color: white;
+    background-color: #27304d;
+    text-shadow: black 1px 1px 1px;
 }
-.ConsoleMessages ul.ConsoleMessage-header>li.tableheader,
-.ConsoleMessages ul.ConsoleMessage-header>li.tableheader div.time{
-  font-size:14px;
-}
-
-.ConsoleMessages ul.ConsoleMessage-header>li.tableheader:hover{
-  background-color:#8f3fa6;
+.ConsoleMessages ul.ConsoleMessage-header > li.tableheader,
+.ConsoleMessages ul.ConsoleMessage-header > li.tableheader div.time {
+    font-size: 14px;
 }
 
-.ConsoleMessages ul{
-  list-style: none;
-  padding:0;
-  margin:0;
-  background-color: #27304d;
-}
-.ConsoleMessage .row{
-  display:flex;
-}
-.ConsoleMessages ul li{
-  margin-bottom: 5px;
-  font-size: 12px;  
-}
-.ConsoleMessages ul li .row{
-  display:flex;
-  cursor: pointer;
-}
-.ConsoleMessagesLineDetails{
-  padding:15px 5px 15px 5px;
-  background-color: #182038;
-  box-shadow: #1a242b 0px 2px 6px;
-  display:flex;
-  height:250px;
-}
-.ConsoleMessages .ConsoleMessage-items .console-chart{
-  width:500px;
-  padding:10px;
-  border-radius:15px;
-  position:relative; /*Allow to positionate with absolute the big number on top of canvas*/
+.ConsoleMessages ul.ConsoleMessage-header > li.tableheader:hover {
+    background-color: #8f3fa6;
 }
 
-.ConsoleMessagesLineDetails .slider{
-  width:330px;
+.ConsoleMessages ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #27304d;
 }
-
-.ConsoleMessagesLineDetails .levenshteinValue{
-  margin-left:5px;
+.ConsoleMessage .row {
+    display: flex;
 }
-
-.ConsoleMessagesLineDetails .console-chart-and-options{
-  flex: 1;
+.ConsoleMessages ul li {
+    margin-bottom: 5px;
+    font-size: 12px;
 }
-.ConsoleMessagesLineDetails .console-chart-options{
-  line-height: 20px;
-  margin: 10px 0 5px 0;
-  padding: 0;
-  height: 20px;
+.ConsoleMessages ul li .row {
+    display: flex;
+    cursor: pointer;
 }
-
-.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst{
-  flex: 1;
-  background-color: #27304d;
-  overflow: auto;
-  margin-left: 10px;
-  border-radius: 7px;
+.ConsoleMessagesLineDetails {
+    padding: 15px 5px 15px 5px;
+    background-color: #182038;
+    box-shadow: #1a242b 0px 2px 6px;
+    display: flex;
+    height: 250px;
 }
-
-
-.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul{
-  padding:3px;
-}
-
-.ConsoleMessagesLineDetails .compareLine ul {
-  list-style: none;
-  padding:0;
-  margin:0;
-}
-
-.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 16px;
-  word-break: break-all;
-}
-.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine{
-  background-color: #182038;
-  margin-bottom:2px;
-}
-.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine:nth-of-type(odd) {
-  background-color: #27304d;
-}
-
-.console-chart-listMessageComparedAgainst h3{
-  margin: 0;
-  padding: 5px 5px 5px 5px;
-  color: aliceblue;
-  text-shadow: black 1px 1px 1px;
-  border-bottom: 1px solid #9e9e9e;
-  margin-bottom: 5px;
+.ConsoleMessages .ConsoleMessage-items .console-chart {
+    width: 500px;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative; /*Allow to positionate with absolute the big number on top of canvas*/
 }
 
 .ConsoleMessagesLineDetails .slider {
-  appearance: none;
-  height: 15px;
-  background: #edbefb;
-  outline: none;
-  opacity: 0.7;
-  transition: opacity .2s;
-  vertical-align: bottom;
+    width: 330px;
+}
+
+.ConsoleMessagesLineDetails .levenshteinValue {
+    margin-left: 5px;
+}
+
+.ConsoleMessagesLineDetails .console-chart-and-options {
+    flex: 1;
+}
+.ConsoleMessagesLineDetails .console-chart-options {
+    line-height: 20px;
+    margin: 10px 0 5px 0;
+    padding: 0;
+    height: 20px;
+}
+
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst {
+    flex: 1;
+    background-color: #27304d;
+    overflow: auto;
+    margin-left: 10px;
+    border-radius: 7px;
+}
+
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul {
+    padding: 3px;
+}
+
+.ConsoleMessagesLineDetails .compareLine ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 16px;
+    word-break: break-all;
+}
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine {
+    background-color: #182038;
+    margin-bottom: 2px;
+}
+.ConsoleMessagesLineDetails .console-chart-listMessageComparedAgainst ul li.compareLine:nth-of-type(odd) {
+    background-color: #27304d;
+}
+
+.console-chart-listMessageComparedAgainst h3 {
+    margin: 0;
+    padding: 5px 5px 5px 5px;
+    color: aliceblue;
+    text-shadow: black 1px 1px 1px;
+    border-bottom: 1px solid #9e9e9e;
+    margin-bottom: 5px;
+}
+
+.ConsoleMessagesLineDetails .slider {
+    appearance: none;
+    height: 15px;
+    background: #edbefb;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    vertical-align: bottom;
 }
 
 .ConsoleMessagesLineDetails .slider:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .ConsoleMessagesLineDetails .slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  background: #8f3fa6;
-  cursor: pointer;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #8f3fa6;
+    cursor: pointer;
 }
 
 .ConsoleMessagesLineDetails .slider::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  background: #8f3fa6;
-  cursor: pointer;
+    width: 15px;
+    height: 15px;
+    background: #8f3fa6;
+    cursor: pointer;
 }
 
-.ConsoleMessages ul li div.time{
-  flex: 0 0 100px;
-  font-size:0.85em;
+.ConsoleMessages ul li div.time {
+    flex: 0 0 100px;
+    font-size: 0.85em;
 }
 
-.ConsoleMessages ul li div.action{
-  flex: 0 0 160px;
+.ConsoleMessages ul li div.action {
+    flex: 0 0 160px;
 }
-.ConsoleMessages ul li div.performance{
-  flex: 0 0 85px;
+.ConsoleMessages ul li div.performance {
+    flex: 0 0 85px;
 }
-.ConsoleMessages ul li div.action.Fetch{
-  color:rgba(247, 77, 255);
+.ConsoleMessages ul li div.action.Fetch {
+    color: rgba(247, 77, 255);
 }
-.ConsoleMessages ul li div.action.Use>span{
-  color: rgb(67, 233, 130);
-  background-color: #358d67;
-  border-radius: 2px;
-  padding: 1px 3px 1px 3px;
-  text-shadow: #283e34 1px 1px 1px;
+.ConsoleMessages ul li div.action.Use > span {
+    color: rgb(67, 233, 130);
+    background-color: #358d67;
+    border-radius: 2px;
+    padding: 1px 3px 1px 3px;
+    text-shadow: #283e34 1px 1px 1px;
 }
-.ConsoleMessages ul li div.action.Save{
-  color:rgb(55, 160, 255);
+.ConsoleMessages ul li div.action.Save {
+    color: rgb(55, 160, 255);
 }
-.ConsoleMessages ul li div.source{
-  flex: 0 0 160px;
+.ConsoleMessages ul li div.source {
+    flex: 0 0 160px;
 }
-.ConsoleMessages ul li div.source.MemoryCache{
-  color:#a566e0;
+.ConsoleMessages ul li div.source.MemoryCache {
+    color: #a566e0;
 }
-.ConsoleMessages ul li div.source.PersistentStorageCache{
-  color:#bc75d0;
+.ConsoleMessages ul li div.source.PersistentStorageCache {
+    color: #bc75d0;
 }
-.ConsoleMessages ul li div.source.HttpRequest{
-  color:#d851ab;
+.ConsoleMessages ul li div.source.HttpRequest {
+    color: #d851ab;
 }
-.ConsoleMessages ul li div.performance span.size{
-  font-size: 0.7em;
-  margin-left: 3px;
-  color: #b7b7b7;
+.ConsoleMessages ul li div.performance span.size {
+    font-size: 0.7em;
+    margin-left: 3px;
+    color: #b7b7b7;
 }
-.ConsoleMessages ul li div.idurl{
-  flex:1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.ConsoleMessages ul li div.idurl {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .ConsoleMessages ul li:nth-of-type(odd) {
-  background: #182038;
+    background: #182038;
 }
 
-.ConsoleMessages ul li.line-error .row{
-  background-color: rgba(253, 60, 0, 0.4);
-  color: #ff6c6c;
-  animation: backgrounderror 8s infinite;
+.ConsoleMessages ul li.line-error .row {
+    background-color: rgba(253, 60, 0, 0.4);
+    color: #ff6c6c;
+    animation: backgrounderror 8s infinite;
 }
 @keyframes backgrounderror {
-  0%   {  background-color: rgba(209, 34, 87, 0.2);}
-  20%  {  background-color: rgba(209, 34, 87, 0.2);}
-  25%  {  background-color: rgba(209, 34, 87, 0.8);}
-  30%  {  background-color: rgba(209, 34, 87, 0.5);}
-  35%  {  background-color: rgba(209, 34, 87, 0.8);}
-  40%  {  background-color: rgba(209, 34, 87, 0.5);}
-  55%  {  background-color: rgba(209, 34, 87, 0.8);}
-  80%  {  background-color: rgba(209, 34, 87, 0.2);}
-  100% {  background-color: rgba(209, 34, 87, 0.2);}
+    0% {
+        background-color: rgba(209, 34, 87, 0.2);
+    }
+    20% {
+        background-color: rgba(209, 34, 87, 0.2);
+    }
+    25% {
+        background-color: rgba(209, 34, 87, 0.8);
+    }
+    30% {
+        background-color: rgba(209, 34, 87, 0.5);
+    }
+    35% {
+        background-color: rgba(209, 34, 87, 0.8);
+    }
+    40% {
+        background-color: rgba(209, 34, 87, 0.5);
+    }
+    55% {
+        background-color: rgba(209, 34, 87, 0.8);
+    }
+    80% {
+        background-color: rgba(209, 34, 87, 0.2);
+    }
+    100% {
+        background-color: rgba(209, 34, 87, 0.2);
+    }
 }
 
-.ConsoleMessages .console-options{
-  padding:5px;
-  font-size:12px;
-  transition: height 10ms ease 200ms;
-  display:flex;
-  flex-wrap: wrap;
+.ConsoleMessages .console-options {
+    padding: 5px;
+    font-size: 12px;
+    transition: height 10ms ease 200ms;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.ConsoleMessages .console-options > div{
-  flex:1 1 50%;
+.ConsoleMessages .console-options > div {
+    flex: 1 1 50%;
 }
 
-.ConsoleMessages .console-options.console-options-close{
-  height:0;
-  padding-bottom:0;
-  padding-top:0;
-  transition:none;
+.ConsoleMessages .console-options.console-options-close {
+    height: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    transition: none;
 }
 .ConsoleMessages .console-options label,
-.ConsoleMessages .console-options span.unit{
-  color:#ffe0fd;
+.ConsoleMessages .console-options span.unit {
+    color: #ffe0fd;
 }
 .ConsoleMessages .console-options label,
 .ConsoleMessages .console-options select,
-.ConsoleMessages .console-options input{
-  margin-right:5px;
-  display: inline-block;
+.ConsoleMessages .console-options input {
+    margin-right: 5px;
+    display: inline-block;
 }
 .ConsoleMessages .console-options select,
-.ConsoleMessages .console-options input{
-  border-style: solid;
-  background-color: #182038;
-  color: white;
-  border: 1px solid #778488;
+.ConsoleMessages .console-options input {
+    border-style: solid;
+    background-color: #182038;
+    color: white;
+    border: 1px solid #778488;
 }
-.ConsoleMessages .console-options label{
-  width:130px;
+.ConsoleMessages .console-options label {
+    width: 130px;
 }
-.ConsoleMessages .console-options select{
-  width:75px;
+.ConsoleMessages .console-options select {
+    width: 75px;
 }
-.ConsoleMessages .console-options input.numericInput{
-  width:50px;
+.ConsoleMessages .console-options input.numericInput {
+    width: 50px;
 }
-.ConsoleMessages .console-options span.unit{
-  margin-left:2px;
+.ConsoleMessages .console-options span.unit {
+    margin-left: 2px;
 }
-.ConsoleMessages .console-options>div{
-  height:24px;
+.ConsoleMessages .console-options > div {
+    height: 24px;
 }
-.Summary{
-  display:flex;
-  color:#ffe0fd;
+.Summary {
+    display: flex;
+    color: #ffe0fd;
 }
 .Summary .summary-box,
-.Summary .summary-box-dual{
-  flex: 0 0 150px;
-  margin:auto;
+.Summary .summary-box-dual {
+    flex: 0 0 150px;
+    margin: auto;
 }
 
-.Summary .summary-box .summary-box-label{
-  font-size:16px;
-  min-height:38px;
+.Summary .summary-box .summary-box-label {
+    font-size: 16px;
+    min-height: 38px;
 }
 
-.Summary .summary-box .summary-box-value{
-  font-size:48px;
-  text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
-  min-height:58px;
+.Summary .summary-box .summary-box-value {
+    font-size: 48px;
+    text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
+    min-height: 58px;
 }
 
-.Summary .summary-box-dual{
-  display: flex;
-  flex-direction: column;
+.Summary .summary-box-dual {
+    display: flex;
+    flex-direction: column;
 }
 
-.Summary .summary-box-dual-row{
-  flex: 1;
-  flex-direction: row;
-  display: flex;
-  margin-top: 5px;
-  margin-bottom: 5px;
+.Summary .summary-box-dual-row {
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.Summary .summary-box-dual .summary-box-label{
-  font-size:14px;
-  min-height:19px;
-  flex: 0 0 125px;
-  padding-top: 5px;
+.Summary .summary-box-dual .summary-box-label {
+    font-size: 14px;
+    min-height: 19px;
+    flex: 0 0 125px;
+    padding-top: 5px;
 }
 
-.Summary .summary-box-dual .summary-box-value{
-  font-size:32px;
-  text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
-  flex: 0 0 25px;
-  line-height: 25px;
-  padding-top: 8px;
+.Summary .summary-box-dual .summary-box-value {
+    font-size: 32px;
+    text-shadow: #4b0d5f -1px 1px 5px, #e15df9 1px 1px 3px;
+    flex: 0 0 25px;
+    line-height: 25px;
+    padding-top: 8px;
 }
 
-.ActionsPanel{
-  display:flex;
-  padding-left:10px;
+.ActionsPanel {
+    display: flex;
+    padding-left: 10px;
 }
 .actionInput input,
-button{
-  cursor: pointer;
-  vertical-align: middle;
+button {
+    cursor: pointer;
+    vertical-align: middle;
 }
-.actionInput{
-  border: 1px solid #778387;
-  line-height: 40px;
-  cursor: default;
+.actionInput {
+    border: 1px solid #778387;
+    line-height: 40px;
+    cursor: default;
 }
 button,
-.actionInput{
-  background-color: #27304d;
-  border-color: #27304d;
-  color: #ffe0fd;
-  font-size: 14px;
-  text-shadow: #6b1f7d 1px 1px 1px;
-  width: 100px;
-  margin: 3px;
-  border-radius: 6px;
-  border-style: solid;
-  letter-spacing: 0.1em;
+.actionInput {
+    background-color: #27304d;
+    border-color: #27304d;
+    color: #ffe0fd;
+    font-size: 14px;
+    text-shadow: #6b1f7d 1px 1px 1px;
+    width: 100px;
+    margin: 3px;
+    border-radius: 6px;
+    border-style: solid;
+    letter-spacing: 0.1em;
 }
 
-button:hover{
-  background-color: #5e6b94;
+button:hover {
+    background-color: #5e6b94;
 }
 
 button:active {
-  background-color: #6b1f7d
+    background-color: #6b1f7d;
 }
 
-.demo-mode{
-  filter: blur(2px);
+.demo-mode {
+    filter: blur(2px);
 }
 
 /*===== Checkbox =====*/
 input[type="checkbox"] {
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: 0;
-  background:#182038;
-  height: 16px;
-  width: 16px;
-  border: 1px solid white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: 0;
+    background: #182038;
+    height: 16px;
+    width: 16px;
+    border: 1px solid white;
 }
 
 input[type="checkbox"]:checked {
-  background: #ac8fc0;
+    background: #ac8fc0;
 }
 
 input[type="checkbox"]:hover {
-  filter: brightness(90%);
+    filter: brightness(90%);
 }
 
 input[type="checkbox"]:disabled {
-  background: #e6e6e6;
-  opacity: 0.6;
-  pointer-events: none;
+    background: #e6e6e6;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 input[type="checkbox"]:after {
-  content: '';
-  position: relative;
-  left: 40%;
-  top: 20%;
-  width: 15%;
-  height: 40%;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-  display: none;
+    content: "";
+    position: relative;
+    left: 40%;
+    top: 20%;
+    width: 15%;
+    height: 40%;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    display: none;
 }
 
 input[type="checkbox"]:checked:after {
-  display: block;
+    display: block;
 }
 
 input[type="checkbox"]:disabled:after {
-  border-color: #7b7b7b;
+    border-color: #7b7b7b;
 }

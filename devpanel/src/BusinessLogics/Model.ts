@@ -90,6 +90,7 @@ export interface ConsoleMessageOptionsModel {
     size: Threshold;
     charTrimmedFromUrl: number;
     action: DataAction | undefined;
+    source: DataSource | undefined;
 }
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";
 export interface SizeUnit {
@@ -153,11 +154,13 @@ export interface Signature {
     responseSignature: string;
 }
 export interface FetchSignatureByIdStatistics {
+    numberOfFetch: number; // Number of fetch for this particular ID
     numberOfSignatureChange: number; // Does not contain the 1st one since we need the delta
     averageDeltaMsBetweenSignatureChange: number; // Milliseconds
 }
 export interface FetchSignatureById {
     id: string;
-    lastResponse?: Signature;
+    url: string;
+    lastResponse: Signature;
     statistics: FetchSignatureByIdStatistics;
 }

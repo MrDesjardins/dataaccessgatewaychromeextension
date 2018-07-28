@@ -87,20 +87,20 @@ class App extends React.Component<{}, AppState> {
                     const newMessage = { ...message, incomingDateTime: moment().toISOString(), uuid: uuidv4() };
                     currentMessages.unshift(newMessage);
                     const adjustedStatistics = this.logics.adjustStatistics(newMessage, this.state.statistics);
-                    const adjustedFetchFootprints = { ...this.state.fetchSignatures };
+                    const adjustedFetchHttpSignatures = { ...this.state.fetchSignatures };
 
-                    const resultFetchFootprint = this.logics.adjustFetchSignatures(
+                    const resultFetchHttpSignatures = this.logics.adjustFetchHttpSignatures(
                         newMessage,
-                        adjustedFetchFootprints[newMessage.payload.id]
+                        adjustedFetchHttpSignatures[newMessage.payload.id]
                     );
-                    if (resultFetchFootprint !== undefined) {
-                        adjustedFetchFootprints[newMessage.payload.id] = resultFetchFootprint;
+                    if (resultFetchHttpSignatures !== undefined) {
+                        adjustedFetchHttpSignatures[newMessage.payload.id] = resultFetchHttpSignatures;
                     }
                     const newState: AppState = {
                         demoModeEnabled: this.state.demoModeEnabled,
                         listMessages: currentMessages,
                         statistics: adjustedStatistics,
-                        fetchSignatures: adjustedFetchFootprints
+                        fetchSignatures: adjustedFetchHttpSignatures
                     };
                     this.setState(newState);
                 }
@@ -126,7 +126,11 @@ class App extends React.Component<{}, AppState> {
             <div className="App">
                 <Summary statistics={this.state.statistics} />
                 <Graph statistics={this.state.statistics} />
-                <ConsoleMessages demoModeEnabled={this.state.demoModeEnabled} listMessages={this.state.listMessages} signatures={this.state.fetchSignatures} />
+                <ConsoleMessages
+                    demoModeEnabled={this.state.demoModeEnabled}
+                    listMessages={this.state.listMessages}
+                    signatures={this.state.fetchSignatures}
+                />
                 <ActionsPanel
                     onReset={() => this.resetState()}
                     onLoad={() => this.loadState()}

@@ -4,7 +4,7 @@ import * as moment from "moment";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { FetchSignatureById, getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { DataAction, DataSource, FetchSignatureById, getDividerSize, getDividerTime, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { FONT_COLOR } from "../Graphs/Constants";
 import { GraphTimeOverlay } from "../Graphs/GraphTimeOverlay";
 
@@ -44,7 +44,11 @@ export class ConsoleMessagesLineDetails extends React.Component<
                 const lv = Levenshtein.get(msg.payload.url, this.props.message.payload.url);
                 isSimilarURL = lv <= this.state.levenshteinThreshold;
             }
-            if (isSimilarURL && msg.payload.action === this.props.message.payload.action) {
+            if (
+                isSimilarURL &&
+                msg.payload.action === this.props.message.payload.action &&
+                msg.payload.source === this.props.message.payload.source
+            ) {
                 listSimilarIds.push(msg);
             }
         }
@@ -167,7 +171,17 @@ export class ConsoleMessagesLineDetails extends React.Component<
             <div className="ConsoleMessagesLineDetails">
                 <div className="console-chart-and-options">
                     <div className="console-chart">
-                        <GraphTimeOverlay time={this.getTimeAverage()} style={{ bottom: 10, left: 10 }} />
+                        {this.props.message.payload.action === DataAction.Fetch &&
+                        this.props.message.payload.source === DataSource.HttpRequest ? (
+                            <GraphTimeOverlay
+                                time={this.getTimeAverage()}
+                                number={this.getNumberOfFetch()}
+                                differentSignature={this.getNumberOfDifferentSignature()}
+                                style={{ bottom: 10, left: 10 }}
+                            />
+                        ) : (
+                            undefined
+                        )}
                         <Bar data={data} height={200} width={500} options={options} />
                     </div>
                     <div className="console-chart-options">
@@ -210,6 +224,20 @@ export class ConsoleMessagesLineDetails extends React.Component<
     private getTimeAverage(): number {
         if (this.props.signature !== undefined) {
             return this.props.signature.statistics.averageDeltaMsBetweenSignatureChange;
+        }
+        return 0;
+    }
+
+    private getNumberOfFetch(): number {
+        if (this.props.signature !== undefined) {
+            return this.props.signature.statistics.numberOfFetch;
+        }
+        return 0;
+    }
+
+    private getNumberOfDifferentSignature(): number {
+        if (this.props.signature !== undefined) {
+            return this.props.signature.statistics.numberOfSignatureChange;
         }
         return 0;
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { ConsoleMessageOptionsModel, DataAction, Sign } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, DataAction, DataSource, Sign } from "../../BusinessLogics/Model";
 
 export interface ConsoleMessagesOptionsProps extends ConsoleMessageOptionsModel {
     isOpen: boolean;
@@ -47,16 +47,6 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
                     <span className="unit">bytes</span>
                 </div>
                 <div>
-                    <label>Trim from URL:</label>
-                    <input
-                        type="textbox"
-                        className="numericInput"
-                        value={this.props.charTrimmedFromUrl}
-                        onChange={e => this.onCharTrimmedFromUrlChange(e)}
-                    />
-                    <span className="unit">chars</span>
-                </div>
-                <div>
                     <label>Action:</label>
                     <select onChange={e => this.onActionChange(e)} value={this.props.action}>
                         <option value="">None</option>
@@ -69,6 +59,26 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
                         <option value={DataAction.System}>System</option>
                         <option value={DataAction.Use}>Use</option>
                     </select>
+                </div>
+                <div>
+                    <label>Source:</label>
+                    <select onChange={e => this.onSourceChange(e)} value={this.props.source}>
+                        <option value="">None</option>
+                        <option value={DataSource.HttpRequest}>HTTP</option>
+                        <option value={DataSource.MemoryCache}>Memory</option>
+                        <option value={DataSource.PersistentStorageCache}>Persistence</option>
+                        <option value={DataSource.System}>System</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Trim from URL:</label>
+                    <input
+                        type="textbox"
+                        className="numericInput"
+                        value={this.props.charTrimmedFromUrl}
+                        onChange={e => this.onCharTrimmedFromUrlChange(e)}
+                    />
+                    <span className="unit">chars</span>
                 </div>
             </div>
         );
@@ -100,13 +110,23 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
         this.props.onChangeOptions({ size: { value: this.props.size.value, sign: value } });
     }
     private onActionChange(e: React.ChangeEvent<HTMLSelectElement>): void {
-        const value = e.currentTarget.value as DataAction;
-        this.props.onChangeOptions({ action: value});
+        let value = e.currentTarget.value as DataAction | undefined;
+        if (e.currentTarget.value === "") {
+            value = undefined;
+        }
+        this.props.onChangeOptions({ action: value });
     }
     private onSizeThresholdChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const value = e.currentTarget.value;
         const valueNumber = Number(value);
         const valueTyped = value === "" ? "" : isNaN(valueNumber) ? "" : valueNumber;
         this.props.onChangeOptions({ size: { value: valueTyped, sign: this.props.size.sign } });
+    }
+    private onSourceChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+        let value = e.currentTarget.value as DataSource | undefined;
+        if (e.currentTarget.value === "") {
+            value = undefined;
+        }
+        this.props.onChangeOptions({ source: value });
     }
 }

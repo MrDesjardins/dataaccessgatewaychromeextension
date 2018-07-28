@@ -35,7 +35,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                     sign: "gt"
                 },
                 charTrimmedFromUrl: 0,
-                action: undefined
+                action: undefined,
+                source: undefined
             },
             filteredData: []
         };
@@ -46,10 +47,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
         state: ConsoleMessagesState
     ): ConsoleMessagesState {
         const allData = props.listMessages.filter(m =>
-            ConsoleMessages.logics.filterConsoleMessages(
-                m,
-                state.consoleMessageOptions
-            )
+            ConsoleMessages.logics.filterConsoleMessages(m, state.consoleMessageOptions)
         );
         return {
             ...state,
@@ -83,6 +81,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         performance={this.state.consoleMessageOptions.performance}
                         size={this.state.consoleMessageOptions.size}
                         action={this.state.consoleMessageOptions.action}
+                        source={this.state.consoleMessageOptions.source}
                         charTrimmedFromUrl={this.state.consoleMessageOptions.charTrimmedFromUrl}
                         onChangeOptions={p => this.onConsoleMessagesOptionsChange(p)}
                     />
