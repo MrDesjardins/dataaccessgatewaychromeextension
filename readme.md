@@ -27,6 +27,8 @@ The extension is literally the extension of the [Data Access Gateway library](ht
     3. Drill in for further analysis
         1. Compare a single operation against previous one
         2. Allows to compare against similar query (different query string or URL fragment)
+        3. Possible to filter by data source (memory, indexDb, http) and data action (fetch, save, use, etc.)
+        4. Give the number of time the payload changed and the average time between changes
 4. Possility to save session and load to have bigger historical analysis
 5. Possible to switch in "demo mode" which blur all url for easy sharing without leaking confidential endpoints.
 
