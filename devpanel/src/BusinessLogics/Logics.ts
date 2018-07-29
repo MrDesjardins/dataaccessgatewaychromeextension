@@ -297,7 +297,6 @@ export class Logics implements ILogics {
             message.payload.dataSignature !== undefined
         ) {
             if (existingData === undefined) {
-                console.warn("FIRST TIME", existingData);
                 // First time
                 return {
                     id: message.payload.id,
@@ -313,7 +312,6 @@ export class Logics implements ILogics {
                     }
                 };
             } else {
-                console.warn("EXISTING", existingData, message);
                 if (existingData.id === message.payload.id) {
                     const lastTime = moment(existingData.lastResponse.lastTime);
                     const currentTime = moment();

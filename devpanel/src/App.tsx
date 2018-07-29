@@ -12,6 +12,7 @@ import { Summary } from "./Components/Summary/Summary";
 const SAVE_KEY = "state";
 interface AppState {
     demoModeEnabled: boolean;
+    signatureModeEnabled: boolean;
     listMessages: MessageClient[];
     statistics: Statistics;
     fetchSignatures: { [id: string]: FetchSignatureById };
@@ -19,6 +20,7 @@ interface AppState {
 
 const AppStateDefaultValue: AppState = {
     demoModeEnabled: false,
+    signatureModeEnabled: false,
     listMessages: [],
     statistics: {
         onGoingRequestCount: 0,
@@ -69,6 +71,7 @@ class App extends React.Component<{}, AppState> {
             // Testing in the browser
             this.state = {
                 demoModeEnabled: false,
+                signatureModeEnabled: false,
                 listMessages: list,
                 statistics: testingData.getStatistics(),
                 fetchSignatures: {}
@@ -98,6 +101,7 @@ class App extends React.Component<{}, AppState> {
                     }
                     const newState: AppState = {
                         demoModeEnabled: this.state.demoModeEnabled,
+                        signatureModeEnabled: this.state.signatureModeEnabled,
                         listMessages: currentMessages,
                         statistics: adjustedStatistics,
                         fetchSignatures: adjustedFetchHttpSignatures
@@ -137,6 +141,17 @@ class App extends React.Component<{}, AppState> {
                     onSave={() => this.persistState()}
                     onChangeDemoMode={(isDemoEnabled: boolean) => {
                         this.setState({ demoModeEnabled: isDemoEnabled });
+                    }}
+                    onChangeSignatureMode={(isDemoEnabled: boolean) => {
+                        this.setState({ signatureModeEnabled: isDemoEnabled });
+                        this.port.postMessage({
+                            name: "action",
+                            data: {
+                                id: "signature",
+                                value: isDemoEnabled
+                            },
+                            tabId: chrome.devtools.inspectedWindow.tabId
+                        });
                     }}
                 />
             </div>

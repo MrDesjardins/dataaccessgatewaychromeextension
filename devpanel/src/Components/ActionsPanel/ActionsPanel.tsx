@@ -5,6 +5,7 @@ export interface ActionsPanelProps {
     onLoad: () => void;
     onSave: () => void;
     onChangeDemoMode: (isDemoOn: boolean) => void;
+    onChangeSignatureMode: (isDemoOn: boolean) => void;
 }
 
 export class ActionsPanel extends React.Component<ActionsPanelProps> {
@@ -21,6 +22,13 @@ export class ActionsPanel extends React.Component<ActionsPanelProps> {
                 <input
                     type="checkbox"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onChangeDemoMode(event.target.checked)}
+                />
+            </span>
+            <span className="actionInput">
+                <span>Signature:</span>
+                <input
+                    type="checkbox"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onChangeSignatureMode(event.target.checked)}
                 />
             </span>
         </div>;

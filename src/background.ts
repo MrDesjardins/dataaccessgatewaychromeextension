@@ -20,16 +20,24 @@ chrome.runtime.onMessage.addListener((message, sender) => {
  */
 chrome.runtime.onConnect.addListener((port: chrome.runtime.Port) => {
     let tabId: any;
-    chrome.runtime.onMessage.addListener
     port.onMessage.addListener(message => {
-        if (message.name === "init") { // set in devtools.ts
+        if (message.name === "init") {
+            // set in devtools.ts
             if (!tabId) {
                 // this is a first message from devtools so let's set the tabId-port mapping
                 tabId = message.tabId;
-                tabPorts[tabId] = port
+                tabPorts[tabId] = port;
+            }
+        }
+        if (message.name && message.name === "action" && message.data) {
+            var conn = tabPorts[tabId];
+            if (conn) {
+                console.warn("background->contentScript", message);
+                chrome.tabs.sendMessage(tabId, message);
             }
         }
     });
+
     port.onDisconnect.addListener(() => {
         delete tabPorts[tabId];
     });
