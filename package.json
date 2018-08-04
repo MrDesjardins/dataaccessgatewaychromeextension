@@ -5,7 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "copy": "cpx 'src/*.{json,html}' dist && cpx 'images/*' dist/images",
-    "build": "npm run copy && node_modules/typescript/bin/tsc"
+    "build": "npm run copy && node_modules/typescript/bin/tsc",
+    "zip": "node node_modules/bestzip/bin/cli app.zip dist/*",
+    "upload":"node node_modules/chrome-webstore-upload-cli/index publish --extension-id fgmpilokjekdimkgeamhpndkpcnbbhco",
+    "push": "node node_modules/dotenv-cli/cli npm run upload",
+    "publish": "npm run build && npm run zip && npm run push"
   },
   "repository": {
     "type": "git",
@@ -19,8 +23,12 @@
   "homepage": "https://github.com/MrDesjardins/dataaccessgatewaychromeextension#readme",
   "devDependencies": {
     "@types/chrome": "0.0.69",
+    "bestzip": "^1.1.4",
+    "chrome-webstore-upload-cli": "^1.2.0",
     "cpx": "^1.5.0",
     "create-react-app": "^1.5.2",
+    "dotenv": "^6.0.0",
+    "dotenv-cli": "^1.4.0",
     "typescript": "^2.9.2"
   },
   "dependencies": {

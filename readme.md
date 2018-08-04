@@ -81,9 +81,21 @@ _The Chrome Extension is what communicate between the library and the Chrome's e
 2. Load once the extension from the Chrome's Extension `chrome://extensions` to point to the root `dist` folder.
 3. Close and open the Chrome's Dev Tools every time after `npm run build` is executed.
 
+## Publish into Chrome Web Store
+Create a `.env` file and add the following environment variables:
+```
+CLIENT_ID=XXXXX.apps.googleusercontent.com
+CLIENT_SECRET=XXXXX
+REFRESH_TOKEN=XXXXX
+``` 
+The values are coming from the readme.md from chrome-webstore-upload-cli project.
+Once the configuration is setup:
+
+1. Go in `devpanel` and run `npm run build`
+2. Go back at the root and run `npm run publish`
+
 # Todos
 
 1. Unit tests
-2. Large data set make the UI lag. Too much information is loaded in the console. We could use some virtualization and purge some data after some time.
-3. UI could be improved. A balance between simplicity and density of information should be always respected.
-4. Find a way to have the creat-react-app to be unminimized for debugging purpose
+2. UI could be improved. A balance between simplicity and density of information should be always respected.
+3. Find a way to have the creat-react-app to be unminimized for debugging purpose
