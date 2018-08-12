@@ -14,6 +14,11 @@ export enum DataAction {
     RemoveFromOnGoingRequest = "RemoveFromOnGoingRequest",
     System = "System"
 }
+export enum FetchType {
+    Fast = "Fast",
+    Fresh = "Fresh",
+    Web = "Web"
+}
 export interface PerformanceTimeMarker {
     startMs: number;
     stopMs?: number;
@@ -31,6 +36,7 @@ export interface LogBase {
     id: string;
     url: string;
     performanceInsight?: PerformanceRequestInsight;
+    fetchType: FetchType | undefined;
 }
 export interface LogError extends LogBase {
     kind: "LogError";

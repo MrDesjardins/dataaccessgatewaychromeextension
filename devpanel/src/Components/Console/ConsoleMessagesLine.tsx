@@ -31,6 +31,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
         let performance = 0;
         let performanceString = "";
         let sizeString = "";
+        let fetchType = m.payload.fetchType;
         performance = this.logics.extractPerformanceFromPayload(m);
         performanceString = this.logics.timeConversion(performance);
         if (m.payload.kind === "LogInfo") {
@@ -54,7 +55,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                         <span>{m.payload.action}</span>
                     </div>
                     <div className={sourceStyles}>
-                        <span>{m.payload.source}</span>
+                        <span title={`Coming from ${fetchType}`}>{m.payload.source}</span>
                     </div>
                     <div className={performanceStyles}>
                         <span>{performanceString}</span>
