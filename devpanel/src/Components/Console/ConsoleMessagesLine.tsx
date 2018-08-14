@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import * as React from "react";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, DataAction, FetchSignatureById, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
+import { CSS_ACTION, CSS_HTTPMETHOD, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, DataAction, FetchSignatureById, MessageClient, sizeConversation } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLineDetails } from "./ConsoleMessagesLineDetails";
 export interface ConsoleMessagesLineProps {
     message: MessageClient;
@@ -26,6 +26,7 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
             m.payload.kind === "LogInfo" ? (m.payload.action === DataAction.Use ? "line-use" : "") : "line-error";
         const sourceStyles = `${CSS_SOURCE} ${m.payload.source}`;
         const actionStyles = `${CSS_ACTION} ${m.payload.action}`;
+        const methodStyles = `${CSS_HTTPMETHOD} ${m.payload.httpMethod}`;
         const performanceStyles = `${CSS_PERFORMANCE} ${m.payload.source}`;
         const idStyles = `${CSS_URL} ${this.props.demoModeEnabled ? "demo-mode" : ""}`;
         let performance = 0;
@@ -52,7 +53,10 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
                         <span>{moment(m.incomingDateTime).fromNow()}</span>
                     </div>
                     <div className={actionStyles}>
-                        <span>{m.payload.action}</span>
+                        <span className="action-text">{this.transformActionText(m.payload.action)}</span>
+                    </div>
+                    <div className={methodStyles}>
+                        <span className="httpmethod-text">{m.payload.httpMethod}</span>
                     </div>
                     <div className={sourceStyles}>
                         <span title={`Coming from ${fetchType}`}>{m.payload.source}</span>
@@ -69,7 +73,17 @@ export class ConsoleMessagesLine extends React.Component<ConsoleMessagesLineProp
             </li>
         );
     }
+    private transformActionText(dataAction: DataAction): string {
+        if (dataAction === DataAction.AddFromOnGoingRequest) {
+            return "Add OnGoing";
+        } else if (dataAction === DataAction.RemoveFromOnGoingRequest) {
+            return "Del OnGoing";
+        } else if (dataAction === DataAction.WaitingOnGoingRequest) {
+            return "Wait OnGoing";
+        }
 
+        return dataAction;
+    }
     private renderActiveLine(m: MessageClient): JSX.Element | undefined {
         if (this.props.isOpen) {
             return (

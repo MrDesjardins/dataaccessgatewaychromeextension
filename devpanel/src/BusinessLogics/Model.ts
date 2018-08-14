@@ -37,6 +37,7 @@ export interface LogBase {
     url: string;
     performanceInsight?: PerformanceRequestInsight;
     fetchType: FetchType | undefined;
+    httpMethod: string;
 }
 export interface LogError extends LogBase {
     kind: "LogError";
@@ -152,6 +153,7 @@ export interface MemorySizesByType {
 export const CSS_TIME = "time";
 export const CSS_SOURCE = "source";
 export const CSS_ACTION = "action";
+export const CSS_HTTPMETHOD = "httpmethod";
 export const CSS_PERFORMANCE = "performance";
 export const CSS_URL = "idurl";
 

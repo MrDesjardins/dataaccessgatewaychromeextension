@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AutoSizer, Index, List, ListRowProps } from "react-virtualized";
 import { ILogics, Logics } from "../../BusinessLogics/Logics";
-import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, FetchSignatureById, MessageClient } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, CSS_ACTION, CSS_HTTPMETHOD, CSS_PERFORMANCE, CSS_SOURCE, CSS_TIME, CSS_URL, FetchSignatureById, MessageClient } from "../../BusinessLogics/Model";
 import { ConsoleMessagesLine } from "./ConsoleMessagesLine";
 import { ConsoleMessagesOptions } from "./ConsoleMessagesOptions";
 
@@ -70,8 +70,9 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                             }}
                         >
                             <div className={CSS_TIME}>Time</div>
-                            <div className={CSS_SOURCE}>Action</div>
-                            <div className={CSS_ACTION}>Source</div>
+                            <div className={CSS_ACTION}>Action</div>
+                            <div className={CSS_HTTPMETHOD}>Method</div>
+                            <div className={CSS_SOURCE}>Source</div>
                             <div className={CSS_PERFORMANCE}>Perf</div>
                             <div className={CSS_URL}>Url</div>
                         </li>

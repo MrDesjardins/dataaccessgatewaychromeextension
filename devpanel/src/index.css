@@ -238,6 +238,12 @@ body {
 }
 
 .ConsoleMessages ul li div.action {
+    flex: 0 0 90px;
+}
+.ConsoleMessages ul li div.httpmethod {
+    flex: 0 0 60px;
+}
+.ConsoleMessages ul li div.source {
     flex: 0 0 160px;
 }
 .ConsoleMessages ul li div.performance {
@@ -246,19 +252,29 @@ body {
 .ConsoleMessages ul li div.action.Fetch {
     color: rgba(247, 77, 255);
 }
-.ConsoleMessages ul li div.action.Use > span {
+.ConsoleMessages ul li div.action.Use > span.action-text {
     color: rgb(67, 233, 130);
     background-color: #358d67;
     border-radius: 2px;
     padding: 1px 3px 1px 3px;
     text-shadow: #283e34 1px 1px 1px;
 }
+.ConsoleMessages ul li div.httpmethod > span.httpmethod-text {
+    margin-left:3px;
+    color: rgb(73, 141, 99);
+    background-color: #0b462c;
+    border-radius: 2px;
+    padding: 1px 3px 1px 3px;
+    text-shadow: #283e34 1px 1px 1px;
+    opacity: 0.5;
+}
+.ConsoleMessages ul li div.httpmethod > span.httpmethod-text:hover {
+    opacity: 1;
+}
 .ConsoleMessages ul li div.action.Save {
     color: rgb(55, 160, 255);
 }
-.ConsoleMessages ul li div.source {
-    flex: 0 0 160px;
-}
+
 .ConsoleMessages ul li div.source.MemoryCache {
     color: #a566e0;
 }
