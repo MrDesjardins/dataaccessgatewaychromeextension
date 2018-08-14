@@ -261,15 +261,27 @@ body {
 }
 .ConsoleMessages ul li div.httpmethod > span.httpmethod-text {
     margin-left:3px;
-    color: rgb(73, 141, 99);
-    background-color: #0b462c;
     border-radius: 2px;
     padding: 1px 3px 1px 3px;
-    text-shadow: #283e34 1px 1px 1px;
-    opacity: 0.5;
 }
-.ConsoleMessages ul li div.httpmethod > span.httpmethod-text:hover {
-    opacity: 1;
+.ConsoleMessages ul li div.httpmethod.GET > span.httpmethod-text {
+    color: rgb(73, 141, 99);
+    background-color: #0b462c;
+    text-shadow: #46504c 1px 1px 1px;
+}
+.ConsoleMessages ul li div.httpmethod.POST > span.httpmethod-text,
+.ConsoleMessages ul li div.httpmethod.PUT > span.httpmethod-text,
+.ConsoleMessages ul li div.httpmethod.PATCH > span.httpmethod-text
+ {
+    color:#389e8f;
+    background-color: #156e60;
+    text-shadow: #0a3f3b 1px 1px 1px;
+}
+.ConsoleMessages ul li div.httpmethod.DELETE > span.httpmethod-text
+ {
+    color: #746d9e;
+    background-color: #573d94;
+    text-shadow: #2d1b4e 1px 1px 1px;
 }
 .ConsoleMessages ul li div.action.Save {
     color: rgb(55, 160, 255);
