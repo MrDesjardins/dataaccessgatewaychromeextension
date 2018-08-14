@@ -4,6 +4,18 @@ export enum DataSource {
     PersistentStorageCache = "PersistentStorageCache",
     System = "System"
 }
+
+export enum HttpMethod {
+    GET = "GET",
+    HEAD = "HEAD",
+    POST = "POST",
+    PUT = "PUT",
+    DELETE = "DELETE",
+    CONNECT = "CONNECT",
+    OPTIONS = "OPTIONS",
+    TRACE = "TRACE",
+    PATCH = "PATCH"
+}
 export enum DataAction {
     Save = "Save",
     Fetch = "Fetch",
@@ -98,6 +110,7 @@ export interface ConsoleMessageOptionsModel {
     charTrimmedFromUrl: number;
     action: DataAction | undefined;
     source: DataSource | undefined;
+    httpMethod: HttpMethod | undefined;
 }
 export type Unit = "B" | "KB" | "MB" | "GB" | "TB" | "PB" | "EB" | "ZB" | "YB";
 export interface SizeUnit {

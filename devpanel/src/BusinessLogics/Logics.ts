@@ -89,6 +89,12 @@ export class Logics implements ILogics {
             }
         }
 
+        if (options.httpMethod !== undefined) {
+            if (m.payload.httpMethod.toLowerCase() !== options.httpMethod.toLowerCase()) {
+                return false;
+            }
+        }
+
         return true;
     }
     public extractSizeFromPayload(m: MessageClient): number {

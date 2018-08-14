@@ -1,5 +1,5 @@
 import React from "react";
-import { ConsoleMessageOptionsModel, DataAction, DataSource, Sign } from "../../BusinessLogics/Model";
+import { ConsoleMessageOptionsModel, DataAction, DataSource, HttpMethod, Sign } from "../../BusinessLogics/Model";
 
 export interface ConsoleMessagesOptionsProps extends ConsoleMessageOptionsModel {
     isOpen: boolean;
@@ -80,6 +80,17 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
                     />
                     <span className="unit">chars</span>
                 </div>
+                <div>
+                    <label>Http Method:</label>
+                    <select onChange={e => this.onHttpMethodChange(e)} value={this.props.source}>
+                        <option value="">None</option>
+                        {Object.keys(HttpMethod).map(key => (
+                            <option key={HttpMethod[key]} value={HttpMethod[key]}>
+                                {HttpMethod[key]}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
         );
     }
@@ -128,5 +139,13 @@ export class ConsoleMessagesOptions extends React.Component<ConsoleMessagesOptio
             value = undefined;
         }
         this.props.onChangeOptions({ source: value });
+    }
+
+    private onHttpMethodChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+        let value = e.currentTarget.value as HttpMethod | undefined;
+        if (e.currentTarget.value === "") {
+            value = undefined;
+        }
+        this.props.onChangeOptions({ httpMethod: value });
     }
 }

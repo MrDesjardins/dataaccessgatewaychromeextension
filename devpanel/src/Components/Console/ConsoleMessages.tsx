@@ -36,7 +36,8 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                 },
                 charTrimmedFromUrl: 0,
                 action: undefined,
-                source: undefined
+                source: undefined,
+                httpMethod: undefined
             },
             filteredData: []
         };
@@ -83,6 +84,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
                         size={this.state.consoleMessageOptions.size}
                         action={this.state.consoleMessageOptions.action}
                         source={this.state.consoleMessageOptions.source}
+                        httpMethod={this.state.consoleMessageOptions.httpMethod}
                         charTrimmedFromUrl={this.state.consoleMessageOptions.charTrimmedFromUrl}
                         onChangeOptions={p => this.onConsoleMessagesOptionsChange(p)}
                     />
