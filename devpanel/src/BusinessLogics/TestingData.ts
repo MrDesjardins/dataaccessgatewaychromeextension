@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import * as uuidv4 from "uuid/v4";
-import { DataAction, DataSource, FetchType, MessageClient, Statistics } from "./Model";
+import { DataAction, DataSource, FetchType, HttpMethod, MessageClient, Statistics } from "./Model";
 // tslint:disable:max-line-length
 export class TestingData {
     public getListMessages(): MessageClient[] {
@@ -20,7 +20,7 @@ export class TestingData {
                     },
                     dataSignature: "SignatureUrl1",
                     fetchType: FetchType.Fast,
-                    httpMethod: "POST"
+                    httpMethod: HttpMethod.POST
                 },
                 incomingDateTime: moment("2018-07-01 21:30:00").toISOString(),
                 uuid: uuidv4()
@@ -42,7 +42,7 @@ export class TestingData {
                     },
                     dataSignature: "SignatureUrlLong",
                     fetchType: FetchType.Fresh,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:31:00").toISOString(),
                 uuid: uuidv4()
@@ -58,7 +58,7 @@ export class TestingData {
                     action: DataAction.Fetch,
                     error: "",
                     fetchType: FetchType.Web,
-                    httpMethod: "PUT"
+                    httpMethod: HttpMethod.PUT
                 },
                 incomingDateTime: moment("2018-07-01 21:31:10").toISOString(),
                 uuid: uuidv4()
@@ -79,7 +79,7 @@ export class TestingData {
                     },
                     dataSignature: "SignatureUrl1",
                     fetchType: FetchType.Fast,
-                    httpMethod: "DELETE"
+                    httpMethod: HttpMethod.DELETE
                 },
                 incomingDateTime: moment("2018-07-01 21:32:00").toISOString(),
                 uuid: uuidv4()
@@ -96,7 +96,7 @@ export class TestingData {
                     performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 },
                     dataSignature: "SignatureUrl1_v2",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -113,7 +113,7 @@ export class TestingData {
                     performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 },
                     dataSignature: "SignatureUrl2",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -130,7 +130,7 @@ export class TestingData {
                     performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 },
                     dataSignature: "SignatureUrl1_v3",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:35:00").toISOString(),
                 uuid: uuidv4()
@@ -146,7 +146,7 @@ export class TestingData {
                     action: DataAction.Save,
                     dataSignature: "SignatureUrl1_v3",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:35:45").toISOString(),
                 uuid: uuidv4()
@@ -162,7 +162,7 @@ export class TestingData {
                     action: DataAction.Fetch,
                     dataSignature: "SignatureUrl1_v4",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:38:00").toISOString(),
                 uuid: uuidv4()
@@ -178,7 +178,7 @@ export class TestingData {
                     action: DataAction.AddFromOnGoingRequest,
                     dataSignature: "SignatureUrl2_v2",
                     fetchType: FetchType.Fast,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:39:00").toISOString(),
                 uuid: uuidv4()
@@ -194,7 +194,7 @@ export class TestingData {
                     action: DataAction.AddFromOnGoingRequest,
                     dataSignature: "SignatureUrl1",
                     fetchType: FetchType.Web,
-                    httpMethod: "GET"
+                    httpMethod: HttpMethod.GET
                 },
                 incomingDateTime: moment("2018-07-01 21:39:10").toISOString(),
                 uuid: uuidv4()

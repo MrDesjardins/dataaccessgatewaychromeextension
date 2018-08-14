@@ -49,7 +49,7 @@ export interface LogBase {
     url: string;
     performanceInsight?: PerformanceRequestInsight;
     fetchType: FetchType | undefined;
-    httpMethod: string;
+    httpMethod: HttpMethod;
 }
 export interface LogError extends LogBase {
     kind: "LogError";
