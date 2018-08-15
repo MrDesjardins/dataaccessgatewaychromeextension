@@ -17,7 +17,7 @@
     },
     "scripts": {
         "start": "node node_modules/cross-env/dist/bin/cross-env REACT_APP_RUNENV=web react-scripts-ts start",
-        "build": "react-scripts-ts build && node node_modules/cpx/bin/index.js 'build/**/*.*' ../dist",
+        "build": "rm -R build && react-scripts-ts build && node node_modules/cpx/bin/index.js 'build/**/*.*' ../dist",
         "test": "react-scripts-ts test --env=jsdom"
     },
     "devDependencies": {
