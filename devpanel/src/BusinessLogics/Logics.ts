@@ -1,5 +1,5 @@
 import * as moment from "moment";
-import { ConsoleMessageOptionsModel, DataAction, DataSource, FetchSignatureById, getDividerSize, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
+import { ConsoleMessageOptionsModel, DataAction, DataSource, FetchSignatureById, getDividerSize, HttpMethod, MemorySizesByType, Message, MessageClient, sizeConversation, Statistics, Threshold } from "./Model";
 
 export interface ILogics {
     extractPerformanceFromPayload(m: MessageClient): number;
@@ -260,6 +260,19 @@ export class Logics implements ILogics {
                         (newStatistics.memoryBytes + newStatistics.persistenceStorageBytes) / totalBytes;
                 } else {
                     newStatistics.bytesInCacheRate = 0;
+                }
+            }
+
+            // Count HTTP Method
+            if (message.payload.action === DataAction.Use) {
+                if (message.payload.httpMethod === HttpMethod.GET) {
+                    newStatistics.httpGetCount++;
+                } else if (message.payload.httpMethod === HttpMethod.POST) {
+                    newStatistics.httpPostCount++;
+                } else if (message.payload.httpMethod === HttpMethod.PUT) {
+                    newStatistics.httpPutCount++;
+                } else if (message.payload.httpMethod === HttpMethod.DELETE) {
+                    newStatistics.httpDeleteCount++;
                 }
             }
         }

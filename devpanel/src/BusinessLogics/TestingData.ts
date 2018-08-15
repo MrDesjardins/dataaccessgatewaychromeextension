@@ -228,7 +228,11 @@ export class TestingData {
                 persistentStorageRequestsMs: [1, 2, 3, 4, 5, 20, 50, 80, 90, 99, 100],
                 memoryRequestsMs: [100, 50, 200, 125],
                 httpRequestsMs: [150, 4000, 6000]
-            }
+            },
+            httpDeleteCount: 12,
+            httpGetCount: 1231,
+            httpPostCount: 333,
+            httpPutCount: 0
         };
     }
 }

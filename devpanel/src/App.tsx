@@ -43,7 +43,11 @@ const AppStateDefaultValue: AppState = {
         memoryBytes: 0,
         persistenceStorageBytes: 0,
         fetchMs: { persistentStorageRequestsMs: [], memoryRequestsMs: [], httpRequestsMs: [] },
-        bytesInCacheRate: 0
+        bytesInCacheRate: 0,
+        httpDeleteCount: 0,
+        httpGetCount: 0,
+        httpPostCount: 0,
+        httpPutCount: 0
     },
     fetchSignatures: {}
 };

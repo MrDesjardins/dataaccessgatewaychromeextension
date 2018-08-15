@@ -103,6 +103,11 @@ export interface Statistics {
     fetchMs: FetchPerformances;
 
     bytesInCacheRate: number;
+
+    httpGetCount: number;
+    httpPostCount: number;
+    httpPutCount: number;
+    httpDeleteCount: number;
 }
 export interface ConsoleMessageOptionsModel {
     performance: Threshold;
