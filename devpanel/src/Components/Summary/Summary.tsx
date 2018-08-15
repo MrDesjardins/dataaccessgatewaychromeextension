@@ -50,7 +50,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             oldHttpPut: 0,
             newHttpPut: 0,
             oldHttpDelete: 0,
-            newHttpDelete: 0,
+            newHttpDelete: 0
         };
     }
     public static getDerivedStateFromProps(props: SummaryProps, state: SummaryState): SummaryState {
@@ -74,7 +74,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
             oldHttpPut: state.newHttpPut,
             newHttpPut: props.statistics.httpPutCount,
             oldHttpDelete: state.newHttpDelete,
-            newHttpDelete: props.statistics.httpDeleteCount,
+            newHttpDelete: props.statistics.httpDeleteCount
         };
     }
 
@@ -101,7 +101,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                                 end={this.state.newBytesInCacheRate * 100}
                             />
                         </div>
-                        <div className="summary-box-label">% Fetch Bytes From Cache vs Http</div>
+                        <div className="summary-box-label">% Fetch Bytes Cache vs Http</div>
                     </div>
                 </div>
                 <div className="summary-box-dual use">
@@ -118,33 +118,57 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                                 end={this.state.newAggregateRead * 100}
                             />
                         </div>
-                        <div className="summary-box-label">% Read vs Write</div>
+                        <div className="summary-box-label">% Fetch Read vs Write</div>
                     </div>
                 </div>
                 <div className="summary-box-four use">
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
-                            <CountUp start={this.state.oldHttpGet * 100} end={this.state.newHttpGet * 100} />
+                            <CountUp
+                                start={this.state.oldHttpGet * 100}
+                                end={this.state.newHttpGet * 100}
+                                separator=" "
+                            />
                         </div>
-                        <div className="summary-box-label">Get</div>
+                        <div className="summary-box-label" style={this.getPercentage(this.state.newHttpGet)}>
+                            Get
+                        </div>
                     </div>
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
-                            <CountUp start={this.state.oldHttpPost * 100} end={this.state.newHttpPost * 100} />
+                            <CountUp
+                                start={this.state.oldHttpPost * 100}
+                                end={this.state.newHttpPost * 100}
+                                separator=" "
+                            />
                         </div>
-                        <div className="summary-box-label">Post</div>
+                        <div className="summary-box-label" style={this.getPercentage(this.state.newHttpPost)}>
+                            Post
+                        </div>
                     </div>
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
-                            <CountUp start={this.state.oldHttpPut * 100} end={this.state.newHttpPut * 100} />
+                            <CountUp
+                                start={this.state.oldHttpPut * 100}
+                                end={this.state.newHttpPut * 100}
+                                separator=" "
+                            />
                         </div>
-                        <div className="summary-box-label">Put</div>
+                        <div className="summary-box-label" style={this.getPercentage(this.state.newHttpPut)}>
+                            Put
+                        </div>
                     </div>
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
-                            <CountUp start={this.state.oldHttpDelete * 100} end={this.state.newHttpDelete * 100} />
+                            <CountUp
+                                start={this.state.oldHttpDelete * 100}
+                                end={this.state.newHttpDelete * 100}
+                                separator=" "
+                            />
                         </div>
-                        <div className="summary-box-label">Delete</div>
+                        <div className="summary-box-label" style={this.getPercentage(this.state.newHttpDelete)}>
+                            Delete
+                        </div>
                     </div>
                 </div>
                 <div className="summary-box use">
@@ -158,5 +182,17 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                 </div>
             </div>
         );
+    }
+
+    private getPercentage(numb: number): React.CSSProperties {
+        const total =
+            this.props.statistics.httpDeleteCount +
+            this.props.statistics.httpGetCount +
+            this.props.statistics.httpPostCount +
+            this.props.statistics.httpPutCount;
+        const percentage = total === 0 ? 0 : Math.ceil((numb / total) * 100);
+        return {
+            background: `linear-gradient(to right, rgb(216, 81, 170) 0%, rgb(48, 49, 82) ${percentage}%,rgba(0,0,0,0) ${percentage}%,rgba(0,0,0,0) 100%)`
+        };
     }
 }
