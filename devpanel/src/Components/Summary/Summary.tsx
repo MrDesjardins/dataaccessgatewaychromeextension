@@ -125,8 +125,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
                             <CountUp
-                                start={this.state.oldHttpGet * 100}
-                                end={this.state.newHttpGet * 100}
+                                start={this.state.oldHttpGet}
+                                end={this.state.newHttpGet}
                                 separator=" "
                             />
                         </div>
@@ -137,8 +137,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
                             <CountUp
-                                start={this.state.oldHttpPost * 100}
-                                end={this.state.newHttpPost * 100}
+                                start={this.state.oldHttpPost}
+                                end={this.state.newHttpPost}
                                 separator=" "
                             />
                         </div>
@@ -149,8 +149,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
                             <CountUp
-                                start={this.state.oldHttpPut * 100}
-                                end={this.state.newHttpPut * 100}
+                                start={this.state.oldHttpPut}
+                                end={this.state.newHttpPut}
                                 separator=" "
                             />
                         </div>
@@ -161,8 +161,8 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
                             <CountUp
-                                start={this.state.oldHttpDelete * 100}
-                                end={this.state.newHttpDelete * 100}
+                                start={this.state.oldHttpDelete}
+                                end={this.state.newHttpDelete}
                                 separator=" "
                             />
                         </div>

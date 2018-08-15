@@ -60,12 +60,12 @@ export class GraphTimeOverlay extends React.Component<GraphTimeOverlayProps, Gra
                     <span className="number">
                         <CountUp start={this.state.olddifferentSignature} end={this.state.newdifferentSignature} />
                     </span>
-                    <span className="unit">signatures</span>
+                    <span className="unit" title="signatures changed in all the request for this URL">signatures</span>
                     <span className="separator">/</span>
                     <span className="number">
                         <CountUp start={this.state.oldNumber} end={this.state.newNumber} />
                     </span>
-                    <span className="unit">requests</span>
+                    <span className="unit" title="HTTP requests for this URL">requests</span>
                 </div>
             </div>
         );

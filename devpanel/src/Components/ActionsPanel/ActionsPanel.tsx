@@ -24,7 +24,7 @@ export class ActionsPanel extends React.Component<ActionsPanelProps> {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onChangeDemoMode(event.target.checked)}
                 />
             </span>
-            <span className="actionInput">
+            <span className="actionInput" title="Signature are only for HttpRequest & Fetch">
                 <span>Signature:</span>
                 <input
                     type="checkbox"

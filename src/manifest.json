@@ -1,6 +1,6 @@
 {
     "name": "Data Access Gateway Developer Tool",
-    "version": "1.0",
+    "version": "1.2",
     "description": "Data Access Gateway Developer Tool that allows getting insight about how the data is retrieved",
     "manifest_version": 2,
     "permissions": [

@@ -265,14 +265,16 @@ export class Logics implements ILogics {
 
             // Count HTTP Method
             if (message.payload.action === DataAction.Use) {
-                if (message.payload.httpMethod === HttpMethod.GET) {
-                    newStatistics.httpGetCount++;
-                } else if (message.payload.httpMethod === HttpMethod.POST) {
-                    newStatistics.httpPostCount++;
-                } else if (message.payload.httpMethod === HttpMethod.PUT) {
-                    newStatistics.httpPutCount++;
-                } else if (message.payload.httpMethod === HttpMethod.DELETE) {
-                    newStatistics.httpDeleteCount++;
+                if (message.payload.source === DataSource.HttpRequest) {
+                    if (message.payload.httpMethod === HttpMethod.GET) {
+                        newStatistics.httpGetCount++;
+                    } else if (message.payload.httpMethod === HttpMethod.POST) {
+                        newStatistics.httpPostCount++;
+                    } else if (message.payload.httpMethod === HttpMethod.PUT) {
+                        newStatistics.httpPutCount++;
+                    } else if (message.payload.httpMethod === HttpMethod.DELETE) {
+                        newStatistics.httpDeleteCount++;
+                    }
                 }
             }
         }
@@ -309,6 +311,7 @@ export class Logics implements ILogics {
         message: Message,
         existingData: FetchSignatureById | undefined
     ): FetchSignatureById | undefined {
+        console.log("MESSAGE12313", message.payload);
         if (
             message.payload.kind === "LogInfo" &&
             message.payload.action === DataAction.Fetch &&

@@ -1,6 +1,6 @@
 {
   "name": "dataaccessgatewaychromeextension",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This is the source code for the Data Access Gateway library",
   "main": "dist/index.js",
   "scripts": {
