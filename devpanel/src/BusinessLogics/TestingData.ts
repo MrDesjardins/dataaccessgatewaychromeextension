@@ -247,13 +247,13 @@ export class TestingData {
                 50000,
                 65000,
                 34000,
-                123000,
+                123123000,
                 56777,
                 43333,
                 678999,
                 123123,
                 500000,
-                25000,
+                2500330,
                 500600,
                 0,
                 0,
@@ -261,11 +261,11 @@ export class TestingData {
                 345000
             ],
             aggregateFetchType: {
-                0: 100,
-                1: 123,
-                2: 2,
-                3: 23,
-                4: 133,
+                [FetchType.Fast]: 100,
+                [FetchType.Fresh]: 312,
+                [FetchType.Web]: 2,
+                [FetchType.Execute]: 23,
+                [FetchType.FastAndFresh]: 123,
             }
         };
     }

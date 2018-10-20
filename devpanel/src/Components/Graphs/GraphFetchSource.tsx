@@ -1,15 +1,16 @@
 import * as chartjs from "chart.js";
 import * as React from "react";
 import { Bar, ChartData } from "react-chartjs-2";
-import { FetchType, Statistics } from "../../BusinessLogics/Model";
+import { Statistics } from "../../BusinessLogics/Model";
 import { BAR_HOVER_BACKGROUND_COLOR, BAR_HOVER_BORDER_COLOR, FONT_COLOR, FONT_SIZE, GRAPH_HEIGHT, GRAPH_WIDTH, HTTP_BACKGROUND_COLOR, MEMORY_BACKGROUND_COLOR, PERSISTENCE_BACKGROUND_COLOR } from "./Constants";
 export interface GraphFetchSourceProps {
     statistics: Statistics;
 }
 export class GraphFetchSource extends React.Component<GraphFetchSourceProps> {
     public render(): JSX.Element {
+        const fetchTypes = Object.keys(this.props.statistics.aggregateFetchType);
         const data: ChartData<chartjs.ChartData> = {
-            labels: Object.keys(FetchType),
+            labels: fetchTypes,
             datasets: [
                 {
                     backgroundColor: [
@@ -37,7 +38,7 @@ export class GraphFetchSource extends React.Component<GraphFetchSourceProps> {
                     borderWidth: 1,
                     hoverBackgroundColor: BAR_HOVER_BACKGROUND_COLOR,
                     hoverBorderColor: BAR_HOVER_BORDER_COLOR,
-                    data: Object.keys(this.props.statistics.aggregateFetchType).map((key: string) => {
+                    data: fetchTypes.map((key: string) => {
                         return this.props.statistics.aggregateFetchType[key];
                     })
                 }

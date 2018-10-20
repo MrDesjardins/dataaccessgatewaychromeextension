@@ -113,7 +113,7 @@ export interface Statistics {
     httpPutCount: number;
     httpDeleteCount: number;
     dateAgeMs: number[];
-    aggregateFetchType: { [index: number]: number }; // Index is the enum of the FetchType
+    aggregateFetchType: { [index: string]: number }; // Index is the enum of the FetchType
 }
 export interface ConsoleMessageOptionsModel {
     performance: Threshold;

@@ -284,7 +284,7 @@ export class Logics implements ILogics {
             }
 
             // FetchType count
-            if (message.payload.fetchType !== undefined) {
+            if (message.payload.action === DataAction.Use && message.payload.fetchType !== undefined) {
                 newStatistics.aggregateFetchType[message.payload.fetchType]++;
             }
         }

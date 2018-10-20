@@ -3,7 +3,7 @@ import * as React from "react";
 import * as uuidv4 from "uuid/v4";
 import "./App.css";
 import { ILogics, Logics } from "./BusinessLogics/Logics";
-import { FetchSignatureById, Message, MessageClient, Statistics } from "./BusinessLogics/Model";
+import { FetchSignatureById, FetchType, Message, MessageClient, Statistics } from "./BusinessLogics/Model";
 import { TestingData } from "./BusinessLogics/TestingData";
 import { ActionsPanel } from "./Components/ActionsPanel/ActionsPanel";
 import { ConsoleMessages } from "./Components/Console/ConsoleMessages";
@@ -50,7 +50,13 @@ const AppStateDefaultValue: AppState = {
         httpPostCount: 0,
         httpPutCount: 0,
         dateAgeMs: [],
-        aggregateFetchType: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 }
+        aggregateFetchType: {
+            [FetchType.Fast]: 0,
+            [FetchType.Fresh]: 0,
+            [FetchType.Web]: 0,
+            [FetchType.Execute]: 0,
+            [FetchType.FastAndFresh]: 0
+        }
     },
     fetchSignatures: {}
 };
