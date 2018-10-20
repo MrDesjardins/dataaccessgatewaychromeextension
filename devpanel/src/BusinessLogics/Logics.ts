@@ -90,7 +90,7 @@ export class Logics implements ILogics {
         }
 
         if (options.httpMethod !== undefined) {
-            if (m.payload.httpMethod.toLowerCase() !== options.httpMethod.toLowerCase()) {
+            if (m.payload.httpMethod !== options.httpMethod) {
                 return false;
             }
         }
