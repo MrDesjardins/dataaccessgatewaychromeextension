@@ -7,18 +7,23 @@ body {
 
 .App {
     display: grid;
-    grid-template-rows: 120px 300px auto 50px;
+    grid-template-rows: 120px auto 50px;
     grid-template-columns: 1fr;
     height: 100vh;
 }
 
 .Graph {
     display: flex;
+    flex:1;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
 }
 
 .Graph .IndividualGraph {
     position: relative; /*Allow to positionate with absolute the big number on top of canvas*/
-    flex: 1;
+    flex: 0 0 300px;
+    height: 250px;
     margin: auto;
     padding: 10px;
     margin: 10px;
@@ -47,7 +52,7 @@ body {
     text-shadow: #a566e0 1px 1px 1px, #323252 -1px -1px 1px;
 }
 
-.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .separator{
+.ConsoleMessages .ConsoleMessage-items .console-chart .highlight-number-on-graph .line2 .separator {
     margin: 0 2px 0 2px;
 }
 
@@ -260,7 +265,7 @@ body {
     text-shadow: #283e34 1px 1px 1px;
 }
 .ConsoleMessages ul li div.httpmethod > span.httpmethod-text {
-    margin-left:3px;
+    margin-left: 3px;
     border-radius: 2px;
     padding: 1px 3px 1px 3px;
 }
@@ -271,14 +276,12 @@ body {
 }
 .ConsoleMessages ul li div.httpmethod.POST > span.httpmethod-text,
 .ConsoleMessages ul li div.httpmethod.PUT > span.httpmethod-text,
-.ConsoleMessages ul li div.httpmethod.PATCH > span.httpmethod-text
- {
-    color:#389e8f;
+.ConsoleMessages ul li div.httpmethod.PATCH > span.httpmethod-text {
+    color: #389e8f;
     background-color: #156e60;
     text-shadow: #0a3f3b 1px 1px 1px;
 }
-.ConsoleMessages ul li div.httpmethod.DELETE > span.httpmethod-text
- {
+.ConsoleMessages ul li div.httpmethod.DELETE > span.httpmethod-text {
     color: #746d9e;
     background-color: #573d94;
     text-shadow: #2d1b4e 1px 1px 1px;
@@ -427,15 +430,15 @@ body {
 }
 
 .Summary .summary-box-dual-row,
-.Summary .summary-box-four-row{
+.Summary .summary-box-four-row {
     flex: 1;
     flex-direction: row;
     display: flex;
 }
-.Summary .summary-box-dual-row{
+.Summary .summary-box-dual-row {
     margin-top: 8px;
     margin-bottom: 8px;
-    height:38px;
+    height: 38px;
 }
 
 .Summary .summary-box-dual .summary-box-label {
@@ -459,7 +462,7 @@ body {
 }
 
 .Summary .summary-box-four .summary-box-label,
-.Summary .summary-box-four .summary-box-value  {
+.Summary .summary-box-four .summary-box-value {
     margin: 3px;
 }
 .Summary .summary-box-four .summary-box-label {
@@ -470,7 +473,7 @@ body {
 .Summary .summary-box-four .summary-box-value {
     flex: 0 0 80px;
     text-align: right;
-    padding-right:5px;
+    padding-right: 5px;
 }
 
 .ActionsPanel {
@@ -559,4 +562,34 @@ input[type="checkbox"]:checked:after {
 
 input[type="checkbox"]:disabled:after {
     border-color: #7b7b7b;
+}
+/* Main */
+.Main{
+    display:grid;
+    grid-template-rows: 30px auto;
+    grid-template-columns: 1fr;
+}
+
+.Main .Main-content{
+    display: flex;
+    flex: 1;
+}
+/* Menu */
+.menu-button {
+    background-color: #b15ce7;
+    border: 1px transparent solid;
+    color: white;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-right:5px;
+    font-size:12px;
+}
+.menu-button:hover{
+    background-color: #ea3faf;
+}
+.active-menu-button {
+    background-color: #ea3faf;
+    font-weight: bold;
+    border: 1px solid white;
 }

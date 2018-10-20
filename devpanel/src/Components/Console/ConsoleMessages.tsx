@@ -24,7 +24,7 @@ export class ConsoleMessages extends React.Component<ConsoleMessagesProps, Conso
     public constructor(props: ConsoleMessagesProps) {
         super(props);
         this.state = {
-            isConsoleHeaderOpen: false,
+            isConsoleHeaderOpen: true,
             consoleMessageOptions: {
                 performance: {
                     value: "",

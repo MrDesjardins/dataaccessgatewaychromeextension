@@ -8,6 +8,7 @@ import { TestingData } from "./BusinessLogics/TestingData";
 import { ActionsPanel } from "./Components/ActionsPanel/ActionsPanel";
 import { ConsoleMessages } from "./Components/Console/ConsoleMessages";
 import { Graph } from "./Components/Graphs/Graph";
+import { Main } from "./Components/Main/Main";
 import { Summary } from "./Components/Summary/Summary";
 const SAVE_KEY = "state";
 interface AppState {
@@ -133,11 +134,16 @@ class App extends React.Component<{}, AppState> {
         return (
             <div className="App">
                 <Summary statistics={this.state.statistics} />
-                <Graph statistics={this.state.statistics} />
-                <ConsoleMessages
-                    demoModeEnabled={this.state.demoModeEnabled}
-                    listMessages={this.state.listMessages}
-                    signatures={this.state.fetchSignatures}
+                <Main
+                    sections={[
+                        <ConsoleMessages
+                            key="console"
+                            demoModeEnabled={this.state.demoModeEnabled}
+                            listMessages={this.state.listMessages}
+                            signatures={this.state.fetchSignatures}
+                        />,
+                        <Graph key="graph" statistics={this.state.statistics} />
+                    ]}
                 />
                 <ActionsPanel
                     onReset={() => this.resetState()}
