@@ -92,7 +92,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                         <div className="summary-box-value">
                             <CountUp start={this.state.oldAggregateUse * 100} end={this.state.newAggregateUse * 100} />
                         </div>
-                        <div className="summary-box-label">% Fetch Used Cache vs Http</div>
+                        <div className="summary-box-label">% Used From Cache vs Http</div>
                     </div>
                     <div className="summary-box-dual-row">
                         <div className="summary-box-value">
@@ -101,7 +101,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                                 end={this.state.newBytesInCacheRate * 100}
                             />
                         </div>
-                        <div className="summary-box-label">% Fetch Bytes Cache vs Http</div>
+                        <div className="summary-box-label">% Used Bytes Cache vs Http</div>
                     </div>
                 </div>
                 <div className="summary-box-dual use">
@@ -109,7 +109,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                         <div className="summary-box-value">
                             <CountUp start={this.state.oldAggregateMem * 100} end={this.state.newAggregateMem * 100} />
                         </div>
-                        <div className="summary-box-label">% Fetch Used Memory vs DB</div>
+                        <div className="summary-box-label">% Used Data From Memory vs DB</div>
                     </div>
                     <div className="summary-box-dual-row">
                         <div className="summary-box-value">
@@ -118,10 +118,10 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                                 end={this.state.newAggregateRead * 100}
                             />
                         </div>
-                        <div className="summary-box-label">% Fetch Read vs Write</div>
+                        <div className="summary-box-label">% Ops Read vs Write</div>
                     </div>
                 </div>
-                <div className="summary-box-four use">
+                <div className="summary-box-four use" title="HTTP Fetch with action 'USE'">
                     <div className="summary-box-four-row">
                         <div className="summary-box-value">
                             <CountUp
@@ -178,7 +178,7 @@ export class Summary extends React.Component<SummaryProps, SummaryState> {
                             end={this.state.newAggregateSuccessFetchRate * 100}
                         />
                     </div>
-                    <div className="summary-box-label">% Fetch Success</div>
+                    <div className="summary-box-label">% Http Fetch Success</div>
                 </div>
             </div>
         );

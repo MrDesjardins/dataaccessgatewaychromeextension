@@ -219,7 +219,7 @@ export class Logics implements ILogics {
                     ? 0
                     : newStatistics.useMemoryCount / (newStatistics.useMemoryCount + newStatistics.usePersistentCount);
 
-            if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
+            if (message.payload.action === DataAction.Fetch) {
                 newStatistics.successfulFetchFull++;
             }
             // Performance Percentile
@@ -279,7 +279,7 @@ export class Logics implements ILogics {
             }
         }
         if (message.payload.kind === "LogError") {
-            if (message.payload.action === DataAction.Use || message.payload.action === DataAction.Fetch) {
+            if (message.payload.action === DataAction.Fetch) {
                 newStatistics.failedFetchFull++;
             }
         }

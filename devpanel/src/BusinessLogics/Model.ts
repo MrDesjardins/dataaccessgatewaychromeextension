@@ -58,6 +58,8 @@ export interface LogError extends LogBase {
 export interface LogInfo extends LogBase {
     kind: "LogInfo";
     dataSignature: string | undefined;
+    dataAgeMs: number | undefined;
+    useIsIntermediate?: boolean | undefined;
 }
 export interface Message {
     id: string;
