@@ -242,7 +242,31 @@ export class TestingData {
             httpDeleteCount: 12,
             httpGetCount: 1231,
             httpPostCount: 333,
-            httpPutCount: 0
+            httpPutCount: 0,
+            dateAgeMs: [
+                50000,
+                65000,
+                34000,
+                123000,
+                56777,
+                43333,
+                678999,
+                123123,
+                500000,
+                25000,
+                500600,
+                0,
+                0,
+                60000,
+                345000
+            ],
+            aggregateFetchType: {
+                0: 100,
+                1: 123,
+                2: 2,
+                3: 23,
+                4: 133,
+            }
         };
     }
 }

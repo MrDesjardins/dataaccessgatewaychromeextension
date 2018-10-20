@@ -48,7 +48,9 @@ const AppStateDefaultValue: AppState = {
         httpDeleteCount: 0,
         httpGetCount: 0,
         httpPostCount: 0,
-        httpPutCount: 0
+        httpPutCount: 0,
+        dateAgeMs: [],
+        aggregateFetchType: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 }
     },
     fetchSignatures: {}
 };

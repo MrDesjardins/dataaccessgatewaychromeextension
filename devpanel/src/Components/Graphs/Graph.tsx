@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Statistics } from "../../BusinessLogics/Model";
 import { GraphCountBySourceAndAction } from "./GraphCountBySourceAndAction";
+import { GraphFetchSource } from "./GraphFetchSource";
+import { GraphPercentileDateAge } from "./GraphPercentileDateAge";
 import { GraphPercentilePerformance } from "./GraphPercentilePerformance";
 import { GraphSizeBySource } from "./GraphSizeBySource";
 import { GraphSizeOverlay } from "./GraphSizeOverlay";
@@ -24,6 +26,12 @@ export class Graph extends React.Component<GraphProps> {
                 </div>
                 <div className="IndividualGraph">
                     <GraphPercentilePerformance statistics={this.props.statistics} />
+                </div>
+                <div className="IndividualGraph">
+                    <GraphPercentileDateAge statistics={this.props.statistics} />
+                </div>
+                <div className="IndividualGraph">
+                    <GraphFetchSource statistics={this.props.statistics} />
                 </div>
             </div>
         );

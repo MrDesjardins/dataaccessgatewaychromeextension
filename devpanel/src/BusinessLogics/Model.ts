@@ -29,7 +29,9 @@ export enum DataAction {
 export enum FetchType {
     Fast = "Fast",
     Fresh = "Fresh",
-    Web = "Web"
+    Web = "Web",
+    FastAndFresh = "FastAndWeb",
+    Execute = "Execute"
 }
 export interface PerformanceTimeMarker {
     startMs: number;
@@ -110,6 +112,8 @@ export interface Statistics {
     httpPostCount: number;
     httpPutCount: number;
     httpDeleteCount: number;
+    dateAgeMs: number[];
+    aggregateFetchType: { [index: number]: number }; // Index is the enum of the FetchType
 }
 export interface ConsoleMessageOptionsModel {
     performance: Threshold;

@@ -277,6 +277,16 @@ export class Logics implements ILogics {
                     }
                 }
             }
+
+            // Data Age
+            if (message.payload.action === DataAction.Use && message.payload.dataAgeMs !== undefined) {
+                newStatistics.dateAgeMs.push(message.payload.dataAgeMs);
+            }
+
+            // FetchType count
+            if (message.payload.fetchType !== undefined) {
+                newStatistics.aggregateFetchType[message.payload.fetchType]++;
+            }
         }
         if (message.payload.kind === "LogError") {
             if (message.payload.action === DataAction.Fetch) {
