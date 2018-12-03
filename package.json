@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@types/react-virtualized": "^9.18.5",
-    "npm": "^6.3.0",
+    "npm": "^6.4.1",
     "react-virtualized": "^9.20.1"
   }
 }
