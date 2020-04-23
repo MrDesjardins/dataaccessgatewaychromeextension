@@ -14,7 +14,11 @@ window.addEventListener("message", (event) => {
         !!message.source && message.source !== "dataaccessgateway-agent") {
         return;
     }
-    chrome.runtime.sendMessage(message);
+    if (chrome.runtime && !!chrome.runtime.getManifest()) {
+        chrome.runtime.sendMessage(message);
+    } else {
+        console.log("Cannot send the message because of the Chrome Runtime manigest not available")
+    }
 });
 
 

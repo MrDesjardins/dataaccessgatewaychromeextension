@@ -15,8 +15,8 @@ export class TestingData {
                     source: DataSource.MemoryCache,
                     action: DataAction.Fetch,
                     performanceInsight: {
-                        fetch: { startMs: 333, stopMs: 1003 },
-                        httpRequest: { startMs: 333, stopMs: 1000 }
+                        fetch: { startMs: 333, stopMs: 1003, elapsedMs: 700 },
+                        httpRequest: { startMs: 333, stopMs: 1000, elapsedMs: 700 }
                     },
                     dataSignature: "SignatureUrl1",
                     fetchType: FetchType.Fast,
@@ -38,8 +38,8 @@ export class TestingData {
                     source: DataSource.PersistentStorageCache,
                     action: DataAction.Fetch,
                     performanceInsight: {
-                        httpRequest: { startMs: 2, stopMs: 56 },
-                        fetch: { startMs: 0, stopMs: 60 }
+                        httpRequest: { startMs: 2, stopMs: 56, elapsedMs: 50 },
+                        fetch: { startMs: 0, stopMs: 60, elapsedMs: 60 }
                     },
                     dataSignature: "SignatureUrlLong",
                     fetchType: FetchType.Fresh,
@@ -75,8 +75,8 @@ export class TestingData {
                     source: DataSource.HttpRequest,
                     action: DataAction.Fetch,
                     performanceInsight: {
-                        httpRequest: { startMs: 0, stopMs: 2500 },
-                        fetch: { startMs: 0, stopMs: 2800 },
+                        httpRequest: { startMs: 0, stopMs: 2500, elapsedMs: 2500 },
+                        fetch: { startMs: 0, stopMs: 2800, elapsedMs: 2800 },
                         dataSizeInBytes: 12312
                     },
                     dataSignature: "SignatureUrl1",
@@ -96,7 +96,7 @@ export class TestingData {
                     url: "http://url1",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 0, stopMs: 2800 }, dataSizeInBytes: 12345 },
+                    performanceInsight: { fetch: { startMs: 0, stopMs: 2800, elapsedMs: 2800 }, dataSizeInBytes: 12345 },
                     dataSignature: "SignatureUrl1_v2",
                     fetchType: FetchType.Fast,
                     httpMethod: HttpMethod.GET,
@@ -114,7 +114,7 @@ export class TestingData {
                     url: "http://url2",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 0, stopMs: 2300 }, dataSizeInBytes: 12345 },
+                    performanceInsight: { fetch: { startMs: 0, stopMs: 2300, elapsedMs: 2300 }, dataSizeInBytes: 12345 },
                     dataSignature: "SignatureUrl2",
                     fetchType: FetchType.Fast,
                     httpMethod: HttpMethod.GET,
@@ -132,7 +132,7 @@ export class TestingData {
                     url: "http://url1",
                     source: DataSource.HttpRequest,
                     action: DataAction.Use,
-                    performanceInsight: { fetch: { startMs: 500, stopMs: 45000 }, dataSizeInBytes: 50345 },
+                    performanceInsight: { fetch: { startMs: 500, stopMs: 45000, elapsedMs: 44500 }, dataSizeInBytes: 50345 },
                     dataSignature: "SignatureUrl1_v3",
                     fetchType: FetchType.Fast,
                     httpMethod: HttpMethod.GET,
@@ -266,6 +266,7 @@ export class TestingData {
                 [FetchType.Web]: 2,
                 [FetchType.Execute]: 23,
                 [FetchType.FastAndFresh]: 123,
+                [FetchType.FastAndFreshObject]: 47
             }
         };
     }

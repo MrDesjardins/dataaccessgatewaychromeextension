@@ -73,12 +73,12 @@ _The Chrome Extension is what communicate between the library and the Chrome's e
 
 1. At the root: `npm install`
 2. `npm run build`
-3. Go in the developer tool of Chrome, load the package to the `dist` folder.
+3. Go in Chrome to the extension, `chrome://extensions/`, select "Load unpacked" and select the `dist` folder.
 
 ## When developing the extension, make sure to always
 
-1. Build your code. Chrome will not read the code from `run start` but only from the `dist` folder.
-2. Load once the extension from the Chrome's Extension `chrome://extensions` to point to the root `dist` folder.
+1. Build the code after each modification you want to see in Chrome with `npm run build`. Chrome will not read the code from `run start` but only from the `dist` folder.
+2. You will have to load only once the extension from the Chrome's Extension `chrome://extensions` to point to the root `dist` folder.
 3. Close and open the Chrome's Dev Tools every time after `npm run build` is executed.
 
 ## Publish into Chrome Web Store

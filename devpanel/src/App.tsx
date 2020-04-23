@@ -55,10 +55,11 @@ const AppStateDefaultValue: AppState = {
             [FetchType.Fresh]: 0,
             [FetchType.Web]: 0,
             [FetchType.Execute]: 0,
-            [FetchType.FastAndFresh]: 0
-        }
+            [FetchType.FastAndFresh]: 0,
+            [FetchType.FastAndFreshObject]: 0,
+        },
     },
-    fetchSignatures: {}
+    fetchSignatures: {},
 };
 class App extends React.Component<{}, AppState> {
     private port: chrome.runtime.Port;
@@ -67,7 +68,7 @@ class App extends React.Component<{}, AppState> {
     public constructor(props: {}) {
         super(props);
         this.state = {
-            ...AppStateDefaultValue
+            ...AppStateDefaultValue,
         };
         console.log("RUNENV", process.env.REACT_APP_RUNENV);
         if (process.env.REACT_APP_RUNENV === "web") {
@@ -79,7 +80,7 @@ class App extends React.Component<{}, AppState> {
                 ...testingData.getListMessages(),
                 ...testingData.getListMessages(),
                 ...testingData.getListMessages(),
-                ...testingData.getListMessages()
+                ...testingData.getListMessages(),
             ];
             // Testing in the browser
             this.state = {
@@ -87,21 +88,28 @@ class App extends React.Component<{}, AppState> {
                 signatureModeEnabled: false,
                 listMessages: list,
                 statistics: testingData.getStatistics(),
-                fetchSignatures: {}
+                fetchSignatures: {},
             };
         } else {
             this.port = chrome.runtime.connect({
-                name: "panel"
+                name: "panel",
             });
             this.port.postMessage({
                 name: "init",
-                tabId: chrome.devtools.inspectedWindow.tabId
+                tabId: chrome.devtools.inspectedWindow.tabId,
             });
             this.port.onMessage.addListener((message: Message) => {
                 if (message.source === "dataaccessgateway-agent") {
                     const currentMessages = this.state.listMessages.slice();
                     const newMessage = { ...message, incomingDateTime: moment().toISOString(), uuid: uuidv4() };
                     currentMessages.unshift(newMessage);
+                    // Ensure we have a string
+                    currentMessages.forEach(
+                        (m) =>
+                            (m.payload.url =
+                                typeof m.payload.url === "string" ? m.payload.url : JSON.stringify(m.payload.url))
+                    );
+                    // console.warn("CurrentMessage in App.tsx:", currentMessages);
                     const adjustedStatistics = this.logics.adjustStatistics(newMessage, this.state.statistics);
                     const adjustedFetchHttpSignatures = { ...this.state.fetchSignatures };
 
@@ -117,11 +125,16 @@ class App extends React.Component<{}, AppState> {
                         signatureModeEnabled: this.state.signatureModeEnabled,
                         listMessages: currentMessages,
                         statistics: adjustedStatistics,
-                        fetchSignatures: adjustedFetchHttpSignatures
+                        fetchSignatures: adjustedFetchHttpSignatures,
                     };
                     this.setState(newState);
                 }
             });
+            // this.port.onDisconnect.addListener((port: chrome.runtime.Port) => {
+            //     port = chrome.runtime.connect({
+            //         name: "panel",
+            //     });
+            // });
             chrome.devtools.panels.create("Data Access Gateway", "images/dagdl32.png", "index.html");
         }
     }
@@ -130,7 +143,7 @@ class App extends React.Component<{}, AppState> {
         chrome.storage.local.set({ [SAVE_KEY]: state });
     }
     public loadState(): void {
-        chrome.storage.local.get([SAVE_KEY], result => {
+        chrome.storage.local.get([SAVE_KEY], (result) => {
             if (result !== undefined && result[SAVE_KEY] !== undefined) {
                 const state = result[SAVE_KEY] as AppState;
                 this.setState(state);
@@ -150,7 +163,7 @@ class App extends React.Component<{}, AppState> {
                             listMessages={this.state.listMessages}
                             signatures={this.state.fetchSignatures}
                         />,
-                        <Graph key="graph" statistics={this.state.statistics} />
+                        <Graph key="graph" statistics={this.state.statistics} />,
                     ]}
                 />
                 <ActionsPanel
@@ -166,9 +179,9 @@ class App extends React.Component<{}, AppState> {
                             name: "action",
                             data: {
                                 id: "signature",
-                                value: isDemoEnabled
+                                value: isDemoEnabled,
                             },
-                            tabId: chrome.devtools.inspectedWindow.tabId
+                            tabId: chrome.devtools.inspectedWindow.tabId,
                         });
                     }}
                 />

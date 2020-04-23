@@ -6,6 +6,7 @@ export enum DataSource {
 }
 
 export enum HttpMethod {
+    NONE = "NONE",
     GET = "GET",
     HEAD = "HEAD",
     POST = "POST",
@@ -31,11 +32,13 @@ export enum FetchType {
     Fresh = "Fresh",
     Web = "Web",
     FastAndFresh = "FastAndWeb",
-    Execute = "Execute"
+    Execute = "Execute",
+    FastAndFreshObject = "FastAndFreshObject"
 }
 export interface PerformanceTimeMarker {
     startMs: number;
     stopMs?: number;
+    elapsedMs?: number;
 }
 export interface PerformanceRequestInsight {
     fetch: PerformanceTimeMarker;

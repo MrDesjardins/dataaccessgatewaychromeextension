@@ -5,10 +5,10 @@ let tabPorts: { [tabId: string]: chrome.runtime.Port } = {};
  * agent -> content-script.js -> **background.js** -> dev tools
  */
 chrome.runtime.onMessage.addListener((message, sender) => {
-    console.warn("background->message", message);
+    console.log("background->message", message);
     const port = sender.tab && sender.tab.id !== undefined && tabPorts[sender.tab.id];
     if (port) {
-        console.warn("background->port", port);
+        console.log("background->port", port);
         port.postMessage(message);
     } else {
     }
@@ -32,7 +32,7 @@ chrome.runtime.onConnect.addListener((port: chrome.runtime.Port) => {
         if (message.name && message.name === "action" && message.data) {
             var conn = tabPorts[tabId];
             if (conn) {
-                console.warn("background->contentScript", message);
+                console.log("background->contentScript", message);
                 chrome.tabs.sendMessage(tabId, message);
             }
         }
@@ -41,4 +41,9 @@ chrome.runtime.onConnect.addListener((port: chrome.runtime.Port) => {
     port.onDisconnect.addListener(() => {
         delete tabPorts[tabId];
     });
+});
+
+
+chrome.runtime.onInstalled.addListener((detail: chrome.runtime.InstalledDetails) => {
+    console.log("On Installed", detail);
 });

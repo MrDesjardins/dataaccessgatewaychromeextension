@@ -1,7 +1,7 @@
 {
   "name": "dataaccessgatewaychromeextension",
-  "version": "1.0.5",
-  "description": "This is the source code for the Data Access Gateway library",
+  "version": "1.0.6",
+  "description": "This is the source code for the Data Access Gateway library Chrome Extension",
   "main": "dist/index.js",
   "scripts": {
     "copy": "cpx 'src/*.{json,html}' dist && cpx 'images/*' dist/images",
@@ -15,14 +15,14 @@
     "type": "git",
     "url": "git+https://github.com/MrDesjardins/dataaccessgatewaychromeextension.git"
   },
-  "author": "",
+  "author": "Patrick Desjardins",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MrDesjardins/dataaccessgatewaychromeextension/issues"
   },
   "homepage": "https://github.com/MrDesjardins/dataaccessgatewaychromeextension#readme",
   "devDependencies": {
-    "@types/chrome": "0.0.74",
+    "@types/chrome": "0.0.104",
     "bestzip": "^2.1.2",
     "chrome-webstore-upload-cli": "^1.2.0",
     "cpx": "^1.5.0",
