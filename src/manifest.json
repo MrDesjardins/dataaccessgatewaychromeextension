@@ -5,9 +5,7 @@
     "manifest_version": 2,
     "permissions": [
         "storage",
-        "http://*/*",
-        "https://*/*",
-        "<all_urls>"
+        "activeTab"
     ],
     "background": {
         "scripts": [

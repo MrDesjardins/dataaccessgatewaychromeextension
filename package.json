@@ -6,7 +6,7 @@
   "scripts": {
     "copy": "cpx 'src/*.{json,html}' dist && cpx 'images/*' dist/images",
     "build": "npm run copy && node_modules/typescript/bin/tsc",
-    "zip": "node node_modules/bestzip/bin/cli app.zip dist/*",
+    "zip": "node node_modules/bestzip/bin/cli app.zip dist/",
     "upload": "node node_modules/chrome-webstore-upload-cli/index publish --extension-id fgmpilokjekdimkgeamhpndkpcnbbhco",
     "push": "node node_modules/dotenv-cli/cli npm run upload",
     "publish": "npm run build && npm run zip && npm run push"
